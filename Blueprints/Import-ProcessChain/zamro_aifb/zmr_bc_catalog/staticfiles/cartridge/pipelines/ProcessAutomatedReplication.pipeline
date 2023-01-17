@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group Staging-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessAutomatedReplication" overrideMode="Inherit" type="process">
+<!--@Location 5,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" name="LiveCacheClear" callMode="Private">
+    <nodeSuccessors name="next" next="GetTargetCluster0"/>
+  </nodes>
+<!--@Location 5,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetTargetCluster0">
+    <pipelet href="enfinity:/core/pipelets/GetTargetCluster.xml"/>
+    <nodeSuccessors name="next" next="CreateStagingContext0"/>
+    <parameterBindings name="TargetClusterID" constant="Cluster42"/>
+  </nodes>
+<!--@Location 5,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateStagingContext0">
+    <pipelet href="enfinity:/core/pipelets/CreateStagingContext.xml"/>
+    <nodeSuccessors name="next" next="GetStagingService1"/>
+    <parameterBindings name="StagingProcessMode" nullBinding="true"/>
+  </nodes>
+<!--@Location 5,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetStagingService1">
+    <configurationValues name="StagingServiceFactory" value="com.intershop.beehive.core.capi.staging.DefaultStagingServiceFactory"/>
+    <pipelet href="enfinity:/core/pipelets/GetStagingService.xml"/>
+    <nodeSuccessors name="next" next="CallPipelineInLiveSystem0"/>
+  </nodes>
+<!--@Location 5,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CallPipelineInLiveSystem0">
+    <configurationValues name="PipelineName" value="ProcessAutomatedImport"/>
+    <configurationValues name="StartNode" value="CacheClear"/>
+    <pipelet href="enfinity:/core/pipelets/CallPipelineInLiveSystem.xml"/>
+    <nodeSuccessors name="next" next="EndNode2"/>
+  </nodes>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2"/>
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" name="Start" callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode0"/>
+    <parameters name="ReplicationType" type="java.lang.String"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="ReplicationType"
+      operator="str_eq" conditionValue="Trigger">
+    <nodeSuccessors name="decision_yes" next="JumpNode0"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode1"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode0">
+    <startNode referencedName="ProcessAutomatedReplication-TriggerReplication"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="ReplicationType"
+      operator="str_eq" conditionValue="LiveCacheClear">
+    <nodeSuccessors name="decision_yes" next="JumpNode1"/>
+    <nodeSuccessors name="decision_no" next="LogMessage_Xvu-QDrOEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode1">
+    <startNode referencedName="ProcessAutomatedReplication-LiveCacheClear"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_Xvu-QDrOEeeL6qCL-LDriQ">
+    <configurationValues name="Level" value="Warn"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="EndNode0"/>
+    <parameterBindings name="MessageParam0" objectPath="ReplicationType"/>
+    <parameterBindings name="MessageParam1" nullBinding="true"/>
+    <parameterBindings name="MessageParam2" nullBinding="true"/>
+    <parameterBindings name="MessageParam3" nullBinding="true"/>
+    <parameterBindings name="MessageParam4" nullBinding="true"/>
+    <parameterBindings name="MessageText" constant="Unknown replication type '{}' has been ignored."/>
+  </nodes>
+<!--@Location 0,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0"/>
+<!--@Location 3,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" name="TriggerReplication"
+      callMode="Private">
+    <nodeSuccessors name="next" next="GetJobConfiguration0"/>
+  </nodes>
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration0">
+    <configurationValues name="DefaultJobName" value="Regular Replication Process"/>
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttribute_ztyd8Bk3Eee9OoYYz1zZzQ"/>
+    <parameterBindings name="JobDomain" nullBinding="true"/>
+    <parameterBindings name="JobDomainName" objectPath="UnitName"/>
+    <parameterBindings name="JobName" nullBinding="true"/>
+    <parameterBindings name="JobUUID" nullBinding="true"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute_ztyd8Bk3Eee9OoYYz1zZzQ">
+    <configurationValues name="DefaultAttributeName" value="ReplicationProcessID"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <configurationValues name="DefaultAttributeValue" value="dataload"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="ExecuteJob0"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" nullBinding="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="JobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteJob0">
+    <pipelet href="enfinity:/core/pipelets/ExecuteJob.xml"/>
+    <nodeSuccessors name="next" next="JoinNode0"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="Wait0"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait0">
+    <configurationValues name="MillisecondsToWait" value="5000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode2"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="JobConfiguration:Status"
+      operator="neq" conditionValue="1">
+    <nodeSuccessors name="decision_yes" next="EndNode1"/>
+<!--@BendPoints 8,13 8,9-->
+    <nodeSuccessors name="decision_no" next="JoinNode0"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1"/>
+</pipeline:Pipeline>

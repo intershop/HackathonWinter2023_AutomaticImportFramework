@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group ImportExport-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessCatalogImport" overrideMode="Inherit" type="process">
+<!--@Location 2,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_Vn9xkBOfEeeCoM97uBSqtw" strict="true"
+      name="ClearCatalog" callMode="Private">
+    <nodeSuccessors name="next" next="KeyMapper_3B8ukBUfEeeiWvFzt39DNg"/>
+    <parameters name="CatalogBO" type="com.intershop.component.catalog.capi.CatalogBO"/>
+  </nodes>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_3B8ukBUfEeeiWvFzt39DNg">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="LoopNode_XaYT8BOrEeeCoM97uBSqtw"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode_XaYT8BOrEeeCoM97uBSqtw" loop="CatalogBO:RootCatalogCategoryBO:SubCatalogCategoryBOs">
+<!--@BendPoints 6,5 6,9 5,10-->
+    <nodeSuccessors name="next" next="EndNode_SiKIIBOoEeeCoM97uBSqtw"/>
+    <entry key="CatalogCategoryBO">
+      <nodeSuccessors name="loop_entry_next" next="InvokeMethod_5wf_gBUfEeeiWvFzt39DNg"
+          action="begin"/>
+    </entry>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="InvokeMethod_5wf_gBUfEeeiWvFzt39DNg">
+    <configurationValues name="MethodName" value="delete"/>
+    <pipelet href="enfinity:/core/pipelets/InvokeMethod.xml"/>
+<!--@BendPoints 5,8 4,8 4,5-->
+    <nodeSuccessors name="next" next="LoopNode_XaYT8BOrEeeCoM97uBSqtw_Entry" action="commit"/>
+    <parameterBindings name="MethodName" nullBinding="true"/>
+    <parameterBindings name="MethodNames" nullBinding="true"/>
+    <parameterBindings name="Object" objectPath="CatalogCategoryBO"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_SiKIIBOoEeeCoM97uBSqtw" strict="true"/>
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_Q8L0YBOeEeeCoM97uBSqtw" strict="true"
+      name="ClearProductCatalogs" callMode="Private">
+    <nodeSuccessors name="next" next="GetCatalogBOs_SuS60BUVEeeiWvFzt39DNg"/>
+    <parameters name="CatalogBORepository" type="com.intershop.component.catalog.capi.CatalogBORepository"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCatalogBOs_SuS60BUVEeeiWvFzt39DNg">
+    <configurationValues name="CatalogType" value="Product Catalog"/>
+    <configurationValues name="OnlineOnly" value="False"/>
+    <configurationValues name="ProxyFilter" value="OFF - All Catalogs"/>
+    <pipelet href="enfinity:/bc_catalog/pipelets/GetCatalogBOs.xml"/>
+    <nodeSuccessors name="next" next="LoopNode_eNfG0BOoEeeCoM97uBSqtw"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode_eNfG0BOoEeeCoM97uBSqtw" loop="CatalogBOs">
+<!--@BendPoints 2,5 2,9 1,10-->
+    <nodeSuccessors name="next" next="EndNode_Q8L0YROeEeeCoM97uBSqtw"/>
+    <entry key="CatalogBO">
+      <nodeSuccessors name="loop_entry_next" next="CallNode_oEuRsBOoEeeCoM97uBSqtw"/>
+    </entry>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_oEuRsBOoEeeCoM97uBSqtw">
+<!--@BendPoints 1,8 0,8 0,7 0,5-->
+    <nodeSuccessors name="next" next="LoopNode_eNfG0BOoEeeCoM97uBSqtw_Entry"/>
+    <startNode referencedName="ProcessCatalogImport-ClearCatalog"/>
+  </nodes>
+<!--@Location 0,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_Q8L0YROeEeeCoM97uBSqtw" strict="true"/>
+</pipeline:Pipeline>

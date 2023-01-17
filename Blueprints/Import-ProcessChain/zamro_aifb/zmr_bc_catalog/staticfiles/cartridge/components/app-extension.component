@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<components xmlns="http://www.intershop.de/component/2010" scope="global">
+    <fulfill requirement="selectedCartridge" value="zmr_bc_catalog" of="intershop.B2CResponsive.Cartridges" />
+    <fulfill requirement="selectedCartridge" value="zmr_bc_catalog" of="intershop.SMBResponsive.Cartridges" />
+    <fulfill requirement="selectedCartridge" value="zmr_bc_catalog" of="intershop.B2CBackoffice.Cartridges" />
+    <fulfill requirement="selectedCartridge" value="zmr_bc_catalog" of="intershop.EnterpriseBackoffice.Cartridges" />
+</components>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	name="DataLoadChain" 
+	corePoolSize="5" 
+	maximumPoolSize="10">
+
+	<p:description>
+		11 Replicate Categories
+		..
+		15 Replicate Search Index
+		16 Live Cache Clear
+	</p:description>
+
+	<p:sequence>
+	
+		<!-- PR Send replication chain STARTED notification -->
+		
+		<p:pipeline
+			name="ProcessAutomatedReplicationStartedNotification"
+			pipeline="ProcessDataLoad"
+			startnode="SendStatusNotification"
+			domain="Zamro">
+			<p:parameter name="DataLoadType">REPLICATION</p:parameter>
+			<p:parameter name="DataLoadStatus">STARTED</p:parameter>
+		</p:pipeline>
+		
+		<!-- 11 Replicate Categories .. 15 Replicate Search Index -->
+		
+		<p:pipeline
+			name="ProcessAutomatedReplicationTrigger"
+			pipeline="ProcessAutomatedReplication"
+			startnode="Start"
+			domain="SLDSystem">
+			<p:parameter name="ReplicationType">Trigger</p:parameter>
+		</p:pipeline>
+		
+		<!-- 16 Live Cache Clear -->
+		
+		<!-- p:pipeline
+			name="ProcessAutomatedReplicationLiveCacheClear"
+			pipeline="ProcessAutomatedReplication"
+			startnode="Start"
+			domain="Zamro-ZamroNL">
+			<p:parameter name="ReplicationType">LiveCacheClear</p:parameter>
+		</p:pipeline -->
+
+		<!-- EP Send replication chain SUCCESS notification -->
+		
+		<p:pipeline
+			name="ProcessAutomatedReplicationSuccessNotification"
+			pipeline="ProcessDataLoad"
+			startnode="SendStatusNotification"
+			domain="Zamro">
+			<p:parameter name="DataLoadType">REPLICATION</p:parameter>
+			<p:parameter name="DataLoadStatus">SUCCESS</p:parameter>
+		</p:pipeline>
+		
+		<!-- Error Handling -->
+		
+		<p:error name="Error">
+		
+			<!-- ER Send replication chain FAILURE notification -->
+			
+			<p:pipeline
+				name="ProcessAutomatedReplicationFailureNotification"
+				pipeline="ProcessDataLoad"
+				startnode="SendStatusNotification"
+				domain="Zamro">
+				<p:parameter name="DataLoadType">REPLICATION</p:parameter>
+				<p:parameter name="DataLoadStatus">FAILURE</p:parameter>
+			</p:pipeline>
+		
+		</p:error>
+	
+	</p:sequence>
+
+</p:chain>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<replication-configuration
+    xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/7.5.0/core/replication replication.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.intershop.com/xml/ns/enfinity/7.5.0/core/replication">
+
+    <!--
+    In this section are all replication processes specified, that can be replicated by job 'Replication Process Scheduler' in SLDSystem.
+
+    Please use the id of replication process in job configuration (attribute 'ReplicationProcessID')
+
+    Example:
+
+        <process id="nightly">
+            <type>ReplicationPublication</type>                 <- - valid types are 'Replication', 'Publication' and 'ReplicationPublication' - ->
+            <description>This process is started every night.</description>
+            <target-cluster-id>Cluster42</target-cluster-id>    <- - this target cluster id refers to a target cluster defined in replication-clusters.xml - ->
+            <task ref="PrimeTechProducts"/>                     <- - these task entries refer to task definitions as described below - ->
+            <task ref="PrimeTechSpecialsProducts"/>
+        </process>
+    -->
+
+  <processes>
+
+    <process id="dataload">
+      <type>ReplicationPublication</type>
+      <description>This standard replication process is executed as part of the automated data load.</description>
+      <target-cluster-id>ZamroPreProd</target-cluster-id>
+
+      <task ref="ReplicateCategories" />
+      
+      <task ref="ReplicateProducts" />
+
+      <task ref="ReplicateProductAttributeGroups" />
+
+      <task ref="ReplicateProducts-ZamroNL" />
+      <task ref="ReplicateProducts-ZamroBE" />
+      <task ref="ReplicateProducts-ZamroDE" />
+
+
+      <task ref="ReplicatePrices-ZamroNL" />
+      <task ref="ReplicatePrices-ZamroBE" />
+      <task ref="ReplicatePrices-ZamroDE" />
+
+      <task ref="ReplicateSearchIndexes-ZamroNL" />
+      <task ref="ReplicateSearchIndexes-ZamroBE" />
+      <task ref="ReplicateSearchIndexes-ZamroDE" />
+    </process>
+
+  </processes>
+
+    <!--
+
+    In this section are all replication tasks, that can be reused by several replication processes. Each referenced
+    replication task is created at the beginning of replication process in according enterprise or channel.
+
+    Example:
+
+    <task id="PrimeTechSpecialsProducts">
+        <organization>PrimeTech</organization>
+        <channel>PrimeTechSpecials</channel>
+        <description>Replicates all products of channel PrimeTechSpecials</description>
+        <group ref="CATALOGS"/>
+        <group ref="PRODUCTS"/>
+    </task>
+
+    -->
+
+  <tasks>
+
+    <task id="ReplicateCategories">
+        <organization>Zamro</organization>
+        <description>Replicates categories of Zamro organization</description>
+        <group ref="CATALOGS" />
+    </task>
+
+    <task id="ReplicateProducts">
+        <organization>Zamro</organization>
+        <description>Replicates products of Zamro organization</description>
+        <group ref="PRODUCTS" />
+    </task>
+    
+    <task id="ReplicateProductsWithoutPrice">
+        <organization>Zamro</organization>
+        <description>Replicates products of Zamro organization</description>
+        <group ref="PRODUCTSWITHOUTPRICE" />
+    </task>
+
+    <task id="ReplicateProductAttributeGroups">
+        <organization>Zamro</organization>
+        <description>Replicates product attribute groups of Zamro organization</description>
+        <group ref="PRODUCT_ATTRIBUTE_GROUPS" />
+    </task>
+
+    <task id="ReplicateProducts-ZamroNL">
+        <organization>Zamro</organization>
+        <channel>ZamroNL</channel>
+        <description>Replicates products of ZamroNL channel</description>
+        <group ref="PRODUCTS" />
+    </task>
+    <task id="ReplicateProductsWithoutPrice-ZamroNL">
+        <organization>Zamro</organization>
+        <channel>ZamroNL</channel>
+        <description>Replicates products of ZamroNL channel</description>
+        <group ref="PRODUCTSWITHOUTPRICE" />
+    </task>
+
+    <task id="ReplicatePrices-ZamroNL">
+        <organization>Zamro</organization>
+        <channel>ZamroNL</channel>
+        <description>Replicates product prices of ZamroNL channel</description>
+        <group ref="PRODUCT_PRICES" />
+    </task>
+
+    <task id="ReplicateSearchIndexes-ZamroNL">
+        <organization>Zamro</organization>
+        <channel>ZamroNL</channel>
+        <description>Replicates search indexes of Zamro NL channel</description>
+        <group ref="SEARCH_INDEXES" />
+    </task>
+
+    <task id="ReplicateProducts-ZamroBE">
+        <organization>Zamro</organization>
+        <channel>ZamroBE</channel>
+        <description>Replicates products of ZamroBE channel</description>
+        <group ref="PRODUCTS" />
+    </task>
+    <task id="ReplicateProductsWithoutPrice-ZamroBE">
+        <organization>Zamro</organization>
+        <channel>ZamroBE</channel>
+        <description>Replicates products of ZamroBE channel</description>
+        <group ref="PRODUCTSWITHOUTPRICE" />
+    </task>
+
+    <task id="ReplicatePrices-ZamroBE">
+        <organization>Zamro</organization>
+        <channel>ZamroBE</channel>
+        <description>Replicates product prices of ZamroBE channel</description>
+        <group ref="PRODUCT_PRICES" />
+    </task>
+
+    <task id="ReplicateSearchIndexes-ZamroBE">
+        <organization>Zamro</organization>
+        <channel>ZamroBE</channel>
+        <description>Replicates search indexes of Zamro BE channel</description>
+        <group ref="SEARCH_INDEXES" />
+    </task>
+
+    <task id="ReplicateProducts-ZamroDE">
+        <organization>Zamro</organization>
+        <channel>ZamroDE</channel>
+        <description>Replicates products of ZamroDE channel</description>
+        <group ref="PRODUCTS" />
+    </task>
+    <task id="ReplicateProductsWithoutPrice-ZamroDE">
+        <organization>Zamro</organization>
+        <channel>ZamroDE</channel>
+        <description>Replicates products of ZamroDE channel</description>
+        <group ref="PRODUCTSWITHOUTPRICE" />
+    </task>
+
+    <task id="ReplicatePrices-ZamroDE">
+        <organization>Zamro</organization>
+        <channel>ZamroDE</channel>
+        <description>Replicates product prices of ZamroDE channel</description>
+        <group ref="PRODUCT_PRICES" />
+    </task>
+
+    <task id="ReplicateSearchIndexes-ZamroDE">
+        <organization>Zamro</organization>
+        <channel>ZamroDE</channel>
+        <description>Replicates search indexes of Zamro DE channel</description>
+        <group ref="SEARCH_INDEXES" />
+    </task>
+    
+  </tasks>
+
+  <!-- 
+
+  business unit types
+  
+  20 - Enterprise Organization
+  30 - Partner Organization
+  32 - Partner Channel
+  52 - Consumer Channel
+
+  see also https://intranet.intershop.com/kb/index.php/Display/Y24843#Reference-TypeCodes-CHANNELTYPE
+
+  -->
+
+  <groups>
+
+    <group id="CATALOGS">
+      <business-unit-types>20</business-unit-types>
+    </group>
+
+    <group id="PRODUCTS">
+      <business-unit-types>20 52</business-unit-types>
+    </group>
+    
+    <group id="PRODUCTSWITHOUTPRICE">
+      <business-unit-types>20 52</business-unit-types>
+    </group>
+
+    <group id="PRODUCT_ATTRIBUTE_GROUPS">
+      <business-unit-types>20</business-unit-types>
+    </group>
+
+    <group id="PRODUCT_PRICES">
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="SEARCH_INDEXES">
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="IMAGEREFERENCES"> <!-- TODO make use of this group -->
+      <business-unit-types>20 30 32 52</business-unit-types>
+    </group>
+
+    <!-- groups above used during automated replication -->
+
+    <group id="IMAGEDEFINITIONS" >
+      <business-unit-types>20 30 32</business-unit-types>
+    </group>
+
+    <group id="CONSUMER_GROUPS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="BRANDING" >
+      <business-unit-types>20 30 52</business-unit-types>
+    </group>
+
+    <group id="PROMOTIONS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="CAMPAIGNS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="ABTESTS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="AFFILIATE_PARTNERS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="ORGANIZATION" >
+      <business-unit-types>20 30</business-unit-types>
+    </group>
+
+    <group id="CHANNELS" >
+      <business-unit-types>20 30</business-unit-types>
+    </group>
+
+    <group id="SHORTLINKS" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="PAGELETS" >
+      <business-unit-types>20 30 52</business-unit-types>
+    </group>
+
+    <group id="LABELS" >
+      <business-unit-types>20 30 52</business-unit-types>
+    </group>
+
+    <group id="SHIPPING" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+    <group id="LOCALIZATIONS" >
+      <business-unit-types>20 30 32 52</business-unit-types>
+    </group>
+
+    <group id="PROFANITY" >
+      <business-unit-types>20 30 52</business-unit-types>
+    </group>
+
+    <group id="STORE" >
+      <business-unit-types>52</business-unit-types>
+    </group>
+
+  </groups>
+
+</replication-configuration>

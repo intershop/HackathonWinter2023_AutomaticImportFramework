@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This pipeline processes the product outbound syndication.
+@Group Syndication-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessProductOutboundSyndication" overrideMode="Inherit"
+    type="process">
+<!--@Location 2,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="Ftp"
+      callMode="Private">
+    <nodeSuccessors name="next" next="UpdateCustomAttributes1"/>
+    <parameters name="Syndication" type="com.intershop.component.foundation.capi.syndication.Syndication"/>
+  </nodes>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttributes1">
+    <configurationValues name="Attribute_1_Name" value="FTPUpload"/>
+    <configurationValues name="Attribute_1_Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttributes.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode0"/>
+    <parameterBindings name="Attribute_1_Value" constant="1"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="Syndication:Target:Parameters:ftp.configurable"
+      operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="OpenFTPConnection0"/>
+<!--@BendPoints 7,5-->
+    <nodeSuccessors name="decision_no" next="OpenFTPConnection1"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="OpenFTPConnection0">
+    <pipelet href="enfinity:/core/pipelets/OpenFTPConnection.xml"/>
+    <nodeSuccessors name="next" next="JoinNode3"/>
+<!--@BendPoints 9,7 9,11-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="Password" objectPath="Syndication:FtpPassword"/>
+    <parameterBindings name="Server" objectPath="Syndication:FtpHostname"/>
+    <parameterBindings name="User" objectPath="Syndication:FtpUsername"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode3">
+    <nodeSuccessors name="next" next="FTPOpenOutputStream0"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="FTPOpenOutputStream0">
+    <pipelet href="enfinity:/core/pipelets/FTPOpenOutputStream.xml"/>
+    <nodeSuccessors name="next" next="CopyFileToStream0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="ftp_file_name" objectPath="Syndication:File:Name"/>
+    <parameterBindings name="ftp_mode" constant="ASCII"/>
+    <parameterBindings name="ftp_remote_directory" objectPath="Syndication:Target:Parameters:ftp.path"/>
+  </nodes>
+<!--@Location 2,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CopyFileToStream0">
+    <pipelet href="enfinity:/bc_foundation/pipelets/CopyFileToStream.xml"/>
+    <nodeSuccessors name="next" next="FTPCloseOutputStream0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode2"/>
+    <parameterBindings name="SourceFile" objectPath="Syndication:File"/>
+    <parameterBindings name="SourceUnitDomain" objectPath="Syndication:Domain"/>
+    <parameterBindings name="TargetStream" objectPath="FTPOutputStream"/>
+  </nodes>
+<!--@Location 2,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="FTPCloseOutputStream0">
+    <pipelet href="enfinity:/core/pipelets/FTPCloseOutputStream.xml"/>
+    <nodeSuccessors name="next" next="CloseFTPConnection0"/>
+  </nodes>
+<!--@Location 2,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CloseFTPConnection0">
+    <pipelet href="enfinity:/core/pipelets/CloseFTPConnection.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttributes2"/>
+  </nodes>
+<!--@Location 2,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttributes2">
+    <configurationValues name="Attribute_1_Name" value="FTPUpload"/>
+    <configurationValues name="Attribute_1_Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttributes.xml"/>
+    <nodeSuccessors name="next" next="JoinNode1"/>
+    <parameterBindings name="Attribute_1_Value" constant="0"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+  </nodes>
+<!--@Location 2,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+<!--@BendPoints 5,22-->
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location 2,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true"/>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+    <nodeSuccessors name="next" next="UpdateCustomAttributes0"/>
+  </nodes>
+<!--@Location 3,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttributes0">
+    <configurationValues name="Attribute_1_Name" value="FTPUpload"/>
+    <configurationValues name="Attribute_1_Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttributes.xml"/>
+<!--@BendPoints 7,21-->
+    <nodeSuccessors name="next" next="JoinNode1"/>
+    <parameterBindings name="Attribute_1_Value" constant="3"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="JoinNode2"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="OpenFTPConnection1">
+    <pipelet href="enfinity:/core/pipelets/OpenFTPConnection.xml"/>
+    <nodeSuccessors name="next" next="JoinNode3"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="Password" objectPath="Syndication:Target:Parameters:ftp.password"/>
+    <parameterBindings name="Server" objectPath="Syndication:Target:Parameters:ftp.host"/>
+    <parameterBindings name="User" objectPath="Syndication:Target:Parameters:ftp.user"/>
+  </nodes>
+</pipeline:Pipeline>

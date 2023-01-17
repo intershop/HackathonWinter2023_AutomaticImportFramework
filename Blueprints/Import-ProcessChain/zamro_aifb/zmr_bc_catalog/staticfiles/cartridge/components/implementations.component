@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><components xmlns="http://www.intershop.de/component/2010" scope="global">
+
+	<!-- Catalog and Category -->
+	<implementation
+		name="ZMRCatalogCategoryBOImageExtensionFactory"
+		class="com.zamro.component.internal.catalog.CatalogCategoryBOImageExtensionFactory"
+		factory="JavaBeanFactory"
+		implements="BusinessObjectExtensionFactory" />
+
+	<!-- overwrite search index data providers -->
+	<implementation 
+		name="ZMRProductPODataProvider"
+		class="com.zamro.component.internal.searchindex.dataprovider.ZMRProductPODataProvider" 
+		implements="intershop.search.index.AbstractSearchIndexDataProvider">
+	</implementation>
+	
+	<!-- Overwrite the ProductBOPricingExtensionFactory -->
+	<implementation name="ZMRProductBOPricingExtensionFactory"
+                    implements="BusinessObjectExtensionFactory" 
+                    class="com.zamro.component.internal.price.ZMRProductBOPricingExtensionFactory">
+    </implementation>
+	<implementation 
+		name="ZMRProductVariationDataProvider"
+		class="com.zamro.component.internal.searchindex.dataprovider.ZMRProductVariationDataProvider" 
+		implements="intershop.search.index.AbstractSearchIndexDataProvider">
+	</implementation>
+
+	<!-- Data Load Automation -->
+	<implementation
+		name="BasicAutomatedImportChainFileCollector"
+		class="com.zamro.component.internal.automation.BasicAutomatedImportChainFileCollector"
+		implements="AutomatedImportChainFileCollector">
+		<requires name="FileTransferSessionFactory" contract="FileTransferSessionFactory" />
+		<requires name="ImportFoldersPattern" contract="String" cardinality="0..1" />
+		<requires name="ImportBaseFolder" contract="String" cardinality="0..1" />
+	</implementation>
+
+	<implementation
+		name="BasicSftpFileTransferSessionFactory"
+		class="com.zamro.component.internal.automation.BasicSftpFileTransferSessionFactory"
+		implements="FileTransferSessionFactory">
+		<requires name="Host" contract="String" />
+		<requires name="Port" contract="Integer" />
+		<requires name="User" contract="String" />
+		<requires name="Password" contract="String" cardinality="0..1" />
+		<requires name="PrivateKeyFile" contract="File" cardinality="0..1" />
+		<requires name="PrivateKeyPassword" contract="String" cardinality="0..1" />
+		<requires name="KnownHostsFile" contract="File" cardinality="0..1" />
+	</implementation>
+
+	<implementation
+		name="ConfigurationBasedSftpFileTransferSessionFactory"
+		class="com.zamro.component.internal.automation.ConfigurationBasedSftpFileTransferSessionFactory"
+		implements="FileTransferSessionFactory">
+		<requires name="ConfigurationKeyPrefix" contract="String" />
+	</implementation>
+	
+	<implementation name="ZMRSOLRProductPageCacheClearKeyProvider"
+     class="com.zamro.adapter.ac_search_solr_ext.internal.cache.ZMRSOLRProductPageCacheClearKeyProvider">
+     <implements contract="PageCacheClearKeyProvider"/>
+     <implements contract="PageCacheKeywordsProvider"/>
+	</implementation>
+
+</components>

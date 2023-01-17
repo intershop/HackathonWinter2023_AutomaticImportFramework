@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This pipeline is used to configure a file name for an outbound syndication.
+@Group Syndication-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ViewChannelOutboundSyndicationGoogleMerchantConfiguration"
+    type="view">
+<!--@Location 2,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode4" strict="true" name="CreateWebForm"
+      callMode="Private">
+    <nodeSuccessors name="next" next="CreateWebForm1"/>
+  </nodes>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateWebForm1">
+    <configurationValues name="param.1.name" value="FileName"/>
+    <configurationValues name="param.1.required" value="true"/>
+    <configurationValues name="param.1.rule" value="^[^.\\/:*?&lt;>|\s]([^\\/:*?&lt;>|\s]*[^.\\/:*?&lt;>|\s])?$"/>
+    <configurationValues name="param.2.name" value="CompressionLevel"/>
+    <configurationValues name="param.2.required" value="true"/>
+    <configurationValues name="param.2.rule" value="^[0-9]$"/>
+    <configurationValues name="param.3.name" value="LocaleID"/>
+    <configurationValues name="param.3.required" value="true"/>
+    <configurationValues name="param.3.rule" value=""/>
+    <configurationValues name="param.4.name" value="CurrencyMnemonic"/>
+    <configurationValues name="param.4.required" value="false"/>
+    <configurationValues name="param.4.rule" value=""/>
+    <configurationValues name="param.5.name" value="FtpHostname"/>
+    <configurationValues name="param.5.required" value="false"/>
+    <configurationValues name="param.5.rule" value=""/>
+    <configurationValues name="param.6.name" value="FtpUsername"/>
+    <configurationValues name="param.6.required" value="false"/>
+    <configurationValues name="param.6.rule" value=""/>
+    <configurationValues name="param.7.name" value="FtpPassword"/>
+    <configurationValues name="param.7.required" value="false"/>
+    <configurationValues name="webform-id" value="GoogleMerchantWebForm"/>
+    <pipelet href="enfinity:/core/pipelets/CreateWebForm.xml"/>
+<!--@BendPoints 5,4-->
+    <nodeSuccessors name="next" next="EndNode3"/>
+    <returnValueBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" strict="true">
+    <returnValues name="GoogleMerchantWebForm" type="com.intershop.beehive.core.capi.request.WebForm"
+        optional="true"/>
+  </nodes>
+<!--@Location 4,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" name="Edit">
+    <nodeSuccessors name="next" next="GetSyndicationByUUID1"/>
+  </nodes>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetSyndicationByUUID1">
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetSyndicationByUUID.xml"/>
+    <nodeSuccessors name="next" next="DetermineLocales1"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="DetermineLocales1">
+    <pipelet href="enfinity:/core/pipelets/DetermineLocales.xml"/>
+    <nodeSuccessors name="next" next="GetCurrencies1"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrencies1">
+    <configurationValues name="Method" value="Active Currencies"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetCurrencies.xml"/>
+    <nodeSuccessors name="next" next="GetWebForm1"/>
+    <parameterBindings name="Domain" objectPath="OrganizationDomain"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetWebForm1">
+    <configurationValues name="webform-id" value="GoogleMerchantWebForm"/>
+    <pipelet href="enfinity:/core/pipelets/GetWebForm.xml"/>
+    <nodeSuccessors name="next" next="JoinNode3"/>
+<!--@BendPoints 11,9-->
+    <nodeSuccessors name="pipelet_error" next="CallNode2"/>
+    <parameterBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+    <returnValueBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+  </nodes>
+<!--@Location 4,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode3">
+<!--@BendPoints 9,14-->
+    <nodeSuccessors name="next" next="InteractionNode1"/>
+  </nodes>
+<!--@Location 4,7-->
+  <nodes xsi:type="pipeline:InteractionNode" nodeID="InteractionNode1">
+    <template referencedName="syndication/ChannelOutboundSyndicationFeedGoogleMerchantConfiguration.isml"/>
+  </nodes>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode2">
+<!--@BendPoints 11,13-->
+    <nodeSuccessors name="next" next="JoinNode3"/>
+    <startNode referencedName="ViewChannelOutboundSyndicationGoogleMerchantConfiguration-CreateWebForm"/>
+  </nodes>
+<!--@Location 6,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode3" strict="true" name="Remove"
+      callMode="Private">
+<!--@BendPoints 13,2-->
+    <nodeSuccessors name="next" next="RemoveWebForm1"/>
+    <parameters name="Syndication" type="com.intershop.component.foundation.capi.syndication.Syndication"/>
+  </nodes>
+<!--@Location 6,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveWebForm1">
+    <configurationValues name="webform-id" value="GoogleMerchantWebForm"/>
+    <pipelet href="enfinity:/core/pipelets/RemoveWebForm.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute2"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute2">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute3"/>
+    <parameterBindings name="AttributeName" constant="LocaleID"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute3">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute5"/>
+    <parameterBindings name="AttributeName" constant="CurrencyMnemonic"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute5">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+<!--@BendPoints 13,10-->
+    <nodeSuccessors name="next" next="RemoveCustomAttribute1"/>
+    <parameterBindings name="AttributeName" constant="FileName"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute1">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute4"/>
+    <parameterBindings name="AttributeName" constant="CompressionLevel"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute4">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute6"/>
+    <parameterBindings name="AttributeName" constant="FtpHostname"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute6">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute0"/>
+    <parameterBindings name="AttributeName" constant="FtpUsername"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute0">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="EndNode2"/>
+    <parameterBindings name="AttributeName" constant="FtpPassword"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,9-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" strict="true"/>
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" strict="true" name="Update"
+      callMode="Private">
+<!--@BendPoints 1,2-->
+    <nodeSuccessors name="next" next="GetWebForm2"/>
+    <parameters name="Syndication" type="com.intershop.component.foundation.capi.syndication.Syndication"/>
+    <parameters name="GoogleMerchantWebForm" type="com.intershop.beehive.core.capi.request.WebForm"
+        optional="true"/>
+    <parameters name="GoogleMerchantWebForm_FileName" type="java.lang.String" optional="true"/>
+    <parameters name="GoogleMerchantWebForm_CompressionLevel" type="java.lang.String"
+        optional="true"/>
+    <parameters name="GoogleMerchantWebForm_LocaleID" type="java.lang.String" optional="true"/>
+    <parameters name="GoogleMerchantWebForm_CurrencyMnemonic" type="java.lang.String"
+        optional="true"/>
+    <parameters name="GoogleMerchantWebForm_FtpHostname" type="java.lang.String" optional="true"/>
+    <parameters name="GoogleMerchantWebForm_FtpUsername" type="java.lang.String" optional="true"/>
+    <parameters name="GoogleMerchantWebForm_FtpPassword" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetWebForm2">
+    <configurationValues name="webform-id" value="GoogleMerchantWebForm"/>
+    <pipelet href="enfinity:/core/pipelets/GetWebForm.xml"/>
+    <nodeSuccessors name="next" next="UpdateWebForm2"/>
+<!--@BendPoints 3,3 3,4-->
+    <nodeSuccessors name="pipelet_error" next="CallNode1"/>
+    <parameterBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+    <returnValueBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateWebForm2">
+    <configurationValues name="mode" value="update"/>
+    <configurationValues name="webform-id" value="GoogleMerchantWebForm"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateWebForm.xml"/>
+    <nodeSuccessors name="next" next="ValidateWebForm2"/>
+    <parameterBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ValidateWebForm2">
+    <pipelet href="enfinity:/core/pipelets/ValidateWebForm.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttributes1"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode2"/>
+    <parameterBindings name="WebForm" objectPath="GoogleMerchantWebForm"/>
+  </nodes>
+<!--@Location 0,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttributes1">
+    <configurationValues name="Attribute_10_Name" value="CompressionLevel"/>
+    <configurationValues name="Attribute_10_Type" value="String"/>
+    <configurationValues name="Attribute_1_Name" value="FileName"/>
+    <configurationValues name="Attribute_1_Type" value="String"/>
+    <configurationValues name="Attribute_2_Name" value="LocaleID"/>
+    <configurationValues name="Attribute_2_Type" value="String"/>
+    <configurationValues name="Attribute_3_Name" value="CurrencyMnemonic"/>
+    <configurationValues name="Attribute_3_Type" value="String"/>
+    <configurationValues name="Attribute_4_Name" value="FtpHostname"/>
+    <configurationValues name="Attribute_4_Type" value="String"/>
+    <configurationValues name="Attribute_5_Name" value="FtpUsername"/>
+    <configurationValues name="Attribute_5_Type" value="String"/>
+    <configurationValues name="Attribute_6_Name" value="FtpPassword"/>
+    <configurationValues name="Attribute_6_Type" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttributes.xml"/>
+    <nodeSuccessors name="next" next="JoinNode1"/>
+    <parameterBindings name="Attribute_10_Value" objectPath="GoogleMerchantWebForm_CompressionLevel"/>
+    <parameterBindings name="Attribute_1_Value" objectPath="GoogleMerchantWebForm_FileName"/>
+    <parameterBindings name="Attribute_2_Value" objectPath="GoogleMerchantWebForm_LocaleID"/>
+    <parameterBindings name="Attribute_3_Value" objectPath="GoogleMerchantWebForm_CurrencyMnemonic"/>
+    <parameterBindings name="Attribute_4_Value" objectPath="GoogleMerchantWebForm_FtpHostname"/>
+    <parameterBindings name="Attribute_5_Value" objectPath="GoogleMerchantWebForm_FtpUsername"/>
+    <parameterBindings name="Attribute_6_Value" objectPath="GoogleMerchantWebForm_FtpPassword"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+  </nodes>
+<!--@Location 0,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="CallNode3"/>
+  </nodes>
+<!--@Location 0,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode3">
+    <nodeSuccessors name="next" next="UpdateCustomAttributes5"/>
+    <parameterBindings name="CompressionLevel" objectPath="GoogleMerchantWebForm_CompressionLevel"/>
+    <parameterBindings name="FileName" objectPath="GoogleMerchantWebForm_FileName"/>
+    <startNode referencedName="ProcessChannelOutboundSyndication-EnforceAppropriateFileExtension"/>
+  </nodes>
+<!--@Location 0,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttributes5">
+    <configurationValues name="Attribute_1_Name" value="FileName"/>
+    <configurationValues name="Attribute_1_Type" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttributes.xml"/>
+<!--@BendPoints 1,16-->
+    <nodeSuccessors name="next" next="EndNode1"/>
+    <parameterBindings name="Attribute_1_Value" objectPath="NewFileName"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Syndication"/>
+  </nodes>
+<!--@Location 0,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" strict="true">
+    <returnValues name="GoogleMerchantWebForm" type="com.intershop.beehive.core.capi.request.WebForm"
+        optional="true"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+<!--@BendPoints 3,11-->
+    <nodeSuccessors name="next" next="JoinNode1"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="JoinNode2"/>
+    <startNode referencedName="ViewChannelOutboundSyndicationGoogleMerchantConfiguration-CreateWebForm"/>
+  </nodes>
+</pipeline:Pipeline>

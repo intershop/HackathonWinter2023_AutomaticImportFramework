@@ -1,0 +1,20 @@
+apply plugin: com.intershop.deploy.cartridge.CartridgeDeploymentPlugin
+
+if (target.includeShare) {
+  if (findProject(':bc_foundation')) {
+    project(':bc_foundation') {
+        def configClosure = {
+            deployment.files.share {
+                exclude {
+                    new File(destinationDir, it.path) == new File(target.shareDirectory,'system/config/cluster/replication.xml')
+                }
+            }
+        }
+        if (project.state.executed) {
+            configClosure()
+        } else {
+            afterEvaluate(configClosure)
+        }
+    }
+  }
+}

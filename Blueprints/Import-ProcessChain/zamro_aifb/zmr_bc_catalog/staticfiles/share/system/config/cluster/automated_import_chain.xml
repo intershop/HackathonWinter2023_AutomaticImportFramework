@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	name="AutomatedImportChain" 
+	corePoolSize="5" 
+	maximumPoolSize="10"
+	defaultChainElementTimeout="2880">
+
+	<p:description>
+		00 Import file transfer to ICM Edit cluster
+		01 Clear Product Catalog Categories
+		02 Import Catalog XML
+		03 Import Product XML (master repository)
+		04 Import Product XML (channel repositories NL, BE, DE)
+		05 Import Product Attribute Group XML  (master repository)
+		06 Import Price XML (channel repositories NL, BE, DE)
+		07 Apply Solr Filter Updates (channel repositories NL, BE, DE)
+		08 Rebuild Search Indexes (product-search-idx-nl_NL, product-search-idx-nl_BE, product-search-idx-de_DE)
+		09 Cache Clears (channels NL, BE, DE)
+	</p:description>
+
+	<p:sequence>
+	
+		<!-- PR Send import chain STARTED notification -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportStartedNotification"
+			pipeline="ProcessDataLoad"
+			startnode="SendStatusNotification"
+			domain="Zamro">
+			<p:parameter name="DataLoadType">IMPORT</p:parameter>
+			<p:parameter name="DataLoadStatus">STARTED</p:parameter>
+		</p:pipeline>
+		
+		<!-- 00 Import file transfer to ICM Edit cluster -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportFileTransfer"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro"> <!-- mapped to UnitName -->
+			<p:parameter name="ImportType">FileTransfer</p:parameter>
+		</p:pipeline>
+		
+		<!-- 01 Clear Product Catalog Categories -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportCatalogClear"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro">
+			<p:parameter name="ImportType">CatalogClear</p:parameter>
+		</p:pipeline>
+		
+		<!-- 02 Import Catalog XML -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportCatalog"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro">
+			<p:parameter name="ImportType">Catalog</p:parameter>
+		</p:pipeline>
+		
+		<!-- 03 Import Product XML (master repository) -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportProductMasterRepository"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro-MasterRepository">
+			<p:parameter name="ImportType">Product</p:parameter>
+		</p:pipeline>
+		
+		<!-- 04 Import Product XML (channel repositories NL, BE, DE) -->
+		
+		<p:concurrent>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportProductChannelRepositoryNL"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroNL">
+				<p:parameter name="ImportType">Product</p:parameter>
+			</p:pipeline>
+			
+			<p:pipeline
+				name="ProcessAutomatedImportProductChannelRepositoryBE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroBE">
+				<p:parameter name="ImportType">Product</p:parameter>
+			</p:pipeline>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportProductChannelRepositoryDE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroDE">
+				<p:parameter name="ImportType">Product</p:parameter>
+			</p:pipeline>
+		
+		</p:concurrent>
+		
+		<!-- 05 Import Product Attribute Group XML  (master repository) -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportProductAttributeGroupMasterRepository"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro-MasterRepository">
+			<p:parameter name="ImportType">ProductAttributeGroup</p:parameter>
+		</p:pipeline>
+			
+		<!-- 06 Import Price XML (channel repositories NL, BE, DE) -->
+		
+		<p:concurrent>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportPriceChannelRepositoryNL"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroNL">
+				<p:parameter name="ImportType">PriceList</p:parameter>
+			</p:pipeline>
+			
+			<p:pipeline
+				name="ProcessAutomatedImportPriceChannelRepositoryBE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroBE">
+				<p:parameter name="ImportType">PriceList</p:parameter>
+			</p:pipeline>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportPriceChannelRepositoryDE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroDE">
+				<p:parameter name="ImportType">PriceList</p:parameter>
+			</p:pipeline>
+		
+		</p:concurrent>
+		
+		<!-- 07 Apply Solr Filter Updates (channel repositories NL, BE, DE) -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportSolrConfigChannelNL"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro-ZamroNL">
+			<p:parameter name="ImportType">SolrConfig</p:parameter>
+		</p:pipeline>
+		
+		<p:pipeline
+			name="ProcessAutomatedImportSolrConfigChannelBE"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro-ZamroBE">
+			<p:parameter name="ImportType">SolrConfig</p:parameter>
+		</p:pipeline>
+		
+		<p:pipeline
+			name="ProcessAutomatedImportSolrConfigChannelDE"
+			pipeline="ProcessAutomatedImport"
+			startnode="Start"
+			domain="Zamro-ZamroBE">
+			<p:parameter name="ImportType">SolrConfig</p:parameter>
+		</p:pipeline>
+		
+		<!-- 08 Rebuild Search Indexes (product-search-idx-nl_NL, product-search-idx-nl_BE, product-search-idx-de_DE) -->
+		
+		<p:concurrent>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportIndexRebuildChannelNL"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroNL">
+				<p:parameter name="ImportType">IndexRebuild</p:parameter>
+				<p:parameter name="ImportPipelineName">ProcessBatchJob</p:parameter>
+				<p:parameter name="ImportPipelineStartNode">Start</p:parameter>
+				<p:parameter name="SearchIndexID">product-search-idx-nl_NL</p:parameter>
+			</p:pipeline>
+			
+			<p:pipeline
+				name="ProcessAutomatedImportIndexRebuildChannelBE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroBE">
+				<p:parameter name="ImportType">IndexRebuild</p:parameter>
+				<p:parameter name="ImportPipelineName">ProcessBatchJob</p:parameter>
+				<p:parameter name="ImportPipelineStartNode">Start</p:parameter>
+				<p:parameter name="SearchIndexID">product-search-idx-nl_BE</p:parameter>
+			</p:pipeline>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportIndexRebuildChannelDE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroDE">
+				<p:parameter name="ImportType">IndexRebuild</p:parameter>
+				<p:parameter name="ImportPipelineName">ProcessBatchJob</p:parameter>
+				<p:parameter name="ImportPipelineStartNode">Start</p:parameter>
+				<p:parameter name="SearchIndexID">product-search-idx-de_DE</p:parameter>
+			</p:pipeline>
+		
+		</p:concurrent>
+		
+		<!-- 09 Cache Clears (channels NL, BE, DE) -->
+		
+		<p:concurrent>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportCacheClearChannelNL"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroNL">
+				<p:parameter name="ImportType">CacheClear</p:parameter>
+			</p:pipeline>
+			
+			<p:pipeline
+				name="ProcessAutomatedImportCacheClearChannelBE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroBE">
+				<p:parameter name="ImportType">CacheClear</p:parameter>
+			</p:pipeline>
+		
+			<p:pipeline
+				name="ProcessAutomatedImportCacheClearChannelDE"
+				pipeline="ProcessAutomatedImport"
+				startnode="Start"
+				domain="Zamro-ZamroDE">
+				<p:parameter name="ImportType">CacheClear</p:parameter>
+			</p:pipeline>
+		
+		</p:concurrent>
+		
+		<!-- EP Send import chain SUCCESS notification -->
+		
+		<p:pipeline
+			name="ProcessAutomatedImportSuccessNotification"
+			pipeline="ProcessDataLoad"
+			startnode="SendStatusNotification"
+			domain="Zamro">
+			<p:parameter name="DataLoadType">IMPORT</p:parameter>
+			<p:parameter name="DataLoadStatus">SUCCESS</p:parameter>
+		</p:pipeline>
+		
+		<!-- Error Handling -->
+		
+		<p:error name="Error">
+		
+			<!-- ER Send import chain FAILURE notification -->
+			
+			<p:pipeline
+				name="ProcessAutomatedImportFailureNotification"
+				pipeline="ProcessDataLoad"
+				startnode="SendStatusNotification"
+				domain="Zamro">
+				<p:parameter name="DataLoadType">IMPORT</p:parameter>
+				<p:parameter name="DataLoadStatus">FAILURE</p:parameter>
+			</p:pipeline>
+		
+		</p:error>
+	
+	</p:sequence>
+
+</p:chain>

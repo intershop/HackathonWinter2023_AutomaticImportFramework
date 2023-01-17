@@ -1,0 +1,3 @@
+<iscontent type="text/plain" charset="UTF-8" compact="true" templatemarker="false">
+<subject>Automated <isif condition="#DataLoadType EQ 'IMPORT'#">Import</isif><isif condition="#DataLoadType EQ 'REPLICATION'#">Replication</isif>: <isprint value="#DataLoadStatus#"/></subject>
+The automated <isif condition="#DataLoadType EQ 'IMPORT'#">import</isif><isif condition="#DataLoadType EQ 'REPLICATION'#">replication</isif> chain has been <isif condition="#DataLoadStatus EQ 'STARTED'#">started</isif><isif condition="#DataLoadStatus EQ 'SUCCESS'#">finished successfully</isif><isif condition="#DataLoadStatus EQ 'FAILURE'#">finished with errors</isif> at <isprint value="#CurrentDate#" style="DATE_LONG" /> <isprint value="#CurrentDate#" style="DATE_TIME" />.

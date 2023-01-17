@@ -1,0 +1,14 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Gradle 
+.gradle/
+build/
+bin/
+target/
+
+# Misc
+.apt_generated/
+/release_lib/

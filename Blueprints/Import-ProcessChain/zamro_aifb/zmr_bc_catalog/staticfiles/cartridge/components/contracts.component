@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+
+	<!-- Catalog and Category -->
+	<contract name="ZMRCatalogCategoryBOImageExtensionFactory" class="com.zamro.component.internal.catalog.CatalogCategoryBOImageExtensionFactory" />
+
+	<!-- Data Load Automation -->
+	<contract name="AutomatedImportChainFileCollector" class="com.zamro.component.capi.automation.AutomatedImportChainFileCollector" />
+
+	<contract name="FileTransferSessionFactory" class="com.zamro.component.capi.automation.FileTransferSessionFactory" />
+
+	<contract name="File" class="java.io.File" />
+
+</components>

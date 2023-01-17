@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group DataLoad-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessDataLoad" overrideMode="Inherit" type="process">
+<!--@Location 4,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_MjtnMDrNEeeL6qCL-LDriQ" strict="true"
+      name="LookupNotificationRecipientAddress" callMode="Private">
+    <nodeSuccessors name="next" next="GetDomainByName_MjkdQDrNEeeL6qCL-LDriQ"/>
+    <parameters name="UnitName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName_MjkdQDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="GetUserByBusinessPartnerNo_MjlEUDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="DomainName" constant="Operations"/>
+    <returnValueBindings name="Domain" objectPath="OperationsDomain"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetUserByBusinessPartnerNo_MjlEUDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetUserByBusinessPartnerNo.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper_MjiBADrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="BusinessPartnerNo" objectPath="UnitName"/>
+    <parameterBindings name="Domain" objectPath="OperationsDomain"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_MjiBADrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_MjuOQDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="InValue_1" objectPath="User:Profile:AddressByName(&quot;Data Load Notification Recipient&quot;)"/>
+    <returnValueBindings name="OutValue_1" objectPath="Address"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_MjuOQDrNEeeL6qCL-LDriQ"
+      conditionKey="Address">
+    <nodeSuccessors name="decision_yes" next="JoinNode_Mjqj4DrNEeeL6qCL-LDriQ"/>
+<!--@BendPoints 11,9-->
+    <nodeSuccessors name="decision_no" next="LogMessage_MjousDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 4,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_Mjqj4DrNEeeL6qCL-LDriQ">
+    <nodeSuccessors name="next" next="DecisionNode_MjchcDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 4,8-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_MjchcDrNEeeL6qCL-LDriQ"
+      conditionKey="Address">
+    <nodeSuccessors name="decision_yes" next="EndNode_MjdIgDrNEeeL6qCL-LDriQ"/>
+<!--@BendPoints 11,17-->
+    <nodeSuccessors name="decision_no" next="LogMessage_Mjp80DrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 4,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_MjdIgDrNEeeL6qCL-LDriQ" strict="true">
+    <returnValues name="Address" type="com.intershop.beehive.core.capi.profile.Address"/>
+  </nodes>
+<!--@Location 5,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_Mjp80DrNEeeL6qCL-LDriQ">
+    <configurationValues name="Level" value="Error"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="EndNode_Mjj2MDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="MessageParam0" objectPath="UnitName"/>
+    <parameterBindings name="MessageParam1" nullBinding="true"/>
+    <parameterBindings name="MessageParam2" nullBinding="true"/>
+    <parameterBindings name="MessageParam3" nullBinding="true"/>
+    <parameterBindings name="MessageParam4" nullBinding="true"/>
+    <parameterBindings name="MessageText" constant="No address named 'Contact Address' could be found for business unit '{}'. Failed to send data load notification."/>
+  </nodes>
+<!--@Location 5,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_Mjj2MDrNEeeL6qCL-LDriQ" name="Error"
+      strict="true"/>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_MjousDrNEeeL6qCL-LDriQ">
+    <configurationValues name="Level" value="Warn"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper_MjeWoDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="MessageParam0" objectPath="UnitName"/>
+    <parameterBindings name="MessageParam1" nullBinding="true"/>
+    <parameterBindings name="MessageParam2" nullBinding="true"/>
+    <parameterBindings name="MessageParam3" nullBinding="true"/>
+    <parameterBindings name="MessageParam4" nullBinding="true"/>
+    <parameterBindings name="MessageText" constant="No address named 'Data Load Notification Recipient' could be found for business unit '{}'. Falling back to 'Contact Address'."/>
+  </nodes>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_MjeWoDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+<!--@BendPoints 11,15-->
+    <nodeSuccessors name="next" next="JoinNode_Mjqj4DrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="InValue_1" objectPath="User:Profile:AddressByName(&quot;Contact Address&quot;)"/>
+    <returnValueBindings name="OutValue_1" objectPath="Address"/>
+  </nodes>
+<!--@Location 1,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_MjpVwDrNEeeL6qCL-LDriQ" strict="true"
+      name="SendStatusNotification" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_Mju1UDrNEeeL6qCL-LDriQ"/>
+    <parameters name="UnitName" type="java.lang.String"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+    <parameters name="DataLoadType" type="java.lang.String"/>
+    <parameters name="DataLoadStatus" type="java.lang.String"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_Mju1UDrNEeeL6qCL-LDriQ">
+    <nodeSuccessors name="next" next="AddObjectToCollection_Mjm5gDrNEeeL6qCL-LDriQ"/>
+<!--@BendPoints 4,3 4,10 6,11 6,17-->
+    <nodeSuccessors name="Error" next="JoinNode_MjbTUDrNEeeL6qCL-LDriQ"/>
+    <startNode referencedName="ProcessDataLoad-LookupNotificationRecipientAddress"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddObjectToCollection_Mjm5gDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/AddObjectToCollection.xml"/>
+    <nodeSuccessors name="next" next="ConcatenateStrings_MjrK8DrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="InCollection" nullBinding="true"/>
+    <parameterBindings name="InObject" objectPath="Address:EMail"/>
+    <returnValueBindings name="OutIterator" objectPath="EmailTo"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings_MjrK8DrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="GetCurrentDate_MjsZEDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="String0" objectPath="Process:ServerName"/>
+    <parameterBindings name="String1" constant="@"/>
+    <parameterBindings name="String2" objectPath="Process:HostName"/>
+    <parameterBindings name="String3" nullBinding="true"/>
+    <parameterBindings name="String4" nullBinding="true"/>
+    <parameterBindings name="String5" nullBinding="true"/>
+    <parameterBindings name="String6" nullBinding="true"/>
+    <parameterBindings name="String7" nullBinding="true"/>
+    <parameterBindings name="String8" nullBinding="true"/>
+    <parameterBindings name="String9" nullBinding="true"/>
+    <returnValueBindings name="Concatenated" objectPath="EmailFrom"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate_MjsZEDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="CreateMail_MjdvkDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateMail_MjdvkDrNEeeL6qCL-LDriQ">
+    <configurationValues name="EmailTemplate" value="mail/DataLoadStatusNotification"/>
+    <pipelet href="enfinity:/bc_mail/pipelets/CreateMail.xml"/>
+    <nodeSuccessors name="next" next="SendMail_MjmScDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SendMail_MjmScDrNEeeL6qCL-LDriQ">
+    <pipelet href="enfinity:/bc_mail/pipelets/SendMail.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_MjlrYDrNEeeL6qCL-LDriQ"/>
+<!--@BendPoints 5,13-->
+    <nodeSuccessors name="pipelet_error" next="LogMessage_Mjgy4DrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_MjlrYDrNEeeL6qCL-LDriQ">
+    <nodeSuccessors name="next" next="EndNode_MjoHoDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_MjoHoDrNEeeL6qCL-LDriQ" strict="true"/>
+<!--@Location 2,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_Mjgy4DrNEeeL6qCL-LDriQ">
+    <configurationValues name="Level" value="Error"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_MjbTUDrNEeeL6qCL-LDriQ"/>
+    <parameterBindings name="MessageParam0" objectPath="MailResultEnvelope:ServiceException"/>
+    <parameterBindings name="MessageParam1" nullBinding="true"/>
+    <parameterBindings name="MessageParam2" nullBinding="true"/>
+    <parameterBindings name="MessageParam3" nullBinding="true"/>
+    <parameterBindings name="MessageParam4" nullBinding="true"/>
+    <parameterBindings name="MessageText" constant="Failed to send data load notification. {}"/>
+  </nodes>
+<!--@Location 2,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_MjbTUDrNEeeL6qCL-LDriQ">
+    <nodeSuccessors name="next" next="JoinNode_MjlrYDrNEeeL6qCL-LDriQ"/>
+  </nodes>
+</pipeline:Pipeline>

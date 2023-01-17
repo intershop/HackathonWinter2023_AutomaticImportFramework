@@ -1,0 +1,56 @@
+apply plugin: 'java-component'
+apply plugin: 'static-cartridge'
+
+intershop 
+{
+    displayName = 'Zamro BC Catalog'
+    description = 'Extensions for the Zamro catalog data'
+}
+
+dependencies 
+{
+    compile group: 'com.intershop.platform', name: 'core'
+    compile group: 'com.intershop.platform', name: 'cache'
+    compile group: 'com.intershop.platform', name: 'orm'
+    compile group: 'com.intershop.platform', name: 'app'
+    compile group: 'com.intershop.platform', name: 'bc_application'
+    compile group: 'com.intershop.platform', name: 'isml'
+    compile group: 'com.intershop.platform', name: 'servletengine'
+    compile group: 'com.intershop.platform', name: 'configuration'
+    compile group: 'com.intershop.platform', name: 'businessobject'
+    compile group: 'com.intershop.business', name: 'bc_catalog'
+    compile group: 'com.intershop.platform', name: 'bc_repository'   
+    compile group: 'com.intershop.platform', name: 'pf_property'
+    compile group: 'com.intershop.platform', name: 'bc_foundation'
+    compile group: 'com.intershop.platform', name: 'bc_address'
+    compile group: 'com.intershop.platform', name: 'pf_objectgraph_guice'
+    compile group: 'com.intershop.platform', name: 'bc_service'
+    
+    compile group: 'com.intershop.platform', name: 'pf_extension'
+    
+    compile group: 'com.intershop.business', name: 'xcs'
+    compile group: 'com.intershop.business', name: 'bc_mvc'
+    compile group: 'com.intershop.business', name: 'bc_search'
+    compile group: 'com.intershop.business', name: 'bc_pricing'
+    compile group: 'com.intershop.business', name: 'ac_search_solr'
+    
+    compile group: 'com.intershop.business', name: 'bc_image'
+    compile group: 'com.intershop.business', name: 'bc_product'
+    compile group: 'com.intershop.business', name: 'bc_customer'
+    compile group: 'com.intershop.platform', name: 'bc_user'
+    compile group: 'com.intershop.business', name: 'bc_taxation'
+    compile group: 'com.intershop.business', name: 'bc_customer_segment'
+    compile group: 'com.intershop.business', name: 'bc_product_pricing'
+    compile group: 'com.intershop.business', name: 'bc_product_pricing_orm'
+    compile group: 'com.intershop.business', name: 'sld_ch_b2c_base'    
+    
+    compile group: 'com.intershop.business', name: 'bc_marketing'
+
+    compile 'com.google.inject.extensions:guice-assistedinject'
+    
+    compile 'rome:rome:1.0'
+    compile 'org.jdom:jdom:1.1.3'
+
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.54'
+    compile group: 'com.jcraft', name: 'jzlib', version: '1.1.3'
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+
+	<!-- Catalog and Category -->
+	<fulfill requirement="extensionFactory" of="com.intershop.beehive.core.capi.businessobject.BusinessObjectExtensionFactories">               
+		<instance with="ZMRCatalogCategoryBOImageExtensionFactory"/>
+		<instance name="com.intershop.component.product.pricing.orm.internal.ProductBOPricingExtensionFactory" with="ZMRProductBOPricingExtensionFactory" scope="app"/>
+	</fulfill>
+
+	<!-- overwrite search index data providers -->
+	<instance name="com.intershop.component.mvc.internal.searchindex.dataprovider.ProductPODataProvider" with="ZMRProductPODataProvider"/>
+	<instance name="com.intershop.component.mvc.internal.searchindex.dataprovider.ProductVariationDataProvider" with="ZMRProductVariationDataProvider"/>
+	
+	<!-- overwrite the ProductBOPricingExtensionFactory -->
+	
+	
+
+	<!-- Data Load Automation - AutomatedImportChainFileCollector -->
+	<instance name="AutomatedImportChainFileCollector" with="BasicAutomatedImportChainFileCollector">
+		<fulfill requirement="FileTransferSessionFactory" with="ConfigurationBasedSftpFileTransferSessionFactory" />
+		<fulfill requirement="ImportFoldersPattern" value="Zamro*" />
+		
+		<!-- additional optional parameters - currently not in use -->
+		<!-- fulfill requirement="ImportBaseFolder" value="." /-->
+	</instance>
+
+	<!-- Data Load Automation - ConfigurationBasedSftpFileTransferSessionFactory -->
+	<instance name="ConfigurationBasedSftpFileTransferSessionFactory" with="ConfigurationBasedSftpFileTransferSessionFactory">
+		<fulfill requirement="ConfigurationKeyPrefix" value="zdpt.sftp" />
+	</instance>
+
+	<!-- Data Load Automation - BasicSftpFileTransferSessionFactory (only for reference, not in use) -->
+	<instance name="BasicSftpFileTransferSessionFactory" with="BasicSftpFileTransferSessionFactory">
+		<!-- configuration for sftp server running on jjcmeyer01, zmr-int-ed-web01 -->
+		<!--
+		<fulfill requirement="Host" value="127.0.0.1" />
+		<fulfill requirement="Port" value="22" />
+		<fulfill requirement="User" value="zamadmin" />
+		<fulfill requirement="PrivateKeyFile" value="/opt/intershop/id_rsa-zamadmin" />
+		<fulfill requirement="PrivateKeyPassword" value="kj235a_m" />
+		-->
+		
+		<!-- configuration for sftp server running on ZDPT machine -->
+		<fulfill requirement="Host" value="37.97.184.105" />
+		<fulfill requirement="Port" value="22" />
+		<fulfill requirement="User" value="intershop" />
+		<fulfill requirement="PrivateKeyFile" value="/opt/intershop/id_rsa-intershop" />
+		<fulfill requirement="PrivateKeyPassword" value="kj235a_m" />
+		
+		<!-- additional optional parameters - currently not in use -->
+		<!-- fulfill requirement="Password" value="password" / -->
+		<!-- fulfill requirement="KnownHostsFile" value="/opt/intershop/eserver1/.ssh/known_hosts" / -->
+	</instance>
+	
+	<!-- Additional provider for pagecachekey for ZMRSOLRProduct -->
+	<!-- Instantiate the provider -->
+	<instance name="ZMRSOLRProductPageCacheClearKeyProvider" with="ZMRSOLRProductPageCacheClearKeyProvider"/>
+
+	<!-- Assign the provider to the CacheEngine -->
+	<fulfill requirement="cacheClearKeyProvider" of="CacheEngine" with="ZMRSOLRProductPageCacheClearKeyProvider"/>
+
+	<!-- Assign the provider to the PageCacheKeywordsProviderResolver -->
+	<fulfill requirement="keywordsProvider" of="PageCacheKeywordsProviderResolver" with="ZMRSOLRProductPageCacheClearKeyProvider" />
+
+</components>
