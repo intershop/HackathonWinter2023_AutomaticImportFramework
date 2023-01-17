@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+	defaultChainElementTimeout="14400"
+>
+
+<p:sequence name="MAIN SEQUENCE" >
+		<p:sequence name="Sequence that executes some jobs - Step1">
+		<p:description lang="en-US">First execute one job may fail, then a job that should succeed and another one that will fail with an exception</p:description>
+		<p:job job="Wait1minWithErrorExit" timeout="5" name="Wait 1 min - can go to an error exit, controlled by a parameter  - Step1.1"  domain="SLDSystem"/>
+		<p:job job="Wait1min2" timeout="5" name="Wait 1 min - has 5 minutes timeout and should execute in less than 5 minutes  - Step1.2"  domain="SLDSystem"/>
+		<p:job job="Wait1minAndFail" name="Wait 1 min (Main Job) then throw exception - Step1.3"  domain="SLDSystem"/>
+
+		<!-- Write a log message if the chain ends with an error -->
+		<p:error name="Error Report - Step 1.error">
+			<p:job domain="SLDSystem" job="JobOnError" name="Error Notification Step1">
+			<p:description lang="en-US">Error Notification for Step 1</p:description>
+			<p:description lang="de-DE">Benachrichtigung über Fehler in Schritt 1.</p:description>
+			</p:job>
+		</p:error>
+		<p:ignore>ERROR</p:ignore>
+		<p:ignore>FAILURE</p:ignore>
+	</p:sequence>
+	<p:sequence name="Sequence after error handling, should be executed after the error of the sequence before is ignored  - Step2" >
+		<p:job job="Wait1min3" timeout="10" name="Wait 1 min - should execute if error of previous sequence is ignored  - Step2.1"  domain="SLDSystem"/>
+	</p:sequence>
+</p:sequence>
+</p:chain>

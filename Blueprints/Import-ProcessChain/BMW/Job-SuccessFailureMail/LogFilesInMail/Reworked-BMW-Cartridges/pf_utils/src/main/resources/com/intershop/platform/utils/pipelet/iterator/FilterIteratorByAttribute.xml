@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="FilterIteratorByAttribute" >
+<pipeletName>FilterIteratorByAttribute</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.iterator.FilterIteratorByAttribute</pipeletClass>
+<errorConnector>false</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Attribute" >
+<key>Attribute</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_RegularExpression" >
+<key>RegularExpression</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Include" >
+<key>Include</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+<propertyEditor>
+<DPropertyEditor dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditor">
+<editorClass>SelectionEditor</editorClass>
+<parameters>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Include_selectionEditor_item_Matching" >
+<key>item</key>
+<value>Matching</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Include_selectionEditor_item_Not Matching" >
+<key>item</key>
+<value>Not Matching</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Include_selectionEditor_editable" >
+<key>editable</key>
+<value>false</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Include_selectionEditor_sorted" >
+<key>sorted</key>
+<value>false</value>
+</DPropertyEditorParameter>
+</parameters>
+</DPropertyEditor>
+</propertyEditor>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Mode" >
+<key>Mode</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+<propertyEditor>
+<DPropertyEditor dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditor">
+<editorClass>SelectionEditor</editorClass>
+<parameters>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_0" >
+<key>item</key>
+<value>Equals</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_1" >
+<key>item</key>
+<value>Match</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_2" >
+<key>item</key>
+<value>Contains</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_3" >
+<key>item</key>
+<value>InMap</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_4" >
+<key>item</key>
+<value>CollectionContains</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_sorted_5" >
+<key>sorted</key>
+<value>false</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_editable_6" >
+<key>editable</key>
+<value>false</value>
+</DPropertyEditorParameter>
+</parameters>
+</DPropertyEditor>
+</propertyEditor>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Iterator" >
+<key>Iterator</key>
+<input>required</input>
+<propertyClass>java.util.Iterator</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_FilteredIterator" >
+<key>FilteredIterator</key>
+<output>guaranteed</output>
+<propertyClass>java.util.Iterator</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_RegularExpression" >
+<key>RegularExpression</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Value" >
+<key>Value</key>
+<propertyClass>java.lang.Object</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

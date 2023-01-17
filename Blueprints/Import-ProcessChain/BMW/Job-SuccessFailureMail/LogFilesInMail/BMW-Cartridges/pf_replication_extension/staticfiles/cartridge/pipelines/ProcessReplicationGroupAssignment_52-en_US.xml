@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+<description>Pipeline to assign / unassign staging groups to replication tasks.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper_8Z-5UIy3EeegO9kYRbbikg"  localeId="en_US" >
+<description>Repository :=
+CurrentChannel</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text_5_U58OSJEeeeL-VxH78FGA"  localeId="en_US" >
+<description>Copied from Products: Static removed. Attachments removed.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text_VRh-QI1TEeegO9kYRbbikg"  localeId="en_US" >
+<description>Execute part of pipeline
+ReplicateRepositoryHook
+(sld_ch_consumer_plugin),
+the &quot;RepositoryReplicationHook&quot;,
+but we cannot execute all of it
+for an already existing channel.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

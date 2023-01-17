@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>ProcessStatistics</group>
+<description>Get business level information about replication processes.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToVector0"  localeId="en_US" >
+<description>ProcessStatisticsResultFilterIterator :=
+{ ProcessStatisticsResultFilter }</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="CreateIteratorFromConfigValues_zV5voIliEeqPQK94aDka3Q"  localeId="en_US" >
+<description>ProcessStatisticsTypes :=
+[ &quot;Replication&quot;, &quot;CalculateStartingPrices&quot; ]</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>If no sorting is defined,
+set default sort order:
+SortBy := &quot;StartDate&quot;;
+SortOrder := &quot;Descending&quot;;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateDictionary2"  localeId="en_US" >
+<description>ProcessStatisticsSearchParameters</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateDictionary__UGRgCjUEeeTNr2kHPnmMQ"  localeId="en_US" >
+<description>ProcessStatisticsSearchParametersForFilter</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

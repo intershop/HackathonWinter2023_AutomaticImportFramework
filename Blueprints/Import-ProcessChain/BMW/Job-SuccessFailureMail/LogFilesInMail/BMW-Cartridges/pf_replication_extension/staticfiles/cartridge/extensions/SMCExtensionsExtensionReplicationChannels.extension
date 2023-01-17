@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensionpoint:ExtensionPointModel xmlns:extensionpoint="http://www.intershop.de/extensionpoint/2011" name="SMCExtensionsExtensionReplicationChannels">
+	<extensionBindings type="isml" extensionPoint="SMCExtensions-SMCExtensionsExtensions" extension="extensions/ReplicationChannels.isml" priority="310"/>
+</extensionpoint:ExtensionPointModel>

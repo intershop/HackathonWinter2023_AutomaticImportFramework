@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipeline dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeline" id="Pipeline1" >
+<name>ProcessTireProducts</name>
+<type>job</type>
+<parent>ProcessTireProducts</parent>
+<nodes>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_I4wMkKDzEeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_S1eNAKD2Eeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteStoredProcedure</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>StoredProcedure</key>
+<value>SP_SetTireProductsOffline</value>
+</DPipeletConfigProperty>
+</configProperties>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteStoredProcedure</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>StoredProcedure</key>
+<value>SP_SetTireProductsBackOnline</value>
+</DPipeletConfigProperty>
+</configProperties>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_JvtCsKDzEeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_S1mv4KD2Eeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_A7WRIKDzEeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>SetTireProductsOffline</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_S1hQUKD2Eeu1GI18Ln2wIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>SetTireProductsBackOnline</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+</DNode>
+</nodes>
+<transitions>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg_error_JoinNode_JvtCsKDzEeu1GI18Ln2wIg_in1" >
+<fromId>ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_JvtCsKDzEeu1GI18Ln2wIg</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>5</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg_next_JoinNode_JvtCsKDzEeu1GI18Ln2wIg_in1" >
+<fromId>ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_JvtCsKDzEeu1GI18Ln2wIg</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg_error_JoinNode_S1mv4KD2Eeu1GI18Ln2wIg_in1" >
+<fromId>ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_S1mv4KD2Eeu1GI18Ln2wIg</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>5</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg_next_JoinNode_S1mv4KD2Eeu1GI18Ln2wIg_in1" >
+<fromId>ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_S1mv4KD2Eeu1GI18Ln2wIg</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_JvtCsKDzEeu1GI18Ln2wIg_next_EndNode_I4wMkKDzEeu1GI18Ln2wIg_in" >
+<fromId>JoinNode_JvtCsKDzEeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_I4wMkKDzEeu1GI18Ln2wIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_S1mv4KD2Eeu1GI18Ln2wIg_next_EndNode_S1eNAKD2Eeu1GI18Ln2wIg_in" >
+<fromId>JoinNode_S1mv4KD2Eeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_S1eNAKD2Eeu1GI18Ln2wIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_A7WRIKDzEeu1GI18Ln2wIg_next_ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg_in" >
+<fromId>StartNode_A7WRIKDzEeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_S1hQUKD2Eeu1GI18Ln2wIg_next_ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg_in" >
+<fromId>StartNode_S1hQUKD2Eeu1GI18Ln2wIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+</transitions>
+</DPipeline>

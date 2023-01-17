@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="OrganizationID"  type="java.lang.String" optional="true" />
+        <parameter name="MarketChannelID" type="java.lang.String" optional="true" />
+        <parameter name="TakesPart"       type="java.lang.String" optional="true" /> <!-- one of: <empty>, YES, NO -->
+    </parameters>
+    <return-mappings>
+		<return-mapping name="Repository" type="orm" class="com.intershop.component.mvc.internal.catalog.RepositoryPO">
+			<return-attribute name="UUID"/>
+		</return-mapping>
+    </return-mappings>
+    <processor name="OracleSQL">
+    </processor>
+    <template type="countedobjects">
+        SELECT rep.uuid as UUID, count(*) over() as ROWCOUNT, di.domainname
+          FROM DomainInformation di, Repository rep
+         WHERE di.DomainID = rep.RepositoryDomainID
+              <!-- expressions -->
+              <template-call name="replicationchannels/ReplicationChannelsSearchExpressions">
+                  <call-parameter name="OrganizationID"  value="OrganizationID"/>
+                  <call-parameter name="MarketChannelID" value="MarketChannelID"/>
+                  <call-parameter name="TakesPart"       value="TakesPart"/>
+              </template-call>
+         ORDER BY di.domainname
+    </template>
+</query>

@@ -1,0 +1,24 @@
+apply plugin: 'static-cartridge'
+apply plugin: 'javabase-cartridge'
+
+intershop {
+	displayName = 'Platform - Impex Automation'
+    staticLibs = fileTree(dir: staticCartridgeLibFolder, include: '*.jar')
+}
+
+
+dependencies {
+    compile project(':pf_utils')
+    compile project(':bc_processstatistics')
+	compile group: 'com.intershop', name: 'core'
+	compile group: 'com.intershop', name: 'servletengine'
+	compile group: 'com.intershop', name: 'isml'
+    compile group: 'com.intershop', name: 'bc_image'
+	compile group: 'com.intershop', name: 'tools'
+    compile group: 'com.intershop', name: 'orm'
+    compile group: 'com.intershop', name: 'xcs'
+    compile group: 'com.intershop', name: 'bc_mvc'
+    compile group: 'com.intershop', name: 'bc_mail'
+    compile group: 'com.intershop', name: 'sld_system_app'
+    compile project(':pf_replication_extension')
+}

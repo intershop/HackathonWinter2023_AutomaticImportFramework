@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Processing pipeline for reminder handling.
+@DisplayName ProcessReminder
+@Group Job-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessReminder" type="process">
+<!--@displayNearNode@Check for a reminder name in the current organization.
+@Location 4,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode4" strict="true" name="Check"
+      callMode="Private">
+<!--@BendPoints 9,4-->
+    <nodeSuccessors name="next" next="CallNode3"/>
+    <parameters name="ReminderName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode3">
+<!--@BendPoints 9,6-->
+    <nodeSuccessors name="next" next="GetCustomAttributes1"/>
+    <startNode referencedName="ProcessReminder-Prefix"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCustomAttributes1">
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetCustomAttributes.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode1"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Domain"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="AttributeValuesMap:get(ReminderName)">
+    <nodeSuccessors name="decision_yes" next="EndNode4"/>
+<!--@BendPoints 10,9-->
+    <nodeSuccessors name="decision_no" next="EndNode5"/>
+  </nodes>
+<!--@Location 4,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode4" name="IsSet" strict="true"/>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode5" name="IsUnset" strict="true"/>
+<!--@displayNearNode@Clear a reminder name from the organization.
+@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" strict="true" name="Clear"
+      callMode="Private">
+<!--@BendPoints 5,4-->
+    <nodeSuccessors name="next" next="CallNode1"/>
+    <parameters name="ReminderName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+<!--@BendPoints 5,6-->
+    <nodeSuccessors name="next" next="RemoveCustomAttribute1"/>
+    <startNode referencedName="ProcessReminder-Prefix"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute1">
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="EndNode2"/>
+    <parameterBindings name="AttributeName" objectPath="ReminderName"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Domain"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" strict="true"/>
+<!--@displayNearNode@Execute a pipeline only if the reminder is set.
+@Location 6,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode5" name="ExecuteOnSetReminder"
+      callMode="Private">
+<!--@BendPoints 13,4-->
+    <nodeSuccessors name="next" next="CallNode4"/>
+    <parameters name="ReminderName" type="java.lang.String"/>
+    <parameters name="PipelineName" type="java.lang.String"/>
+    <parameters name="PipelineExecutionDomainName" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode4">
+    <nodeSuccessors name="IsUnset" next="EndNode6"/>
+    <nodeSuccessors name="IsSet" next="DecisionNode2"/>
+    <startNode referencedName="ProcessReminder-Check"/>
+  </nodes>
+<!--@Location 7,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode6" strict="true"/>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="PipelineExecutionDomainName"
+      operator="undef">
+    <nodeSuccessors name="decision_yes" next="JumpNode1"/>
+<!--@BendPoints 15,9-->
+    <nodeSuccessors name="decision_no" next="GetDomainByName2"/>
+  </nodes>
+<!--@Location 6,8-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode1" callModePermissions="Private">
+    <startNode objectPath="PipelineName"/>
+  </nodes>
+<!--@Location 7,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName2">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="CreateStringSplitter1"/>
+<!--@BendPoints 17,11-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode2"/>
+    <parameterBindings name="DomainName" objectPath="PipelineExecutionDomainName"/>
+  </nodes>
+<!--@Location 7,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateStringSplitter1">
+    <configurationValues name="Mode" value="First Occurrence"/>
+    <configurationValues name="Separator" value="-"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/CreateStringSplitter.xml"/>
+    <nodeSuccessors name="next" next="ExecutePipeline1"/>
+  </nodes>
+<!--@Location 7,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecutePipeline1">
+    <pipelet href="enfinity:/core/pipelets/ExecutePipeline.xml"/>
+    <nodeSuccessors name="next" next="EndNode7"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode2"/>
+    <parameterBindings name="PipelineDomain" objectPath="Domain"/>
+    <parameterBindings name="PipelineName" objectPath="Splitter:Begin(PipelineName)"/>
+    <parameterBindings name="PipelineStartNode" objectPath="Splitter:End(PipelineName)"/>
+  </nodes>
+<!--@Location 7,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode7" strict="true"/>
+<!--@Location 8,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+    <nodeSuccessors name="next" next="EndNode8"/>
+  </nodes>
+<!--@Location 8,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode8" name="ERROR" strict="true"/>
+<!--@displayNearNode@Prefix pipeline determines the enterprise Domain.
+@Location 0,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" strict="true" name="Prefix"
+      callMode="Private">
+    <nodeSuccessors name="next" next="GetStringSubstitution1"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetStringSubstitution1">
+    <configurationValues name="DefaultPattern" value="-.*"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetStringSubstitution.xml"/>
+    <nodeSuccessors name="next" next="GetDomainByName1"/>
+    <parameterBindings name="InputString" objectPath="CurrentDomain:DomainName"/>
+    <parameterBindings name="SubstitutionPattern" constant=""/>
+    <returnValueBindings name="OutputString" objectPath="DomainName"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName1">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="EndNode1"/>
+  </nodes>
+<!--@Location 0,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" strict="true">
+<!--The domain.-->
+    <returnValues name="Domain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+  </nodes>
+<!--@displayNearNode@Set a reminder name to the organization.
+@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode3" strict="true" name="Set"
+      callMode="Private">
+<!--@BendPoints 7,4-->
+    <nodeSuccessors name="next" next="CallNode2"/>
+    <parameters name="ReminderName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode2">
+<!--@BendPoints 7,6-->
+    <nodeSuccessors name="next" next="UpdateCustomAttribute1"/>
+    <startNode referencedName="ProcessReminder-Prefix"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute1">
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode1"/>
+<!--@BendPoints 8,7 8,9-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode1"/>
+    <parameterBindings name="AttributeName" objectPath="ReminderName"/>
+    <parameterBindings name="AttributeValue" constant="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Domain"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+<!--@BendPoints 7,10-->
+    <nodeSuccessors name="next" next="EndNode3"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" strict="true"/>
+</pipeline:Pipeline>

@@ -1,0 +1,19 @@
+How to report a pipeline result to a job?
+How to report a job result to a process chain?
+
+It is not possible to change the result of a job. The Job result is always: State: finished
+Only in case of an error end node or of an exception the Job result is failed.
+
+A pipeline can set a return status for a process chain.
+It is possible to tell the process chain processor, which "exit-code" should be used.
+You can set pipeline dictionary key "ProcessChainResult" and one of the following status:
+ * SUCCESS (default)
+ * WARNING
+ * FAILURE (exit with no endNode)
+ * ERROR (also on exception)
+ * NOTFOUND
+ * INTERRUPTED
+In case such a pipeline is used as job pipeline and the job runs within a process chain,
+then the job is always "State: finished" and "green",
+but the surrounding process chain task "Type: ProcessChainJob" gets the result from the pipeline dictionary of the job pipeline,
+and can have TaskStatus ERROR and be "red".

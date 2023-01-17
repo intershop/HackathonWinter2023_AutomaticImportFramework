@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+>
+	<p:sequence name="Project Process Chain">
+		<p:description lang="en-US">Process Chain of Project</p:description>
+		<p:description lang="de-DE">Prozesskette von Projekt</p:description>
+
+		<p:pipeline pipeline="ProcessReminder" startnode="Clear" domain="ProjectMasterDomain" name="Process Chain - Step 1: Cleanup Reminder Flag">
+			<p:description lang="en-US">Cleanup Reminder Flag</p:description>
+			<p:description lang="de-DE">Reminderflag löschen</p:description>
+			<p:parameter name="ReminderName">ProductDataImported</p:parameter>
+		</p:pipeline>
+
+		<p:pipeline pipeline="ProcessAutomaticProcessChain" startnode="DropContextIndexes" domain="ProjectMasterDomain" name="Process Chain - Step 2.1: Drop Context Index">
+			<p:description lang="en-US">Drop Context Index</p:description>
+			<p:description lang="de-DE">Kontextindex verwerfen</p:description>
+		</p:pipeline>
+
+		<p:job job="AutomaticCatalogDataImport" domain="ProjectMasterDomain" name="Process Chain - Step 2.2: Catalog Data Import">
+			<p:description lang="en-US">Automatic Catalog Data Import</p:description>
+			<p:description lang="de-DE">Automatisierter Katalogdatenimport</p:description>
+		</p:job>
+
+		<p:job job="AutomaticProductDataImport" domain="ProjectMasterDomain" name="Process Chain - Step 2.3: Product Data Import">
+			<p:description lang="en-US">Automatic Product Data Import</p:description>
+			<p:description lang="de-DE">Automatisierter Produktdatenimport</p:description>
+		</p:job>
+
+		<p:pipeline pipeline="ProcessAutomaticProcessChain" startnode="CreateContextIndexes" domain="ProjectMasterDomain" name="Process Chain - Step 2.4: Create Context Index">
+			<p:description lang="en-US">Create Context Index</p:description>
+			<p:description lang="de-DE">Kontextindex erzeugen</p:description>
+		</p:pipeline>
+
+		<!-- The following channel specific processes must be executed sequencly. -->
+		<p:job job="AutomaticAttributeGroupImport" domain="ProjectChannelDomain" name="Process Chain - Step 3.1.1: Attribute Group Import (ProjectChannelDomain)">
+			<p:description lang="en-US">Automatic Attribute Group Import</p:description>
+			<p:description lang="de-DE">Automatisierter Attributgruppenimport</p:description>
+		</p:job>
+		<p:job job="AutomaticPriceListImport" domain="ProjectChannelDomain" name="Process Chain - Step 3.1.2: Price List Import (ProjectChannelDomain)">
+			<p:description lang="en-US">Automatic Pricelist Import</p:description>
+			<p:description lang="de-DE">Automatisierter Preislistenimport</p:description>
+		</p:job>
+		<p:job job="AutomaticCatalogFiltersImport" domain="ProjectChannelDomain" name="Process Chain - Step 3.1.3: Catalog Filter Import (ProjectChannelDomain)">
+			<p:description lang="en-US">Automatic Catalog Filter Import</p:description>
+			<p:description lang="de-DE">Automatisierter Katalogfilterimport</p:description>
+		</p:job>
+		<p:pipeline pipeline="ProcessCatalogFilter" startnode="UpdateAll" domain="ProjectChannelDomain" name="Process Chain - Step 3.1.4: Catalog Filter Publishing (ProjectChannelDomain)">
+			<p:description lang="en-US">Publish Catalog Filter</p:description>
+			<p:description lang="de-DE">Katalogfilter anwenden</p:description>
+			<p:parameter name="StartPublishCatalogFilterSynchronously">true</p:parameter>
+		</p:pipeline>
+
+		<!-- We may have deleted some data in the database; to invalidate the ORM cache -->
+		<p:job job="Run Cache Refresh" domain="SMC" name="Process Chain - Step 4.1: Flush ORM Cache">
+			<p:description lang="en-US">Delete ORM cache</p:description>
+			<p:description lang="de-DE">Lösche ORM Cache</p:description>
+		</p:job>
+
+		<!-- We may have marked some domains for deletion; just delete them -->
+		<p:job job="DeleteDomainReferences" domain="root" name="Process Chain - Step 4.2: Delete Domain References">
+			<p:description lang="en-US">Delete Domain References</p:description>
+			<p:description lang="de-DE">Domänenreferenzen bereinigen</p:description>
+		</p:job>
+
+		<!-- Update the product online status -->
+		<p:job job="Update Product Online Status" domain="SLDSystem" name="Process Chain - Step 4.3: Update Product Online Status">
+			<p:description lang="en-US">Update Product Online Status</p:description>
+			<p:description lang="de-DE">Produkt "Online"-Status aktualisieren</p:description>
+		</p:job>
+
+		<!-- Rebuild the SORL-Indexes -->
+		<p:job job="Rebuild Search Indexes" domain="SLDSystem" name="Process Chain - Step 5: Rebuild Search Index">
+			<p:description lang="en-US">Rebuild Search Index</p:description>
+			<p:description lang="de-DE">Aufbau aller SearchIndexes</p:description>
+		</p:job>
+
+		<p:job job="InvalidatePageCache" domain="SLDSystem" name="Process Chain - Step 6: Invalidate Page Cache">
+			<p:description lang="en-US">Invalidate Page Cache</p:description>
+			<p:description lang="de-DE">Invalidiere den Page Caches</p:description>
+		</p:job>
+
+		<p:job job="AnalyzeDatabaseSchema" domain="root" name="Process Chain - Step 7: Analyze Database Schema">
+			<p:description lang="en-US">Analyze Database Schema</p:description>
+			<p:description lang="de-DE">Datenbankoptimierungsmaßnahmen</p:description>
+		</p:job>
+
+		<!-- Add the Replication-ID -->
+		<p:pipeline pipeline="ProcessAutomaticProcessChain" startnode="PrepareReplicationProcess" domain="ProjectMasterDomain" name="Process Chain - Step 8.1: Prepare Replication Parameter">
+			<p:parameter name="ReplicationProcessID">Project-Replication-Process</p:parameter>
+		</p:pipeline>
+		
+		<!-- Now do a replication to the live system -->
+		<p:job job="Regular Replication Process" concurrent="true" domain="SLDSystem" name="Process Chain - Step 8.2: Start Replication">
+			<p:description lang="en-US">Start the Replication Process</p:description>
+			<p:description lang="de-DE">Starte den Replikationsprozess</p:description>
+		</p:job>
+
+		<!-- Clear the Replication-ID -->
+		<p:pipeline pipeline="" startnode="CleanReplicationProcess" domain="ProjectMasterDomain" name="Process Chain - Step 8.3: Clear Replication Parameter">
+		</p:pipeline>
+
+		<!-- Now check the staging to the live system for success -->
+		<p:pipeline pipeline="ProcessAutomaticProcessChain" startnode="CheckReplicationProcessState" domain="ProjectMasterDomain" name="Process Chain - Step 8.4: Check Replication State">
+		</p:pipeline>
+
+		<p:pipeline pipeline="ProcessReminder" startnode="Clear" domain="ProjectMasterDomain" name="Process Chain - Step 9: Cleanup Reminder Flag">
+			<p:description lang="en-US">Cleanup Reminder Flag</p:description>
+			<p:description lang="de-DE">Reminderflag löschen</p:description>
+			<p:parameter name="ReminderName">ProductDataImported</p:parameter>
+		</p:pipeline>
+
+		<!-- Sends an email if the process chain was successfully executed -->
+		<p:job job="Process Chain Success Notification" domain="ProjectMasterDomain" name="Process Chain - Step 10a: Success Report">
+			<p:description lang="en-US">Success Notification</p:description>
+			<p:description lang="de-DE">Benachrichtigung über erfolgreiche Prozesskette.</p:description>
+		</p:job>
+
+		<!-- Sends an email if the chain ends with an error -->
+		<p:error name="Process Chain - Step 10b: Error Report">
+			<p:job job="Process Chain Error Notification" domain="ProjectMasterDomain">
+				<p:description lang="en-US">Error Notification</p:description>
+				<p:description lang="de-DE">Benachrichtigung über fehlgeschlagene Prozesskette.</p:description>
+			</p:job>
+		</p:error>
+	</p:sequence>
+</p:chain>

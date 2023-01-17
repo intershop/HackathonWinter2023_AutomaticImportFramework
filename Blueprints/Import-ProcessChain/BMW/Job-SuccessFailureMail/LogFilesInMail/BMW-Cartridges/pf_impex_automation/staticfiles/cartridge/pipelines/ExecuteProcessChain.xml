@@ -1,0 +1,1495 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipeline dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeline" id="Pipeline1" >
+<name>ExecuteProcessChain</name>
+<type>job</type>
+<nodes>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ExecuteProcessChain-PreImportProcessExecution</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>9</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ExecuteProcessChain-PostImportProcesExecution</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_NpGFAITfEei99IePpQirUw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-AfterChainExecution</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_UVCYkITfEei99IePpQirUw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>9</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-BeforeChainExecution</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="CreateProcessStatisticsBO0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>CreateProcessStatisticsBO</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>CurrentDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Name</key>
+<alias>ProcessChain:Task:Name</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StartDate</key>
+<alias>CurrentDate</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Type</key>
+<alias>&quot;Import&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ProcessChainResult</conditionKey>
+<conditionValue>0</conditionValue>
+<conditionOperator>str-eq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ProcessStatisticsBORepository</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ProcessStatisticsBO</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode__cMCEEE0EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>Process</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode_r-pEQEE0EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>StartedByProcess</conditionKey>
+<conditionOperator>str-empty</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>16</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode0_ReturnValue_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<guaranteed>false</guaranteed>
+<type>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ok</name>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode1_ReturnValue_ProcessChainResult" >
+<key>ProcessChainResult</key>
+<guaranteed>true</guaranteed>
+<type>java.lang.Integer</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>error</name>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode2_ReturnValue_ProcessChainResult" >
+<key>ProcessChainResult</key>
+<guaranteed>true</guaranteed>
+<type>java.lang.Integer</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>8</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode3_ReturnValue_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<guaranteed>true</guaranteed>
+<type>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteProcessChain0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>8</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteProcessChain</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetApplicationBO0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetApplicationBO</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_application</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetApplicationBO1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetApplicationBO</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_application</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetCurrentDate0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetCurrentDate</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetCurrentDate2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetCurrentDate</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetJobConfiguration</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobDomain</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobDomainName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobUUID</key>
+<alias>JobConfigurationUUID</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetJobConfiguration</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobDomain</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobDomainName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobUUID</key>
+<alias>JobConfigurationUUID</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>HandleProcessChainRestart</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SelectedProcessChainStep</key>
+<alias>JobConfiguration:SelectedProcessChainStep</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_impex_automation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_22dF4EE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_2WGx4EE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_AcF_4EE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>15</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_BU61YD8JEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_CN6i0EE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>15</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_D3a3QEE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_OTALsD8lEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="LoadXmlProcessChain1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>LoadXmlProcessChain</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>RemoveCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>SelectedProcessChainStep</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>JobConfiguration</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>RemoveCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>SelectedProcessChainStep</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>JobConfiguration</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>RemoveCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>StartedByProcess</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>JobConfiguration</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;ImportProcessChainBORepository&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>ApplicationBO:Repository(&quot;ImportProcessChainBORepository&quot;, ProcessChain:TargetDomain:UUID)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;ImportProcessChainBO&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>ImportProcessChainBORepository:ImportProcessChainBOByXMLFileName(XmlFileName)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;ProcessStatisticsBORepository&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>ImportProcessChainBO:Extension(&quot;Statistics&quot;)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;ImportProcessChainBORepository&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>ApplicationBO:Repository(&quot;ImportProcessChainBORepository&quot;, ProcessChain:TargetDomain:UUID)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;Result&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>&quot;CHECK_SUCCESS&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetIndirectDictValue5" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetIndirectDictValue</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>KeyNameHolder</key>
+<alias>&quot;Result&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>MappedEntry</key>
+<alias>&quot;FAILURE&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>0</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>PreImportProcessExecution</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_ImportProcessChainBORepository" >
+<key>ImportProcessChainBORepository</key>
+<required>true</required>
+<type>com.intershop.component.processstatistics.capi.impex.process.chain.ImportProcessChainBORepository</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_ProcessChain" >
+<key>ProcessChain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.process.ProcessChain</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_XmlFileName" >
+<key>XmlFileName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_StartedByProcess" >
+<key>StartedByProcess</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_Process" >
+<key>Process</key>
+<required>false</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_JobConfigurationUUID" >
+<key>JobConfigurationUUID</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>0</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>Start</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_XmlFileName" >
+<key>XmlFileName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_CurrentDomain" >
+<key>CurrentDomain</key>
+<required>false</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_ProcessChainDomain" >
+<key>ProcessChainDomain</key>
+<required>false</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_Process" >
+<key>Process</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_StartedByProcess" >
+<key>StartedByProcess</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_JobConfigurationUUID" >
+<key>JobConfigurationUUID</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_Process" >
+<key>Process</key>
+<required>false</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>0</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>PostImportProcesExecution</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode2_param_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<required>false</required>
+<type>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode2_param_ProcessChainResult" >
+<key>ProcessChainResult</key>
+<required>false</required>
+<type>java.lang.Integer</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>StartedByProcess</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeType</key>
+<value>String</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeType</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeValue</key>
+<alias>StartedByProcess</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>Process</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateProcessStatisticsBO0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>8</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateProcessStatisticsBO</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateEndDate</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateName</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateProcess</key>
+<alias>&quot;(Boolean)true&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateResult</key>
+<alias>&quot;(Boolean)true&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateStartDate</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>EndDate</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Name</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Result</key>
+<alias>&quot;INTERRUPTED&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StartDate</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateProcessStatisticsBO2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateProcessStatisticsBO</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateEndDate</key>
+<alias>&quot;(Boolean)true&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateName</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateProcess</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateResult</key>
+<alias>&quot;(Boolean)true&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DoUpdateStartDate</key>
+<alias>&quot;(Boolean)false&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>EndDate</key>
+<alias>CurrentDate</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Name</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Process</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StartDate</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+</nodes>
+<transitions>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode0_next_ExecuteProcessChain0_in" >
+<fromId>CallNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteProcessChain0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode1_next_EndNode1_in" >
+<fromId>CallNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_NpGFAITfEei99IePpQirUw_next_JoinNode1_in1" >
+<fromId>CallNode_NpGFAITfEei99IePpQirUw</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode1</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_UVCYkITfEei99IePpQirUw_next_JoinNode0_in1" >
+<fromId>CallNode_UVCYkITfEei99IePpQirUw</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode0</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CreateProcessStatisticsBO0_next_UpdateProcessStatisticsBO0_in" >
+<fromId>CreateProcessStatisticsBO0</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateProcessStatisticsBO0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_no_SetIndirectDictValue5_in" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>no</fromConnector>
+<toId>SetIndirectDictValue5</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_yes_SetIndirectDictValue4_in" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>yes</fromConnector>
+<toId>SetIndirectDictValue4</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode1_no_JoinNode0_in1" >
+<fromId>DecisionNode1</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode0</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>11</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>21</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode1_yes_GetCurrentDate0_in" >
+<fromId>DecisionNode1</fromId>
+<fromConnector>yes</fromConnector>
+<toId>GetCurrentDate0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode2_no_JoinNode1_in1" >
+<fromId>DecisionNode2</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode1</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>3</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>15</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode2_yes_GetCurrentDate2_in" >
+<fromId>DecisionNode2</fromId>
+<fromConnector>yes</fromConnector>
+<toId>GetCurrentDate2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode__cMCEEE0EeewFY5V4nwziQ_no_JoinNode_D3a3QEE1EeewFY5V4nwziQ_in1" >
+<fromId>DecisionNode__cMCEEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode_D3a3QEE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode__cMCEEE0EeewFY5V4nwziQ_yes_UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ_in" >
+<fromId>DecisionNode__cMCEEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>yes</fromConnector>
+<toId>UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_r-pEQEE0EeewFY5V4nwziQ_no_DecisionNode__cMCEEE0EeewFY5V4nwziQ_in" >
+<fromId>DecisionNode_r-pEQEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>no</fromConnector>
+<toId>DecisionNode__cMCEEE0EeewFY5V4nwziQ</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_r-pEQEE0EeewFY5V4nwziQ_yes_JoinNode_AcF_4EE1EeewFY5V4nwziQ_in1" >
+<fromId>DecisionNode_r-pEQEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>yes</fromConnector>
+<toId>JoinNode_AcF_4EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteProcessChain0_next_CallNode1_in" >
+<fromId>ExecuteProcessChain0</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetApplicationBO0_next_SetIndirectDictValue0_in" >
+<fromId>GetApplicationBO0</fromId>
+<fromConnector>next</fromConnector>
+<toId>SetIndirectDictValue0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetApplicationBO1_next_SetIndirectDictValue3_in" >
+<fromId>GetApplicationBO1</fromId>
+<fromConnector>next</fromConnector>
+<toId>SetIndirectDictValue3</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetCurrentDate0_next_CreateProcessStatisticsBO0_in" >
+<fromId>GetCurrentDate0</fromId>
+<fromConnector>next</fromConnector>
+<toId>CreateProcessStatisticsBO0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetCurrentDate2_next_DecisionNode0_in" >
+<fromId>GetCurrentDate2</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g_error_JoinNode_OTALsD8lEeioY_K-7YFS7g_in1" >
+<fromId>GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_OTALsD8lEeioY_K-7YFS7g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g_next_HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g_in" >
+<fromId>GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ_error_JoinNode_2WGx4EE1EeewFY5V4nwziQ_in1" >
+<fromId>GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_2WGx4EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ_next_RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ_in" >
+<fromId>GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g_error_JoinNode_BU61YD8JEeioY_K-7YFS7g_in1" >
+<fromId>HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_BU61YD8JEeioY_K-7YFS7g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g_next_RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g_in" >
+<fromId>HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode0_next_DecisionNode_r-pEQEE0EeewFY5V4nwziQ_in" >
+<fromId>JoinNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode_r-pEQEE0EeewFY5V4nwziQ</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode1_next_EndNode3_in" >
+<fromId>JoinNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode3</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_22dF4EE1EeewFY5V4nwziQ_next_JoinNode_CN6i0EE1EeewFY5V4nwziQ_in1" >
+<fromId>JoinNode_22dF4EE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_CN6i0EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_2WGx4EE1EeewFY5V4nwziQ_next_JoinNode_22dF4EE1EeewFY5V4nwziQ_in1" >
+<fromId>JoinNode_2WGx4EE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_22dF4EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_AcF_4EE1EeewFY5V4nwziQ_next_EndNode0_in" >
+<fromId>JoinNode_AcF_4EE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_BU61YD8JEeioY_K-7YFS7g_next_RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g_in" >
+<fromId>JoinNode_BU61YD8JEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_CN6i0EE1EeewFY5V4nwziQ_next_JoinNode_AcF_4EE1EeewFY5V4nwziQ_in1" >
+<fromId>JoinNode_CN6i0EE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_AcF_4EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_D3a3QEE1EeewFY5V4nwziQ_next_JoinNode_2WGx4EE1EeewFY5V4nwziQ_in1" >
+<fromId>JoinNode_D3a3QEE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_2WGx4EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_OTALsD8lEeioY_K-7YFS7g_next_JoinNode_BU61YD8JEeioY_K-7YFS7g_in1" >
+<fromId>JoinNode_OTALsD8lEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_BU61YD8JEeioY_K-7YFS7g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_LoadXmlProcessChain1_error_JoinNode_OTALsD8lEeioY_K-7YFS7g_in1" >
+<fromId>LoadXmlProcessChain1</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_OTALsD8lEeioY_K-7YFS7g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_LoadXmlProcessChain1_next_GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g_in" >
+<fromId>LoadXmlProcessChain1</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g_next_GetApplicationBO1_in" >
+<fromId>RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetApplicationBO1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g_next_EndNode2_in" >
+<fromId>RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ_next_JoinNode_CN6i0EE1EeewFY5V4nwziQ_in1" >
+<fromId>RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_CN6i0EE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue0_next_SetIndirectDictValue1_in" >
+<fromId>SetIndirectDictValue0</fromId>
+<fromConnector>next</fromConnector>
+<toId>SetIndirectDictValue1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue1_next_SetIndirectDictValue2_in" >
+<fromId>SetIndirectDictValue1</fromId>
+<fromConnector>next</fromConnector>
+<toId>SetIndirectDictValue2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue2_next_DecisionNode1_in" >
+<fromId>SetIndirectDictValue2</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue3_next_CallNode0_in" >
+<fromId>SetIndirectDictValue3</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue4_next_UpdateProcessStatisticsBO2_in" >
+<fromId>SetIndirectDictValue4</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateProcessStatisticsBO2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SetIndirectDictValue5_next_UpdateProcessStatisticsBO2_in" >
+<fromId>SetIndirectDictValue5</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateProcessStatisticsBO2</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>15</x>
+<y>11</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode0_next_GetApplicationBO0_in" >
+<fromId>StartNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetApplicationBO0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode1_next_LoadXmlProcessChain1_in" >
+<fromId>StartNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>LoadXmlProcessChain1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode2_next_DecisionNode2_in" >
+<fromId>StartNode2</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ_error_JoinNode_D3a3QEE1EeewFY5V4nwziQ_in1" >
+<fromId>UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_D3a3QEE1EeewFY5V4nwziQ</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ_next_GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ_in" >
+<fromId>UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateProcessStatisticsBO0_next_CallNode_UVCYkITfEei99IePpQirUw_in" >
+<fromId>UpdateProcessStatisticsBO0</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_UVCYkITfEei99IePpQirUw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateProcessStatisticsBO2_next_CallNode_NpGFAITfEei99IePpQirUw_in" >
+<fromId>UpdateProcessStatisticsBO2</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_NpGFAITfEei99IePpQirUw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+</transitions>
+</DPipeline>

@@ -1,0 +1,7 @@
+Depending Jobs
+==============
+Projects:
+ * BMW ASeC
+ ** Cartridge: smc_extension
+ * Elefant
+ ** Cartridge: elf_smc_extension

@@ -1,0 +1,258 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<isinclude template="inc/Modules">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td class="breadcrumb">
+			<a href="#URL(Action('ViewSMCExtensions-Start'))#" class="breadcrumb"><istext key="smc.extension.link.extensions"/></a>&nbsp;&gt;&nbsp;
+			<istext key="replicationchannels.smc.extension.link.replicationchannels"/>
+		</td>
+	</tr>
+</table>
+<div><img src="#WebRoot()#/images/space.gif" width="1" height="7" alt="" border="0"/></div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<!-- Main Content -->
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="100%" class="table_title aldi"><istext key="replicationchannels.list.title.replicationchannels"/></td>
+				</tr>
+				<isif condition="#isDefined(setTakesPart) OR isDefined(resetTakesPart)#">
+					<isif condition="#isDefined(Clipboard) AND hasElements(Clipboard:ObjectUUIDs)#">
+						<tr>
+							<td class="w e s" colspan="1">
+								<isform action="#URL(Action('ViewReplicationChannels-Dispatch'))#" method="post" name="commit">
+									<table border="0" cellpadding="4" cellspacing="0" width="100%" class="confirm_box">
+										<tr>
+											<td class="error_icon e"><img src="#WebRoot()#/images/confirmation.gif" width="16" height="15" alt="" border="0"/></td>
+											<td class="confirm" width="100%">
+												<isif condition="#isDefined(setTakesPart)#">
+													<istext key="replicationchannels.list.message.confirmation.SetTakesPart" encoding="off"/>
+												<iselse/>
+													<istext key="replicationchannels.list.message.confirmation.ResetTakesPart" encoding="off"/>
+												</isif>
+												<br/>
+												<isloop iterator="Clipboard:ObjectUUIDs" alias="ReplicationChannelUUID">
+													<isset scope="request" name="ReplicationChannelHelper" value="#ReplicationChannelHelperCreator:getByUUID(ReplicationChannelUUID)#">
+													&nbsp;&nbsp;<isprint value="#ReplicationChannelHelper:ReplicationChannel:RepositoryDomain:DomainName#"/><isif condition="#hasNext(ReplicationChannelUUID)#"><br/></isif>
+												</isloop>
+											</td>
+											<td nowrap="nowrap">
+												<table border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<isif condition="#isDefined(setTakesPart)#">
+															<td><input type="submit" name="setTakesPartCommit" value="#localizeText('smc.OK.button')#" class="button"/></td>
+														<iselse/>
+															<td><input type="submit" name="resetTakesPartCommit" value="#localizeText('smc.OK.button')#" class="button"/></td>
+														</isif>
+														<td>&nbsp;</td>
+														<td><input type="submit" name="setTakesPartCancel" value="#localizeText('smc.Cancel.button')#" class="button"/></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</isform>
+							</td>
+						</tr>
+					<iselse/>
+						<tr><td>
+							<table border="0" cellspacing="0" cellpadding="4" width="100%" class="error_box w e s">
+								<tr>
+									<td class="error_icon top e"><img src="#WebRoot()#/images/error.gif" width="16" height="15" alt="" border="0"/></td>
+									<td class="error top" width="100%">
+										<istext key="replicationchannels.list.message.noselection"/>
+									</td>
+								</tr>
+							</table>
+						</td></tr>
+					</isif>
+				</isif>
+
+				<tr>
+					<td class="table_title_description w e">
+						<istext key="replicationchannels.list.description.replicationchannels" encoding="off"/>
+					</td>
+				</tr>
+			</table>
+
+			<form action="#URL(Action('ViewReplicationChannels-Dispatch'))#" method="post" name="filterForm">
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox n w e">
+					<tr>
+						<td class="infobox_title" nowrap="nowrap"><istext key="replicationchannels.list.description.replicationchannels.filter.infobox_title"/></td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="replicationchannels.list.form.filter.organization.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ReplicationChannelsOrganizationFilter" class="select">
+								<option value=""><istext key="replicationchannels.list.form.filter.organization.option.all"/></option>
+								<isloop iterator="Organizations" alias="Organization">
+									<option value="<isprint value="#Organization#">" <isif condition="#ReplicationChannelsOrganizationFilter EQ Organization#">selected="selected"</isif>><isprint value="#Organization#"></option>
+								</isloop>
+							</select>
+						</td>
+						<td class="infobox_item" nowrap="nowrap">&nbsp;</td>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="replicationchannels.list.form.filter.marketchannel.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ReplicationChannelsMarketChannelFilter" class="select">
+								<option value=""><istext key="replicationchannels.list.form.filter.marketchannel.option.all"/></option>
+								<isloop iterator="MarketChannels" alias="MarketChannel">
+									<option value="<isprint value="#MarketChannel#">" <isif condition="#ReplicationChannelsMarketChannelFilter EQ MarketChannel#">selected="selected"</isif>><isprint value="#MarketChannel#"></option>
+								</isloop>
+								<!--- <isif condition="#(NOT isDefined(ReplicationChannelsMarketChannelFilter)) OR (len(trim(ReplicationChannelsMarketChannelFilter)) == 0) OR (ReplicationChannelsMarketChannelFilter EQ 'NULL')#"> --->
+								<option value="NULL" <isif condition="#ReplicationChannelsMarketChannelFilter EQ 'NULL'#">selected="selected"</isif>><istext key="replicationchannels.list.form.filter.marketchannel.option.without_marketchannel"/></option>
+								<!--- </isif> --->
+							</select>
+						</td>
+						<td class="infobox_item" width="100%">&nbsp;</td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e s">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="replicationchannels.list.form.filter.takes_part.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ReplicationChannelsTakesPartFilter" class="select">
+								<option value=""                                                                                              ><istext key="replicationchannels.list.form.filter.takes_part.option.all"/></option>
+								<option value="YES" <isif condition="#ReplicationChannelsTakesPartFilter EQ 'YES'#">selected="selected"</isif>><istext key="replicationchannels.list.form.filter.takes_part.option.yes"/></option>
+								<option value="NO"  <isif condition="#ReplicationChannelsTakesPartFilter EQ 'NO'#" >selected="selected"</isif>><istext key="replicationchannels.list.form.filter.takes_part.option.no" /></option>
+							</select>
+						</td>
+						<td class="infobox_item" width="100%">&nbsp;</td>
+						<td class="infobox_item" nowrap="nowrap" align="right">
+							<table border="0" cellspacing="4" cellpadding="0">
+								<tr>
+									<td class="button">
+										<input type="submit" name="filter" value="#localizeText('smc.Apply.button')#" class="button"/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<form action="#URL(Action('ViewReplicationChannels-Dispatch'))#" method="post" name="ReplicationChannelsList">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<isif condition="#not hasLoopElements(ReplicationChannels)#">
+									<tr>
+										<td class="table_detail w e s" colspan="7"><istext key="replicationchannels.list.noentries"/></td>
+									</tr>
+								<iselse>
+									<tr>
+										<td class="table_header w e s center" nowrap="nowrap" width="70" valign="middle">
+											<div id="A">
+												<table border="0" cellspacing="0" cellpadding="0" class="table_header center" width="75">
+													<tr>
+														<td nowrap="nowrap">
+															<a href="javascript:selectAll('ReplicationChannelsList','SelectedObjectUUID','A','B');" class="tableheader"><istext key="smc.SelectAll.link4"/></a>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div id="B" style="display:none">
+												<table border="0" cellspacing="0" cellpadding="0" class="table_header center" width="75">
+													<tr>
+														<td nowrap="nowrap">
+														<a href="javascript:selectAll('ReplicationChannelsList','SelectedObjectUUID','A','B');" class="tableheader"><istext key="smc.ClearAll.link4"/></a>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</td>
+										<td class="table_header e s" nowrap="nowrap" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'), Parameter('ReplicationChannelsOrganizationFilter', ReplicationChannelsOrganizationFilter), Parameter('ReplicationChannelsMarketChannelFilter', ReplicationChannelsMarketChannelFilter), Parameter('ReplicationChannelsTakesPartFilter', ReplicationChannelsTakesPartFilter))#">---><istext key="replicationchannels.list.table.header.Organization"  encoding="off"/><!---</a>---></td>
+										<td class="table_header e s" nowrap="nowrap" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'), Parameter('ReplicationChannelsOrganizationFilter', ReplicationChannelsOrganizationFilter), Parameter('ReplicationChannelsMarketChannelFilter', ReplicationChannelsMarketChannelFilter), Parameter('ReplicationChannelsTakesPartFilter', ReplicationChannelsTakesPartFilter))#">---><istext key="replicationchannels.list.table.header.ChannelID"     encoding="off"/><!---</a>---></td>
+										<td class="table_header e s" nowrap="nowrap" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'), Parameter('ReplicationChannelsOrganizationFilter', ReplicationChannelsOrganizationFilter), Parameter('ReplicationChannelsMarketChannelFilter', ReplicationChannelsMarketChannelFilter), Parameter('ReplicationChannelsTakesPartFilter', ReplicationChannelsTakesPartFilter))#">---><istext key="replicationchannels.list.table.header.ChannelName"   encoding="off"/><!---</a>---></td>
+										<td class="table_header e s" nowrap="nowrap" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'), Parameter('ReplicationChannelsOrganizationFilter', ReplicationChannelsOrganizationFilter), Parameter('ReplicationChannelsMarketChannelFilter', ReplicationChannelsMarketChannelFilter), Parameter('ReplicationChannelsTakesPartFilter', ReplicationChannelsTakesPartFilter))#">---><istext key="replicationchannels.list.table.header.MarketChannel" encoding="off"/><!---</a>---></td>
+										<td class="table_header e s" nowrap="nowrap" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'), Parameter('ReplicationChannelsOrganizationFilter', ReplicationChannelsOrganizationFilter), Parameter('ReplicationChannelsMarketChannelFilter', ReplicationChannelsMarketChannelFilter), Parameter('ReplicationChannelsTakesPartFilter', ReplicationChannelsTakesPartFilter))#">---><istext key="replicationchannels.list.table.header.TakesPart"     encoding="off"/><!---</a>---></td>
+									</tr>
+									<isloop iterator="ReplicationChannels" alias="ReplicationChannel">
+										<isset scope="request" name="ReplicationChannelHelper" value="#ReplicationChannelHelperCreator:get(ReplicationChannel)#">
+										<isset scope="request" name="AssignedMarketChannel" value="#ReplicationChannelHelper:MarketChannel#">
+										<isset scope="request" name="AssignedMarketChannelTakesPartInReplication" value="#(NOT isDefined(AssignedMarketChannel)) OR (AssignedMarketChannel:RepositoryDomain:Site:TakesPartInReplication EQ 'true')#"> <!--- true in case there is no market channel assigned --->
+										<isset scope="request" name="ReplicationChannelOrganization" value="#ReplicationChannelHelper:Organization#">
+										<isset scope="request" name="IsMarketChannel" value="#ReplicationChannelHelper:isMarketChannel#">
+										<isset scope="request" name="IsPreviewChannel" value="#pad(ReplicationChannel:Id, 7) EQ 'Preview'#">
+										<isset scope="request" name="IsCOMChannel" value="#ReplicationChannelOrganization:TypeCode == 20#">
+										<tr>
+											<td class="w e s center">
+												<input type="checkbox"
+													name="SelectedObjectUUID"
+													value="<isprint value="#ReplicationChannel:UUID#"/>"
+													<isif condition="#Clipboard:contains(ReplicationChannel:UUID)#">checked="checked"</isif>
+													<isif condition="#NOT (IsMarketChannel OR IsPreviewChannel OR IsCOMChannel)#">disabled="disabled"</isif>
+												/>
+												<input type="hidden" name="ObjectUUID" value="<isprint value="#ReplicationChannel:UUID#">"/>
+											</td>
+											<td class="table_detail e s"><isprint value="#ReplicationChannelOrganization:ID#"></td>
+											<td class="table_detail e s"><isprint value="#ReplicationChannel:Id#"></td>
+											<td class="table_detail e s"><isprint value="#ReplicationChannel:DisplayName#"></td>
+											<td class="table_detail e s">
+												<isif condition="#IsMarketChannel#">
+													<istext key="replicationchannels.list.table.column.MarketChannel.self" encoding="off"/>
+												<iselseif condition="#isDefined(AssignedMarketChannel)#"/>
+													<isprint value="#AssignedMarketChannel:Id#">
+													<isif condition="#NOT AssignedMarketChannelTakesPartInReplication#">
+														(*)
+													</isif>
+												<iselseif condition="#NOT IsCOMChannel#"/> <!--- partner organization --->
+													<!-- This dealer channel is not assigned to a Market Channel -->
+												<iselse/> <!--- enterprise organization --->
+													<!-- This is a COM channel  -->
+												</isif>
+											</td>
+											<td class="table_detail e s">
+												<isif condition="#ReplicationChannelHelper:isTakesPartInReplication#">
+													<istext key="replicationchannels.list.table.column.TakesPart.yes" encoding="off"/>
+													<isif condition="#NOT AssignedMarketChannelTakesPartInReplication#">
+														(*)
+													</isif>
+												<iselse/>
+													<istext key="replicationchannels.list.table.column.TakesPart.no" encoding="off"/>
+												</isif>
+											</td>
+										</tr>
+									</isloop>
+								</isif>
+							</table>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="w e s">
+								<tr>
+									<td align="right">
+										<table cellpadding="0" cellspacing="4" border="0">
+											<tr>
+												<td class="button">
+													<input type="hidden" name="ReplicationChannelsOrganizationFilter"  value="<isprint value="#ReplicationChannelsOrganizationFilter#">"/>
+													<input type="hidden" name="ReplicationChannelsMarketChannelFilter" value="<isprint value="#ReplicationChannelsMarketChannelFilter#">"/>
+													<input type="hidden" name="ReplicationChannelsTakesPartFilter"     value="<isprint value="#ReplicationChannelsTakesPartFilter#">"/>
+
+													<input type="submit" name="setTakesPart"   value="#localizeText('replicationchannels.list.SetTakesPart.button')#"   class="button" <isif condition="#not hasLoopElements(ReplicationChannels)#">disabled="disabled"</isif>/>
+													<input type="submit" name="resetTakesPart" value="#localizeText('replicationchannels.list.ResetTakesPart.button')#" class="button" <isif condition="#not hasLoopElements(ReplicationChannels)#">disabled="disabled"</isif>/>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<table width="100%" cellpadding="0" cellspacing="0" border="0">
+								<tr>
+									<td>
+										<div><img src="#WebRoot()#/images/space.gif" width="1" height="6" alt="" border="0"/></div>
+										<ISPagingBar pageable="ReplicationChannels" variablepagesize="true">
+									</td>
+								</tr>
+							</table>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td><img src="#WebRoot()#/images/space.gif" width="1" height="6" alt="" border="0"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</td>
+	</tr>
+</table>

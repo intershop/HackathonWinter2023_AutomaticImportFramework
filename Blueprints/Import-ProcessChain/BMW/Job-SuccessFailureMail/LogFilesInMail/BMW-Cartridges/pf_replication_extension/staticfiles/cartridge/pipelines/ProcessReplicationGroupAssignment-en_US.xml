@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddStagingGroupToReplicationTask19"  localeId="en_US" >
+<description>Add staging group MVC_Repository
+for Organization:OrganizationDomain.
+MVC_Repository uses new staging processor
+AppendRepositoryTakesPartDomainSpecificStagingProcessor
+(instead of AppendDomainSpecificStagingProcessor)
+to replicate consumer channels at partner organization level
+only if  flag &quot;TakesPartInReplication&quot; is true.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="CallNode2"  localeId="en_US" >
+<description>ChannelDomainNamesTakingPartInReplication --&gt;
+ChannelDomainNamesTakingPartInReplicationHashMap</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode7"  localeId="en_US" >
+<description>All repositories of the organization
+with TypeCode != 52
+need to be replicated in any case.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetSubString2"  localeId="en_US" >
+<description>RepositoryDomainName
+matches
+PatternDomainNameTwoParts</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetSubString3"  localeId="en_US" >
+<description>RepositoryDomainName
+matches
+PatternDomainNameThreeParts</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="JumpNode1"  localeId="en_US" >
+<description>IgnoreTakesPartInReplication &lt;-- (Boolean)true</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>RepositoryDomainName :=
+Repository:RepositoryDomain:DomainName</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue2"  localeId="en_US" >
+<description>PatternDomainNameThreeParts :=
+&quot;[^-]*-[^-]*-.*&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue3"  localeId="en_US" >
+<description>PatternDomainNameTwoParts :=
+&quot;[^-]*-[^-]*&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_ChannelDomainNamesTakingPartInReplication"  localeId="en_US" >
+<description>channel domain names of all channels taking part in replication;
+if not present then no channel takes part</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode4_param_IgnoreTakesPartInReplication"  localeId="en_US" >
+<description>If present and true, then all repositories are replicated, regardless of their TakesPartInReplication flag</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="CallURL"  localeId="en_US" >
+<group>WebService</group>
+<description>Pipelet calls a given URL and returns an input stream</description>
+<displayName>CallURL</displayName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="config_CloseOnSuccess"  localeId="en_US" >
+<description>The result must not be used. close connection after success</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameterDesc" id="config_CloseOnSuccess_PropertyEditor_item_0"  localeId="en_US" >
+<value>True</value>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameterDesc" id="config_CloseOnSuccess_PropertyEditor_item_1"  localeId="en_US" >
+<value>False</value>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

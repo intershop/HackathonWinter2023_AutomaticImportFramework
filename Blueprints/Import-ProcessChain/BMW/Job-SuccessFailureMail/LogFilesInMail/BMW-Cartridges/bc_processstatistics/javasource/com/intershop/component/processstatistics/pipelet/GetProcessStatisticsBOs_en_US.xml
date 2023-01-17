@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>ProcessStatistics</group>
+<description>Get a collection of ProcessStatisticsBO objects.
+Type is reqired, that means one can only retrieve ProcessStatisticsBOs of a single type at a time.
+The returned collection is sorted by start date, newest first.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Type"  localeId="en_US" >
+<description>The type of the process. Used to group processes of the same type when evaluating statistics.
+Usually something like: &quot;Import&quot;, &quot;Replication&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_OldestStartDate"  localeId="en_US" >
+<description>If present then only ProcessStatisticsBOs with a start date &gt;= OldestStartDate are returned.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-out_ProcessStatisticsBOs"  localeId="en_US" >
+<description>Sorted by start date, newest first.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

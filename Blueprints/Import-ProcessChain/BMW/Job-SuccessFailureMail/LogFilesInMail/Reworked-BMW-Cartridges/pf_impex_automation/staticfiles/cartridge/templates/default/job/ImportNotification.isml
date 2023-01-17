@@ -1,0 +1,12 @@
+<%@ page import="java.net.InetAddress" %>
+<iscontent charset="utf-8">
+<subject>Import failed</subject>
+<pre>
+	<isprint value="#LogContent#">
+</pre>
+<hr />
+Domain: <isprint value="#CurrentUnit:DomainName#"><br/>
+Pipeline: <isprint value="#ProcessPipelineName#">-<isprint value="#ProcessPipelineStartNode#"><br/>
+File: <isprint value="#SelectedFile#"><br/>
+Hostname: <%out.print(java.net.InetAddress.getLocalHost().getHostName());%>
+<br />

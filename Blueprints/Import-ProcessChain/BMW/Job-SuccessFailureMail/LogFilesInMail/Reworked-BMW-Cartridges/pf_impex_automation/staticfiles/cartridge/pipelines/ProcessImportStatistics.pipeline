@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Collects and stores import statistics using ProcessStatisticsBO
+@Group Import-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessImportStatistics" overrideMode="Inherit" type="process">
+<!--<b>TODO</b> jcmeyer: avoid string<br />
+substitution here \- many examples<br />
+for channel repo look\-up available
+@Location 5,11-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_ITrhUKRhEeiqqd1HrEIM_A"/>
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_jIooIBekEeinVIYUtm_rnw" strict="true"
+      name="AfterChainExecution" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_jIfeMBekEeinVIYUtm_rnw"/>
+    <parameters name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_jIfeMBekEeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA"/>
+    <startNode referencedName="ProcessImportStatistics-CollectImportStatisticsMap"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA">
+    <configurationValues name="Phase" value="AfterProcess"/>
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateImportProcessStatistics.xml"/>
+    <nodeSuccessors name="next" next="EndNode_jfIZMJZvEeiEr9tFhw5TNA"/>
+    <parameterBindings name="ElementCount" nullBinding="true"/>
+    <parameterBindings name="FileStatisticsMap" nullBinding="true"/>
+    <parameterBindings name="Process" nullBinding="true"/>
+    <parameterBindings name="ProcessStatisticsBORepository" nullBinding="true"/>
+    <returnValueBindings name="ElementCount" nullBinding="true"/>
+    <returnValueBindings name="FileStatisticsMap" nullBinding="true"/>
+    <returnValueBindings name="Process" nullBinding="true"/>
+    <returnValueBindings name="ProcessStatisticsBORepository" nullBinding="true"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_jfIZMJZvEeiEr9tFhw5TNA" strict="true"/>
+<!--@Location 7,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_i_XPABeyEeinVIYUtm_rnw" strict="true"
+      name="AfterFileImport" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_i_aSUBeyEeinVIYUtm_rnw"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+    <parameters name="SelectedFile" type="java.lang.String"/>
+    <parameters name="ImportMode" type="java.lang.String" optional="true"/>
+    <parameters name="JobConfiguration" type="com.intershop.beehive.core.capi.job.JobConfiguration"
+        optional="true"/>
+    <parameters name="Repository" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+  </nodes>
+<!--@Location 7,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_i_aSUBeyEeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw"/>
+    <parameterBindings name="Channel" objectPath="Repository"/>
+    <startNode referencedName="ProcessImportStatistics-CollectImportStatisticsMap"/>
+  </nodes>
+<!--@Location 7,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw">
+    <configurationValues name="Mode" value="OverwriteValue"/>
+    <pipelet href="enfinity:/core/pipelets/AddMultipleEntriesToMap.xml"/>
+    <nodeSuccessors name="next" next="CallNode_birr8Be7EeinVIYUtm_rnw"/>
+    <parameterBindings name="InMap" nullBinding="true"/>
+    <parameterBindings name="Key1" constant="Domain"/>
+    <parameterBindings name="Key2" constant="SelectedFile"/>
+    <parameterBindings name="Key3" constant="ImportMode"/>
+    <parameterBindings name="Key4" constant=""/>
+    <parameterBindings name="Value1" objectPath="Channel:RepositoryDomain:DomainName"/>
+    <parameterBindings name="Value2" objectPath="SelectedFile"/>
+    <parameterBindings name="Value3" objectPath="ImportMode"/>
+    <returnValueBindings name="OutMap" objectPath="FileStatisticsMap"/>
+  </nodes>
+<!--@Location 7,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_birr8Be7EeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="GetApplicationBO_jku_EKReEeiqqd1HrEIM_A"/>
+    <startNode referencedName="ProcessImportStatistics-GetElementCount"/>
+  </nodes>
+<!--@Location 7,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO_jku_EKReEeiqqd1HrEIM_A">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA"/>
+  </nodes>
+<!--@Location 7,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA">
+    <configurationValues name="Phase" value="BeforeProcess"/>
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateImportProcessStatistics.xml"/>
+    <nodeSuccessors name="next" next="EndNode_HNa3EJZvEeiEr9tFhw5TNA"/>
+    <parameterBindings name="ProcessStatisticsBO" nullBinding="true"/>
+    <parameterBindings name="ProcessStatisticsBORepository" objectPath="ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)"/>
+    <returnValueBindings name="ProcessStatisticsBO" nullBinding="true"/>
+    <returnValueBindings name="ProcessStatisticsBORepository" objectPath="ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)"/>
+  </nodes>
+<!--@Location 7,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_HNa3EJZvEeiEr9tFhw5TNA" strict="true"/>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_P70dwBbPEeij65sIeXxwIg" strict="true"
+      name="BeforeChainExecution" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_-VdKYBbWEeij65sIeXxwIg"/>
+    <parameters name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_-VdKYBbWEeij65sIeXxwIg">
+    <nodeSuccessors name="next" next="UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A"/>
+    <startNode referencedName="ProcessImportStatistics-CollectImportStatisticsMap"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A">
+    <configurationValues name="Phase" value="BeforeProcess"/>
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateImportProcessStatistics.xml"/>
+    <nodeSuccessors name="next" next="EndNode_2x64gJZvEeiEr9tFhw5TNA"/>
+    <parameterBindings name="ElementCount" nullBinding="true"/>
+    <parameterBindings name="FileStatisticsMap" nullBinding="true"/>
+    <parameterBindings name="Process" nullBinding="true"/>
+    <parameterBindings name="ProcessStatisticsBORepository" nullBinding="true"/>
+    <returnValueBindings name="ElementCount" nullBinding="true"/>
+    <returnValueBindings name="FileStatisticsMap" nullBinding="true"/>
+    <returnValueBindings name="Process" nullBinding="true"/>
+    <returnValueBindings name="ProcessStatisticsBORepository" nullBinding="true"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_2x64gJZvEeiEr9tFhw5TNA" strict="true"/>
+<!--@Location 5,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_sedIABekEeinVIYUtm_rnw" strict="true"
+      name="BeforeFileImport" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_serKcBekEeinVIYUtm_rnw"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+    <parameters name="SelectedFile" type="java.lang.String"/>
+    <parameters name="ImportMode" type="java.lang.String" optional="true"/>
+    <parameters name="Repository" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+  </nodes>
+<!--@Location 5,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_serKcBekEeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw"/>
+    <parameterBindings name="Channel" objectPath="Repository"/>
+    <startNode referencedName="ProcessImportStatistics-CollectImportStatisticsMap"/>
+  </nodes>
+<!--@Location 5,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw">
+    <configurationValues name="Mode" value="OverwriteValue"/>
+    <pipelet href="enfinity:/core/pipelets/AddMultipleEntriesToMap.xml"/>
+    <nodeSuccessors name="next" next="GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A"/>
+    <parameterBindings name="InMap" nullBinding="true"/>
+    <parameterBindings name="Key1" constant="Domain"/>
+    <parameterBindings name="Key2" constant="SelectedFile"/>
+    <parameterBindings name="Key3" objectPath="ImportMode"/>
+    <parameterBindings name="Key4" constant=""/>
+    <parameterBindings name="Value1" objectPath="Channel:RepositoryDomain:DomainName"/>
+    <parameterBindings name="Value2" objectPath="SelectedFile"/>
+    <parameterBindings name="Value3" objectPath="ImportMode"/>
+    <returnValueBindings name="OutMap" objectPath="FileStatisticsMap"/>
+  </nodes>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA"/>
+  </nodes>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA">
+    <configurationValues name="Phase" value="BeforeFileImport"/>
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateImportProcessStatistics.xml"/>
+    <nodeSuccessors name="next" next="EndNode_sej1sBekEeinVIYUtm_rnw"/>
+    <parameterBindings name="ElementCount" nullBinding="true"/>
+    <parameterBindings name="ProcessStatisticsBO" nullBinding="true"/>
+    <parameterBindings name="ProcessStatisticsBORepository" objectPath="ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)"/>
+    <returnValueBindings name="ElementCount" nullBinding="true"/>
+    <returnValueBindings name="ProcessStatisticsBO" nullBinding="true"/>
+    <returnValueBindings name="ProcessStatisticsBORepository" objectPath="ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)"/>
+  </nodes>
+<!--@Location 5,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_sej1sBekEeinVIYUtm_rnw" strict="true"/>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_rtgmkBbQEeij65sIeXxwIg" strict="true"
+      name="CollectImportStatisticsMap" callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode_WRDgcByAEeiRcvrJer7rog"/>
+    <parameters name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"
+        optional="true"/>
+  </nodes>
+<!--@Location 1,11-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_WRDgcByAEeiRcvrJer7rog"
+      conditionKey="Channel">
+    <nodeSuccessors name="decision_yes" next="JoinNode_kUERoKRbEeiqqd1HrEIM_A"/>
+    <nodeSuccessors name="decision_no" next="CallNode_vSgYgJD8EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 1,12-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_kUERoKRbEeiqqd1HrEIM_A">
+    <nodeSuccessors name="next" next="ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg"/>
+  </nodes>
+<!--@DisplayName Count Products
+@Location 1,13-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg"/>
+<!--@BendPoints 5,27-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_sC1M8JD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <returnValueBindings name="Count" objectPath="CountProducts"/>
+  </nodes>
+<!--@DisplayName Count Online Products
+@Location 1,14-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="Online"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_sC1M8JD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" constant="(Boolean)TRUE"/>
+    <returnValueBindings name="Count" objectPath="CountProductsOnline"/>
+  </nodes>
+<!--@DisplayName Count Vehicle Types
+@Location 1,15-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_03" value="ProductTypeName"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_qmbgYJD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_03" constant="VehicleType"/>
+    <returnValueBindings name="Count" objectPath="CountVehicleTypes"/>
+  </nodes>
+<!--@DisplayName Count Online Vehicle Types
+@Location 1,16-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="Online"/>
+    <configurationValues name="ParameterName_03" value="ProductTypeName"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_ordogJD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" constant="(Boolean)TRUE"/>
+    <parameterBindings name="ParameterValue_03" constant="VehicleType"/>
+    <returnValueBindings name="Count" objectPath="CountVehicleTypesOnline"/>
+  </nodes>
+<!--@Location 1,17-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg">
+    <configurationValues name="Mode" value="OverwriteValue"/>
+    <pipelet href="enfinity:/core/pipelets/AddMultipleEntriesToMap.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg"/>
+    <parameterBindings name="InMap" nullBinding="true"/>
+    <parameterBindings name="Key1" constant="CountProducts"/>
+    <parameterBindings name="Key2" constant="CountProductsOnline"/>
+    <parameterBindings name="Key3" constant="CountVehicleTypes"/>
+    <parameterBindings name="Key4" constant="CountVehicleTypesOnline"/>
+    <parameterBindings name="Value1" objectPath="CountProducts"/>
+    <parameterBindings name="Value2" objectPath="CountProductsOnline"/>
+    <parameterBindings name="Value3" objectPath="CountVehicleTypes"/>
+    <parameterBindings name="Value4" objectPath="CountVehicleTypesOnline"/>
+    <returnValueBindings name="OutMap" objectPath="ImportStatisticsMap"/>
+  </nodes>
+<!--@DisplayName Count Parts
+@Location 1,18-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_03" value="ProductTypeName"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_m5vMMJD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_03" constant="Parts"/>
+    <returnValueBindings name="Count" objectPath="CountParts"/>
+  </nodes>
+<!--@DisplayName Count Online Parts
+@Location 1,19-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="Online"/>
+    <configurationValues name="ParameterName_03" value="ProductTypeName"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_k7OREJD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" constant="(Boolean)TRUE"/>
+    <parameterBindings name="ParameterValue_03" constant="Parts"/>
+    <returnValueBindings name="Count" objectPath="CountPartsOnline"/>
+  </nodes>
+<!--@DisplayName Count Category Assignments
+@Location 1,20-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="AssignedToCategory"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_jg3y8JD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" constant="(Boolean)TRUE"/>
+    <returnValueBindings name="Count" objectPath="CountProdCats"/>
+  </nodes>
+<!--@DisplayName Count Products w/o Assignments
+@Location 1,21-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="AssignedToCategory"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_hkFWIJD7EeiK6aOQyM911g"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" constant="(Boolean)FALSE"/>
+    <returnValueBindings name="Count" objectPath="CountProdWithoutCats"/>
+  </nodes>
+<!--@Location 1,22-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg">
+    <configurationValues name="Mode" value="OverwriteValue"/>
+    <pipelet href="enfinity:/core/pipelets/AddMultipleEntriesToMap.xml"/>
+    <nodeSuccessors name="next" next="EndNode_lT74gKUyEeiqqd1HrEIM_A"/>
+    <parameterBindings name="InMap" objectPath="ImportStatisticsMap"/>
+    <parameterBindings name="Key1" constant="CountParts"/>
+    <parameterBindings name="Key2" constant="CountPartsOnline"/>
+    <parameterBindings name="Key3" constant="CountProdCats"/>
+    <parameterBindings name="Key4" constant="CountProdWithoutCats"/>
+    <parameterBindings name="Value1" objectPath="CountParts"/>
+    <parameterBindings name="Value2" objectPath="CountPartsOnline"/>
+    <parameterBindings name="Value3" objectPath="CountProdCats"/>
+    <parameterBindings name="Value4" objectPath="CountProdWithoutCats"/>
+    <returnValueBindings name="OutMap" objectPath="ImportStatisticsMap"/>
+  </nodes>
+<!--@Location 1,23-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_lT74gKUyEeiqqd1HrEIM_A" strict="true">
+    <returnValues name="ImportStatisticsMap" type="java.util.Map"/>
+    <returnValues name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+  </nodes>
+<!--@Location 2,21-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_hkFWIJD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="EndNode_xlfJsKUyEeiqqd1HrEIM_A"/>
+  </nodes>
+<!--@Location 2,23-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_xlfJsKUyEeiqqd1HrEIM_A" name="ERROR"
+      strict="true"/>
+<!--@Location 2,20-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_jg3y8JD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_hkFWIJD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,19-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_k7OREJD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_jg3y8JD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,18-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_m5vMMJD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_k7OREJD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,16-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_ordogJD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_m5vMMJD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_qmbgYJD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_ordogJD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,14-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_sC1M8JD7EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="JoinNode_qmbgYJD7EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 2,11-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_vSgYgJD8EeiK6aOQyM911g">
+<!--@BendPoints 5,25-->
+    <nodeSuccessors name="next" next="JoinNode_kUERoKRbEeiqqd1HrEIM_A"/>
+    <startNode referencedName="This:GetChannel"/>
+  </nodes>
+<!--@Location 4,10-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_vkRv4BboEei04N-JKZrMJg" strict="true"
+      name="GetChannel" callMode="Private">
+    <nodeSuccessors name="next" next="GetStringSubstitution_xBOPABboEei04N-JKZrMJg"/>
+  </nodes>
+<!--@Location 4,11-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetStringSubstitution_xBOPABboEei04N-JKZrMJg">
+    <configurationValues name="DefaultPattern" value="(-Site)$"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetStringSubstitution.xml"/>
+    <nodeSuccessors name="next" next="GetDomainByName_xA--cBboEei04N-JKZrMJg"/>
+    <parameterBindings name="InputString" objectPath="CurrentDomain:DomainName"/>
+    <parameterBindings name="Pattern" nullBinding="true"/>
+    <parameterBindings name="SubstitutionPattern" constant="-MasterRepository"/>
+    <returnValueBindings name="OutputString" objectPath="RepositoryDomainName"/>
+  </nodes>
+<!--@Location 4,12-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName_xA--cBboEei04N-JKZrMJg">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg"/>
+<!--@BendPoints 11,25-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_ZmFvYJD8EeiK6aOQyM911g"/>
+    <parameterBindings name="DomainName" objectPath="RepositoryDomainName"/>
+    <returnValueBindings name="Domain" objectPath="RepositoryDomain"/>
+  </nodes>
+<!--@Location 4,13-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg">
+    <pipelet href="enfinity:/bc_mvc/pipelets/GetRepositoryByRepositoryDomain.xml"/>
+    <nodeSuccessors name="next" next="EndNode_FZpgsBbpEei04N-JKZrMJg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_ZmFvYJD8EeiK6aOQyM911g"/>
+    <returnValueBindings name="Repository" objectPath="Channel"/>
+  </nodes>
+<!--@Location 4,14-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_FZpgsBbpEei04N-JKZrMJg" strict="true">
+    <returnValues name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"
+        optional="true"/>
+  </nodes>
+<!--@Location 5,13-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_ZmFvYJD8EeiK6aOQyM911g">
+    <nodeSuccessors name="next" next="EndNode_Xd5T0JD8EeiK6aOQyM911g"/>
+  </nodes>
+<!--@Location 5,14-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_Xd5T0JD8EeiK6aOQyM911g" name="ERROR"
+      strict="true"/>
+<!--@Location 7,10-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_qnzNwBe3EeinVIYUtm_rnw" name="GetElementCount"
+      callMode="Private">
+    <nodeSuccessors name="next" next="Matches_h37osBe5EeinVIYUtm_rnw"/>
+    <parameters name="JobConfiguration" type="com.intershop.beehive.core.capi.job.JobConfiguration"/>
+    <parameters name="SelectedFile" type="java.lang.String"/>
+  </nodes>
+<!--@Location 7,11-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Matches_h37osBe5EeinVIYUtm_rnw">
+    <configurationValues name="DefaultRegEx" value="pricelist.*xml"/>
+    <configurationValues name="Mode" value="Find"/>
+    <pipelet href="enfinity:/pf_utils/pipelets/Matches.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper_zVcBYBe5EeinVIYUtm_rnw"/>
+<!--@BendPoints 17,23-->
+    <nodeSuccessors name="pipelet_error" next="KeyMapper_DvVLgBe7EeinVIYUtm_rnw"/>
+    <parameterBindings name="RegEx" nullBinding="true"/>
+    <parameterBindings name="Replacement" constant=""/>
+    <parameterBindings name="String" objectPath="SelectedFile"/>
+    <returnValueBindings name="RegEx" nullBinding="true"/>
+    <returnValueBindings name="Replacement" constant=""/>
+    <returnValueBindings name="String" objectPath="SelectedFile"/>
+  </nodes>
+<!--@Location 7,12-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_zVcBYBe5EeinVIYUtm_rnw">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_EMVG4KRgEeiqqd1HrEIM_A"/>
+    <parameterBindings name="InValue_1" objectPath="JobConfiguration:SourceCount_product-price-list-entry"/>
+    <returnValueBindings name="OutValue_1" objectPath="ElementCount"/>
+  </nodes>
+<!--@Location 7,13-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_EMVG4KRgEeiqqd1HrEIM_A">
+    <nodeSuccessors name="next" next="EndNode_FCVEcBe7EeinVIYUtm_rnw"/>
+  </nodes>
+<!--@Location 7,14-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_FCVEcBe7EeinVIYUtm_rnw">
+    <returnValues name="ElementCount" type="java.lang.Long" optional="true"/>
+  </nodes>
+<!--@Location 8,12-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_DvVLgBe7EeinVIYUtm_rnw">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+<!--@BendPoints 17,27-->
+    <nodeSuccessors name="next" next="JoinNode_EMVG4KRgEeiqqd1HrEIM_A"/>
+    <parameterBindings name="InValue_1" objectPath="JobConfiguration:SourceCount"/>
+    <returnValueBindings name="OutValue_1" objectPath="ElementCount"/>
+  </nodes>
+</pipeline:Pipeline>

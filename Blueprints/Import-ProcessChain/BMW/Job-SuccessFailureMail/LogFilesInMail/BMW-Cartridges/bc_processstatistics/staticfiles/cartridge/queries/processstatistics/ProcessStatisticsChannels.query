@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="ProcessDomain" type="com.intershop.beehive.core.capi.domain.Domain" optional="true"/>
+        <parameter name="ProcessType" type="java.lang.String" optional="true" /> <!-- Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessTypes" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessName" type="java.lang.String" optional="true" />
+        <parameter name="ProcessResults" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. An element 'NULL' means: where result is null. -->
+        <parameter name="OrganizationID" type="java.lang.String" optional="true" />
+        <parameter name="IsProcessAssigned" type="java.lang.Boolean" optional="true" /> <!-- If TRUE then only ProcessStatistics with an assigned Process are returned; If FALSE then only ProcessStatistics without an assigned Process are returned; If missing then all ProcessStatistics are returned. -->
+    </parameters>
+    <return-mappings>
+		<return-mapping name="Repository" type="orm" class="com.intershop.component.mvc.internal.catalog.RepositoryPO">
+			<return-attribute name="UUID"/>
+		</return-mapping>
+    </return-mappings>
+    <processor name="OracleSQL">
+    </processor>
+    <template type="objects">
+        SELECT rep.uuid as UUID, di.DomainName AS DomainName
+          FROM DomainInformation di, Repository rep, Organization org
+         WHERE org.OrganizationDomainID = rep.DomainID
+           AND di.DomainID = rep.RepositoryDomainID
+           AND org.TypeCode in (20, 30)
+           AND rep.TypeCode = 52
+          <template-if condition="isDefined(OrganizationID) AND len(trim(OrganizationID)) > 0">
+           AND org.ID = <template-variable value="OrganizationID"/>
+          </template-if>
+              <!-- expressions -->
+              <!--
+              <template-call name="processstatistics/ProcessStatisticsBOSearchExpressions">
+                  <call-parameter name="ProcessDomain"     value="ProcessDomain"/>
+                  <call-parameter name="ProcessType"       value="ProcessType"/>
+                  <call-parameter name="ProcessTypes"      value="ProcessTypes"/>
+                  <call-parameter name="ProcessName"       value="ProcessName"/>
+                  <call-parameter name="ProcessResults"    value="ProcessResults"/>
+                  <call-parameter name="IsProcessAssigned" value="IsProcessAssigned"/>
+              </template-call>
+              -->
+         <!-- sorting by sort attribute -->       
+         ORDER BY DomainName
+    </template>
+</query>

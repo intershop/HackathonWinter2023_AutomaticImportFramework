@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="CreateJobChain"  localeId="en_US" >
+<group>Job</group>
+<description>Creates a chain of jobs which can be executed.
+This is a copy of the same named pipelet from cartridge core with more descriptive process chain element names.</description>
+<displayName>CreateJobChain</displayName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_JobConfigurations"  localeId="en_US" >
+<description>These jobs will be added to a process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_JobChain"  localeId="en_US" >
+<description>The chain consisting of the given jobs.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="config_ExecutionMode"  localeId="en_US" >
+<description>Defines if the jobs within the chain should be prepared for concurrent or sequential execution.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_ExecutionDomain"  localeId="en_US" >
+<description>The domain for which the chain is created.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Name"  localeId="en_US" >
+<description>Name of the process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Description"  localeId="en_US" >
+<description>Description of the process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Locale"  localeId="en_US" >
+<description>Locale of the process chain description.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

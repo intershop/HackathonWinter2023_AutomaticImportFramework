@@ -1,0 +1,23 @@
+apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+
+intershop {
+	displayName = 'Platform - Utils'
+	staticLibs = fileTree(dir: staticCartridgeLibFolder, include: '*.jar')
+}
+
+dependencies {
+    compile group: 'com.intershop', name: 'core'
+    compile group: 'com.intershop', name: 'orm'
+    compile group: 'com.intershop', name: 'tools'
+    compile group: 'com.intershop', name: 'bc_marketing'
+    compile group: 'com.intershop', name: 'bts'
+    compile group: 'com.intershop', name: 'isml'
+    compile group: 'com.intershop', name: 'cache'
+    compile group: 'com.intershop', name: 'servletengine'
+    compile group: 'com.intershop', name: 'bc_foundation'
+    compile group: 'com.intershop', name: 'bc_spreadsheet'
+    compile group: 'com.intershop', name: 'jmx'
+    compile group: 'com.intershop', name: 'bc_mail'
+    compile group: 'com.intershop', name: 'bc_service'
+}

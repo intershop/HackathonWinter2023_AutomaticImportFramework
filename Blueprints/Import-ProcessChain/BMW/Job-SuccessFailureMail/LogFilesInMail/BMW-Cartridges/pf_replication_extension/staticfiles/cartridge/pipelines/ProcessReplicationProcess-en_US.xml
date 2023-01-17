@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddEntryToMap0"  localeId="en_US" >
+<description>Add (Organization:ID, DealerChannels)
+to map &quot;DealerChannelsByOrganization&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddEntryToMap1"  localeId="en_US" >
+<description>Add (Organization:ID, MarketChannels)
+to map &quot;MarketChannelsByOrganization&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddEntryToMap_JSWMUNzDEeaE-M32FipEvg"  localeId="en_US" >
+<description>Add (Organization:ID, AllMarketChannels)
+to map &quot;AllMarketChannelsByOrganization&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddEntryToMap_JSYokNzDEeaE-M32FipEvg"  localeId="en_US" >
+<description>Add (Organization:ID, AllDealerChannels)
+to map &quot;AllDealerChannelsByOrganization&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection0"  localeId="en_US" >
+<description>Add Repository:Id
+to collection &quot;MarketChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection1"  localeId="en_US" >
+<description>Add Repository:Id
+to collection &quot;DealerChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection2"  localeId="en_US" >
+<description>Create empty collection
+&quot;MarketChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection3"  localeId="en_US" >
+<description>Create empty collection
+&quot;DealerChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection_SJ0_0NzCEeaE-M32FipEvg"  localeId="en_US" >
+<description>Create empty collection
+&quot;AllDealerChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection_SJzKoNzCEeaE-M32FipEvg"  localeId="en_US" >
+<description>Create empty collection
+&quot;AllMarketChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection_nxaMQNzCEeaE-M32FipEvg"  localeId="en_US" >
+<description>Add Repository:Id
+to collection &quot;AllDealerChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection_nxdPkNzCEeaE-M32FipEvg"  localeId="en_US" >
+<description>Add Repository:Id
+to collection &quot;AllMarketChannels&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToVector0"  localeId="en_US" >
+<description>ChannelDomainNamesTakingPartInReplication
+.add(ChannelTakingPartInReplication:RepositoryDomain:DomainName)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToVector1"  localeId="en_US" >
+<description>Add collection ChannelsTakingPartInReplicationForOrganization
+to collection ChannelsTakingPartInReplication</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="CalculateInteger1"  localeId="en_US" >
+<description>NumberOfChannelsTakingPartInReplication +=
+NumberOfChannelsTakingPartInReplicationForOrganization</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="CheckFileExists0"  localeId="en_US" >
+<description>Check replication.xml.filetemplate
+exists in ClusterConfigDirectory
+($IS_SHARE/system/config/cluster)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ConcatenateStrings0"  localeId="en_US" >
+<description>ReplicationXMLFileNameWithReplicationProcessIDAndTimestamp :=
+&quot;replication_&quot; + ReplicationProcessID + &quot;_&quot; + FormattedDate + &quot;.xml&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="CopyFile0"  localeId="en_US" >
+<description>ReplicationXMLFile --&gt;
+LogSharedDirectory/ReplicationXMLFileNameWithReplicationProcessIDAndTimestamp</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode0"  localeId="en_US" >
+<description>Check if the channel takes part in the replication or not</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode1"  localeId="en_US" >
+<description>Check if the channel is Market channel or Dealer channel</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode4"  localeId="en_US" >
+<description>Check if the Dealer channel has a Market domain assigned</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode6"  localeId="en_US" >
+<description>Check if the assigned market channel takes part in the replication or not</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode8"  localeId="en_US" >
+<description>Check if the channel takes part in the replication or not</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode0_ReturnValue_Organizations"  localeId="en_US" >
+<description>If the ReplicationProcessID is listed in replication-organizations.properties then this return value is present. Keep in mind the collection can be empty in case the replication process id has zero organizations assigned. If the ReplicationProcessID is not contained in replication-organizations.properties then this return value is not set.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode0_ReturnValue_IsAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels should be replicated instead of only channels willing to take part in the replication.
+By default, only channels willing to take part in the replication should be replicated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode0_ReturnValue_PlaceholderReplicationProcessID"  localeId="en_US" >
+<description>The Replication Process ID used when replacing placeholders in the replication.xml.filetemplate.
+(If this is not present then the Replication Process ID of the replication process is used.)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode0_ReturnValue_IsBothChannelLists"  localeId="en_US" >
+<description>&quot;true&quot; in case both lists of channels are required, the list of all channels as well as the list of channels willing to take part in the replication. In this case &quot;IsAllChannels&quot; is ignored.
+By default, &quot;false&quot; is assumed and &quot;IsAllChannels&quot; is used.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_MarketChannels"  localeId="en_US" >
+<description>Collection of Repository:Id of MarketChannels.
+Depending on &quot;IsReturnAllChannels&quot; it either contains all channels or only the channels willing to take part in the replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_DealerChannels"  localeId="en_US" >
+<description>Collection of Repository:Id of DealerChannels.
+Depending on &quot;IsReturnAllChannels&quot; it either contains all channels or only the channels willing to take part in the replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_ChannelsTakingPartInReplication"  localeId="en_US" >
+<description>java.util.Collection&lt;com.intershop.component.mvc.capi.catalog.Repository channel&gt;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_AllMarketChannels"  localeId="en_US" >
+<description>Collection of Repository:Id of MarketChannels.
+Contains always all market channels, independent from &quot;IsReturnAllChannels&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_AllDealerChannels"  localeId="en_US" >
+<description>Collection of Repository:Id of DealerChannels.
+Contains always all dealer channels, independent from &quot;IsReturnAllChannels&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode2_ReturnValue_ReplicationProcess"  localeId="en_US" >
+<description>The replication group identifiers.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode5_ReturnValue_ChannelsTakingPartInReplication"  localeId="en_US" >
+<description>java.util.Collection&lt;com.intershop.component.mvc.capi.catalog.Repository channel&gt;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode5_ReturnValue_IsAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels should be replicated instead of only channels willing to take part in the replication.
+By default, only channels willing to take part in the replication should be replicated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode7_ReturnValue_MarketChannelsByOrganization"  localeId="en_US" >
+<description>java.util.Map&lt;java.lang.String Organization:ID, java.util.Collection&lt;java.lang.String Repository:Id&gt; MarketChannels&gt;
+Depending on &quot;IsReturnAllChannels&quot; it either contains all channels or only the channels willing to take part in the replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode7_ReturnValue_DealerChannelsByOrganization"  localeId="en_US" >
+<description>java.util.Map&lt;java.lang.String Organization:ID, java.util.Collection&lt;java.lang.String Repository:Id&gt; DealerChannels&gt;
+Depending on &quot;IsReturnAllChannels&quot; it either contains all channels or only the channels willing to take part in the replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode7_ReturnValue_ChannelsTakingPartInReplication"  localeId="en_US" >
+<description>java.util.Collection&lt;com.intershop.component.mvc.capi.catalog.Repository channel&gt;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode7_ReturnValue_AllMarketChannelsByOrganization"  localeId="en_US" >
+<description>java.util.Map&lt;java.lang.String Organization:ID, java.util.Collection&lt;java.lang.String Repository:Id&gt; MarketChannels&gt;
+Contains always all market channels, independent from &quot;IsReturnAllChannels&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode7_ReturnValue_AllDealerChannelsByOrganization"  localeId="en_US" >
+<description>java.util.Map&lt;java.lang.String Organization:ID, java.util.Collection&lt;java.lang.String Repository:Id&gt; DealerChannels&gt;
+Contains always all dealer channels, independent from &quot;IsReturnAllChannels&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetDomainByName0"  localeId="en_US" >
+<description>Get the assigned market channel</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetFormattedDate0"  localeId="en_US" >
+<description>FormattedDate :=
+CurrentDate (&quot;yyyy-MM-dd_HH-mm&quot;)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetIntershopDirectory0"  localeId="en_US" >
+<description>Get ClusterConfigDirectory
+($IS_SHARE/system/config/cluster)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetIntershopDirectory1"  localeId="en_US" >
+<description>java.io.File
+LogSharedDirectory :=
+$IS_SHARE/system/log</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetRepositories0"  localeId="en_US" >
+<description>Get all sales channels
+from the organization</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="JoinNode11"  localeId="en_US" >
+<description>If the Dealer channel has no Market domain assigned
+or the Market domain is invalid
+then the Dealer channel can take part in replication</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>NumberOfChannelsTakingPartInReplication = 0</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper1"  localeId="en_US" >
+<description>IsAllChannels := ReplicateAllChannels;
+In case the optional start node parameter
+&quot;ReplicateAllChannels&quot; is present,
+override &quot;IsAllChannels&quot; with this value.
+(&quot;IsAllChannels&quot; was initially read from
+replication-organizations.properties.)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper2"  localeId="en_US" >
+<description>NumberOfChannelsTakingPartInReplication := 0</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="LogMessage0"  localeId="en_US" >
+<description>Skipping replication process {ReplicationProcessID}
+because no channel wants to participate.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue0"  localeId="en_US" >
+<description>SkipReplicationProcess = &quot;true&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ReplicationProcessID"  localeId="en_US" >
+<description>The identifier of replication process in properties.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ReplicateAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels should be replicated,
+&quot;false&quot; in case only channels willing to take part in the replication should be replicated.
+If present, this parameter overrides the &quot;AllChannels&quot; setting in replication-organizations.properties, if not present, then the replication-organizations.properties setting is used.
+In case this param (or the &quot;AllChannels&quot; setting) is &quot;true&quot; then the setting &quot;Take part in nightly replication&quot; for the channels should NOT be set back to &quot;false&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Determines the organizations
+from the replication-organizations.properties file
+located in the config cluster directory.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_ClusterConfigDirectory"  localeId="en_US" >
+<description>The cluster configuration directory $IS_SHARE/system/config/cluster.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode2_param_IsReturnAllChannels"  localeId="en_US" >
+<description>If &quot;true&quot; then all channels are returned instead of only channels willing to take part in the replication.
+By default, only channels willing to take part in the replication should be replicated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode3_param_ReplicationProcessID"  localeId="en_US" >
+<description>The identifier of replication process in properties.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode3_param_ChannelsTakingPartInReplication"  localeId="en_US" >
+<description>java.util.Collection&lt;com.intershop.component.mvc.capi.catalog.Repository channel&gt;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode3_param_IsAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels should be replicated instead of only channels willing to take part in the replication.
+By default, only channels willing to take part in the replication should be replicated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode4"  localeId="en_US" >
+<description>Save ReplicationXMLFile to the log directory.
+Append ReplicationProcessID and timestamp to file name.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode5"  localeId="en_US" >
+<description>After a successful replication, the setting &quot;Take part in nightly replication&quot;
+is set back to &quot;false&quot; for all channels that took part in this replication.
+(This should not be done for the catalog data replication processes,
+the ones with AllChannels = true.
+And also not in case the &quot;ReplicateAllChannels&quot; param
+of start node &quot;PrepareConfiguration&quot; was set to &quot;true&quot;.)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode5_param_ChannelsTakingPartInReplication"  localeId="en_US" >
+<description>java.util.Collection&lt;com.intershop.component.mvc.capi.catalog.Repository channel&gt;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode6_param_IsReturnAllChannels"  localeId="en_US" >
+<description>If &quot;true&quot; then all channels are returned instead of only channels willing to take part in the replication.
+By default, only channels willing to take part in the replication should be replicated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text0"  localeId="en_US" >
+<description>This pipeline tree is used if
+replication-organizations.properties
+contains an organization
+for the replication process
+but no channel wants to
+take part in the replication:
+Do NOT run replication process.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text1"  localeId="en_US" >
+<description>Replication process not defined in
+replication-organizations.properties:
+Run regular replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text2"  localeId="en_US" >
+<description>No organization assigned
+to replication process in
+replication-organizations.properties:
+Run regular replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text3"  localeId="en_US" >
+<description>At least one channel wants to
+take part in the replication:
+Run self-configured replication process.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text4"  localeId="en_US" >
+<description>Replication process in
+replication-organizations.properties
+defined AllChannels = true or AllChannels = both:
+Always run self-configured replication process,
+regardless if a channel takes part or not.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute2"  localeId="en_US" >
+<description>ReplicationTask:
+ChannelDomainNamesTakingPartInReplication :=
+ChannelDomainNamesTakingPartInReplication</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Checks, if product replication should executed
+@Group Replication-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessCheckSafetyProductReplication" overrideMode="Inherit"
+    type="process">
+<!--@Location 10,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_t7II0CIBEei6VfGvZLiyNg" strict="true"
+      name="Check" callMode="Private">
+    <nodeSuccessors name="next" next="ExecuteObjectsQuery_tUOkECIFEei6VfGvZLiyNg"/>
+    <parameters name="Brand" type="java.lang.String"/>
+    <parameters name="DisableJob" type="java.lang.String"/>
+    <parameters name="DisableJobDomain" type="java.lang.String"/>
+  </nodes>
+<!--@Location 10,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteObjectsQuery_tUOkECIFEei6VfGvZLiyNg">
+    <configurationValues name="ParameterName_01" value="Brand"/>
+    <configurationValues name="QueryName" value="replicationchannels/ReplicationChannelsForBrand"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteObjectsQuery.xml"/>
+    <nodeSuccessors name="next" next="VerifyInteger_ZoKO0CIVEei6VfGvZLiyNg"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Brand"/>
+    <returnValueBindings name="SearchResult" objectPath="ReplicationChannels"/>
+  </nodes>
+<!--@DisplayName Set TotalSourceCount=0
+@Location 10,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyInteger_ZoKO0CIVEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyInteger.xml"/>
+    <nodeSuccessors name="next" next="VerifyInteger_mJgPgCIVEei6VfGvZLiyNg"/>
+    <parameterBindings name="LocalizedString" constant="0"/>
+    <returnValueBindings name="IntegerValue" objectPath="TotalSourceCount"/>
+  </nodes>
+<!--@DisplayName Set TotalTargetCount=0
+@Location 10,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyInteger_mJgPgCIVEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyInteger.xml"/>
+    <nodeSuccessors name="next" next="LoopNode_9KD6YA_oEeivk9-U3UqBtQ"/>
+    <parameterBindings name="LocalizedString" constant="0"/>
+    <returnValueBindings name="IntegerValue" objectPath="TotalTargetCount"/>
+  </nodes>
+<!--@Location 10,5-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode_9KD6YA_oEeivk9-U3UqBtQ" loop="ReplicationChannels">
+<!--@BendPoints 25,11-->
+    <nodeSuccessors name="next" next="GetOrganizationByName_XQET4CIGEei6VfGvZLiyNg"/>
+    <entry key="Channel">
+      <nodeSuccessors name="loop_entry_next" next="CallNode_r7QtMCHdEei91oKOtfsrEA"/>
+    </entry>
+  </nodes>
+<!--@Location 10,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_r7QtMCHdEei91oKOtfsrEA">
+    <nodeSuccessors name="next" next="CalculateNumber_yR8tACHeEei91oKOtfsrEA"/>
+    <startNode referencedName="ProcessProductMonitoring-CountProducts"/>
+    <returnValueBindings name="ProductCount" objectPath="SourceCount"/>
+  </nodes>
+<!--@Location 10,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CalculateNumber_yR8tACHeEei91oKOtfsrEA">
+    <configurationValues name="Operation" value="+"/>
+    <configurationValues name="Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/CalculateNumber.xml"/>
+    <nodeSuccessors name="next" next="CallNode_oPmeUCHeEei91oKOtfsrEA"/>
+    <parameterBindings name="Operand1" objectPath="SourceCount"/>
+    <parameterBindings name="Operand2" objectPath="TotalSourceCount"/>
+    <returnValueBindings name="Result" objectPath="TotalSourceCount"/>
+  </nodes>
+<!--@Location 10,8-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_oPmeUCHeEei91oKOtfsrEA">
+    <nodeSuccessors name="next" next="CalculateNumber_OcrdYCHfEei91oKOtfsrEA"/>
+    <parameterBindings name="DBLink" constant="REVERSEREPLICATION.WORLD"/>
+    <startNode referencedName="ProcessProductMonitoring-CountProducts"/>
+    <returnValueBindings name="ProductCount" objectPath="TargetCount"/>
+  </nodes>
+<!--@Location 10,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CalculateNumber_OcrdYCHfEei91oKOtfsrEA">
+    <configurationValues name="Operation" value="+"/>
+    <configurationValues name="Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/CalculateNumber.xml"/>
+    <nodeSuccessors name="next" next="GetDomainPreference_kGfhkCKnEeiEkIehlO7CjQ"/>
+    <parameterBindings name="Operand1" objectPath="TargetCount"/>
+    <parameterBindings name="Operand2" objectPath="TotalTargetCount"/>
+    <returnValueBindings name="Result" objectPath="TotalTargetCount"/>
+  </nodes>
+<!--@Location 10,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainPreference_kGfhkCKnEeiEkIehlO7CjQ">
+    <configurationValues name="DefaultPreferenceKey" value="ReplicationProductThreshold"/>
+    <configurationValues name="Type" value="Double"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetDomainPreference.xml"/>
+    <nodeSuccessors name="next" next="CheckReplicationProductThreshold_9J9MsA_oEeivk9-U3UqBtQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_W2vt8EIQEeiju6AwCM64Tw"/>
+    <parameterBindings name="PreferenceDomain" objectPath="Channel:RepositoryDomain"/>
+    <parameterBindings name="PreferenceKey" nullBinding="true"/>
+    <returnValueBindings name="Preference" nullBinding="true"/>
+    <returnValueBindings name="PreferenceDoubleValue" objectPath="Threshold"/>
+    <returnValueBindings name="PreferenceIntValue" nullBinding="true"/>
+    <returnValueBindings name="PreferenceStringValue" nullBinding="true"/>
+  </nodes>
+<!--@Location 10,11-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CheckReplicationProductThreshold_9J9MsA_oEeivk9-U3UqBtQ">
+    <pipelet href="enfinity:/pf_impex_automation/pipelets/CheckReplicationProductThreshold.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_W2vt8EIQEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="pipelet_error" next="UpdateCustomAttribute_RQV9ICK2Eeio8vjz3asDxA"/>
+  </nodes>
+<!--@Location 9,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_W2vt8EIQEeiju6AwCM64Tw">
+<!--@BendPoints 19,11-->
+    <nodeSuccessors name="next" next="LoopNode_9KD6YA_oEeivk9-U3UqBtQ_Entry"/>
+  </nodes>
+<!--@DisplayName SwitchOFF: TakesPartInReplication
+@Location 10,12-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute_RQV9ICK2Eeio8vjz3asDxA">
+    <configurationValues name="DefaultAttributeName" value="TakesPartInReplication"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <configurationValues name="DefaultAttributeValue" value="false"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+<!--@BendPoints 19,25-->
+    <nodeSuccessors name="next" next="JoinNode_W2vt8EIQEeiju6AwCM64Tw"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Channel:RepositoryDomain:Site"/>
+  </nodes>
+<!--@Location 12,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetOrganizationByName_XQET4CIGEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/bc_organization/pipelets/GetOrganizationByName.xml"/>
+    <nodeSuccessors name="next" next="GetRepository_f2D5UCIGEei6VfGvZLiyNg"/>
+    <parameterBindings name="Name" objectPath="Brand"/>
+  </nodes>
+<!--@DisplayName GetMasterRepository
+@Location 12,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetRepository_f2D5UCIGEei6VfGvZLiyNg">
+    <configurationValues name="CustomRepositoryTypeCode" value="21"/>
+    <configurationValues name="Type" value="Custom Repository"/>
+    <pipelet href="enfinity:/bc_mvc/pipelets/GetRepository.xml"/>
+    <nodeSuccessors name="next" next="GetDomainPreference_YJLbACKnEeiEkIehlO7CjQ"/>
+    <parameterBindings name="OrganizationDomain" objectPath="Organization:OrganizationDomain"/>
+    <returnValueBindings name="Repository" objectPath="MasterRepository"/>
+  </nodes>
+<!--@Location 12,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainPreference_YJLbACKnEeiEkIehlO7CjQ">
+    <configurationValues name="DefaultPreferenceKey" value="ReplicationProductThreshold"/>
+    <configurationValues name="Type" value="Double"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetDomainPreference.xml"/>
+    <nodeSuccessors name="next" next="CallNode_9PZx4CIGEei6VfGvZLiyNg"/>
+<!--@BendPoints 27,17-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_iPp9sFSCEemUasuRKiDTcg"/>
+    <parameterBindings name="PreferenceDomain" objectPath="OrganizationDomain"/>
+    <parameterBindings name="PreferenceKey" nullBinding="true"/>
+    <returnValueBindings name="Preference" nullBinding="true"/>
+    <returnValueBindings name="PreferenceDoubleValue" objectPath="Threshold"/>
+    <returnValueBindings name="PreferenceIntValue" nullBinding="true"/>
+    <returnValueBindings name="PreferenceStringValue" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_9PZx4CIGEei6VfGvZLiyNg">
+    <nodeSuccessors name="next" next="CallNode_-ynRECIGEei6VfGvZLiyNg"/>
+    <startNode referencedName="ProcessProductMonitoring-CountProducts"/>
+    <returnValueBindings name="ProductCount" objectPath="SourceCount"/>
+  </nodes>
+<!--@Location 12,10-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_-ynRECIGEei6VfGvZLiyNg">
+    <nodeSuccessors name="next" next="CheckReplicationProductThreshold_BsIb4CIHEei6VfGvZLiyNg"/>
+    <parameterBindings name="DBLink" constant="REVERSEREPLICATION.WORLD"/>
+    <startNode referencedName="ProcessProductMonitoring-CountProducts"/>
+    <returnValueBindings name="ProductCount" objectPath="TargetCount"/>
+  </nodes>
+<!--@Location 12,11-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CheckReplicationProductThreshold_BsIb4CIHEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/pf_impex_automation/pipelets/CheckReplicationProductThreshold.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_xTAMoFR4EemUasuRKiDTcg"/>
+<!--@BendPoints 26,23 26,25-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_xTAMoFR4EemUasuRKiDTcg"/>
+    <parameterBindings name="Channel" objectPath="MasterRepository"/>
+    <parameterBindings name="ThresholdFailures" objectPath="OrganizationThresholdFailure"/>
+    <returnValueBindings name="Channel" objectPath="MasterRepository"/>
+    <returnValueBindings name="ThresholdFailures" objectPath="OrganizationThresholdFailure"/>
+  </nodes>
+<!--@Location 12,12-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_xTAMoFR4EemUasuRKiDTcg">
+    <nodeSuccessors name="next" next="DecisionNode_7R8KMCIHEei6VfGvZLiyNg"/>
+  </nodes>
+<!--@Location 12,13-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_7R8KMCIHEei6VfGvZLiyNg"
+      conditionKey="OrganizationThresholdFailure" operator="has_elements">
+    <nodeSuccessors name="decision_yes" next="CallNode_AF8rwCIIEei6VfGvZLiyNg"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_iPp9sFSCEemUasuRKiDTcg"/>
+  </nodes>
+<!--@Location 12,14-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_AF8rwCIIEei6VfGvZLiyNg">
+    <nodeSuccessors name="next" next="JoinNode_zT3FkFSCEemUasuRKiDTcg"/>
+    <startNode referencedName="This:DisableJob"/>
+  </nodes>
+<!--@Location 12,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_zT3FkFSCEemUasuRKiDTcg">
+    <nodeSuccessors name="next" next="AddObjectToVector_YW7dAFzxEem3xZTzr7VZIA"/>
+  </nodes>
+<!--@Location 12,16-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddObjectToVector_YW7dAFzxEem3xZTzr7VZIA">
+    <pipelet href="enfinity:/core/pipelets/AddObjectToVector.xml"/>
+    <nodeSuccessors name="next" next="AddObjectToVector_uuCzgFzyEem3xZTzr7VZIA"/>
+    <parameterBindings name="InVector" objectPath="ThresholdFailuresVector"/>
+    <parameterBindings name="Objects" objectPath="ThresholdFailures"/>
+    <returnValueBindings name="OutVector" objectPath="ThresholdFailuresVector"/>
+  </nodes>
+<!--@Location 12,17-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddObjectToVector_uuCzgFzyEem3xZTzr7VZIA">
+    <pipelet href="enfinity:/core/pipelets/AddObjectToVector.xml"/>
+    <nodeSuccessors name="next" next="CalculateNumber_ATISgCIQEei6VfGvZLiyNg"/>
+    <parameterBindings name="InVector" objectPath="OrganizationThresholdFailureVector"/>
+    <parameterBindings name="Objects" objectPath="OrganizationThresholdFailure"/>
+    <returnValueBindings name="OutVector" objectPath="OrganizationThresholdFailureVector"/>
+  </nodes>
+<!--@Location 12,18-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CalculateNumber_ATISgCIQEei6VfGvZLiyNg">
+    <configurationValues name="Operation" value="+"/>
+    <configurationValues name="Type" value="Integer"/>
+    <pipelet href="enfinity:/core/pipelets/CalculateNumber.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_eUYZQCIIEei6VfGvZLiyNg"/>
+    <parameterBindings name="Operand1" objectPath="OrganizationThresholdFailureVector:Size"/>
+    <parameterBindings name="Operand2" objectPath="ThresholdFailuresVector:Size"/>
+    <returnValueBindings name="Result" objectPath="FailureCount"/>
+  </nodes>
+<!--@Location 12,19-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_eUYZQCIIEei6VfGvZLiyNg"
+      conditionKey="FailureCount" operator="gt" conditionValue="0">
+    <nodeSuccessors name="decision_yes" next="CallNode_DUD-0CIOEei6VfGvZLiyNg"/>
+<!--@BendPoints 26,39 26,42-->
+    <nodeSuccessors name="decision_no" next="EndNode_9KTyAA_oEeivk9-U3UqBtQ"/>
+  </nodes>
+<!--@Location 12,20-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_DUD-0CIOEei6VfGvZLiyNg">
+    <nodeSuccessors name="next" next="EndNode_9KTyAA_oEeivk9-U3UqBtQ"/>
+    <parameterBindings name="SendMailDomain" objectPath="Organization:OwningDomain"/>
+    <startNode referencedName="This:SendMail"/>
+  </nodes>
+<!--@Location 12,21-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_9KTyAA_oEeivk9-U3UqBtQ" name="next"
+      strict="true"/>
+<!--@Location 13,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_iPp9sFSCEemUasuRKiDTcg">
+    <nodeSuccessors name="next" next="JoinNode_zT3FkFSCEemUasuRKiDTcg"/>
+  </nodes>
+<!--@Location 5,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_thjWIEIJEeiju6AwCM64Tw" strict="true"
+      name="CheckImportStatus" callMode="Private">
+    <nodeSuccessors name="next" next="GetOrganizationByName_gj9o4EIKEeiju6AwCM64Tw"/>
+    <parameters name="Brand" type="java.lang.String"/>
+    <parameters name="DisableJob" type="java.lang.String"/>
+    <parameters name="DisableJobDomain" type="java.lang.String"/>
+  </nodes>
+<!--@Location 5,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetOrganizationByName_gj9o4EIKEeiju6AwCM64Tw">
+    <pipelet href="enfinity:/bc_organization/pipelets/GetOrganizationByName.xml"/>
+    <nodeSuccessors name="next" next="GetRepository_g5_YsEIJEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_LraI0EIOEeiju6AwCM64Tw"/>
+    <parameterBindings name="Name" objectPath="Brand"/>
+  </nodes>
+<!--@DisplayName GetMasterRepository
+@Location 5,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetRepository_g5_YsEIJEeiju6AwCM64Tw">
+    <configurationValues name="CustomRepositoryTypeCode" value="21"/>
+    <configurationValues name="Type" value="Custom Repository"/>
+    <pipelet href="enfinity:/bc_mvc/pipelets/GetRepository.xml"/>
+    <nodeSuccessors name="next" next="ExecuteObjectsQuery_g53c4EIJEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_LraI0EIOEeiju6AwCM64Tw"/>
+    <returnValueBindings name="Repository" objectPath="MasterRepository"/>
+  </nodes>
+<!--@DisplayName Collect Processes
+@Location 5,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteObjectsQuery_g53c4EIJEeiju6AwCM64Tw">
+    <configurationValues name="ParameterName_01" value="Domain"/>
+    <configurationValues name="ParameterName_02" value="ProcessType"/>
+    <configurationValues name="QueryName" value="objectstatistics/GetProcessStatisticsByDomain"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteObjectsQuery.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_zvVRkEIKEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_Mate0EIOEeiju6AwCM64Tw"/>
+    <parameterBindings name="ParameterValue_01" objectPath="MasterRepository:Domain:Site"/>
+    <parameterBindings name="ParameterValue_02" constant="Import"/>
+    <returnValueBindings name="SearchResult" objectPath="Processes"/>
+  </nodes>
+<!--@Location 5,5-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_zvVRkEIKEeiju6AwCM64Tw"
+      conditionKey="Processes" operator="has_elements">
+    <nodeSuccessors name="decision_yes" next="GetFirstElementOfIterator_vHgK0EIKEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_NqK7kEIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetFirstElementOfIterator_vHgK0EIKEeiju6AwCM64Tw">
+    <pipelet href="enfinity:/core/pipelets/GetFirstElementOfIterator.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_jY7OYEILEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_OOmeUEIOEeiju6AwCM64Tw"/>
+    <parameterBindings name="Iterator" objectPath="Processes"/>
+    <returnValueBindings name="FirstElement" objectPath="LastImport"/>
+  </nodes>
+<!--@Location 5,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_jY7OYEILEeiju6AwCM64Tw"
+      conditionKey="LastImport:Result" operator="str_neq" conditionValue="SUCCESS">
+    <nodeSuccessors name="decision_yes" next="CallNode_zY9RkEINEeiju6AwCM64Tw"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_OrlVQEIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 5,8-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_zY9RkEINEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="EndNode_4x6TQEINEeiju6AwCM64Tw"/>
+    <startNode referencedName="This:DisableJob"/>
+  </nodes>
+<!--@Location 5,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_4x6TQEINEeiju6AwCM64Tw" strict="true"/>
+<!--@Location 6,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_OrlVQEIOEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="EndNode_JKu70EIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 6,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_JKu70EIOEeiju6AwCM64Tw" strict="true"/>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_OOmeUEIOEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="JoinNode_OrlVQEIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 6,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_NqK7kEIOEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="JoinNode_OOmeUEIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_Mate0EIOEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="JoinNode_NqK7kEIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_LraI0EIOEeiju6AwCM64Tw">
+    <nodeSuccessors name="next" next="JoinNode_Mate0EIOEeiju6AwCM64Tw"/>
+  </nodes>
+<!--@Location 2,8-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_Q0AZ8CIHEei6VfGvZLiyNg" strict="true"
+      name="DisableJob" callMode="Private">
+    <nodeSuccessors name="next" next="GetJobConfiguration_hWpF0CIHEei6VfGvZLiyNg"/>
+    <parameters name="DisableJob" type="java.lang.String"/>
+    <parameters name="DisableJobDomain" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration_hWpF0CIHEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="UpdateJobConfiguration_QMP2YCIHEei6VfGvZLiyNg"/>
+    <nodeSuccessors name="pipelet_error" next="LogMessage_FVl8kG0NEeqKyOWDKs0Yog"/>
+    <parameterBindings name="JobDomain" nullBinding="true"/>
+    <parameterBindings name="JobDomainName" objectPath="DisableJobDomain"/>
+    <parameterBindings name="JobName" objectPath="DisableJob"/>
+    <parameterBindings name="JobUUID" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateJobConfiguration_QMP2YCIHEei6VfGvZLiyNg">
+    <configurationValues name="EnableJob" value="false"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_DVgxoG9yEeqbaqLt6qj0ag"/>
+  </nodes>
+<!--@Location 2,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_DVgxoG9yEeqbaqLt6qj0ag">
+    <nodeSuccessors name="next" next="EndNode_U9eJsCIHEei6VfGvZLiyNg"/>
+  </nodes>
+<!--@Location 2,12-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_U9eJsCIHEei6VfGvZLiyNg" strict="true"/>
+<!--@Location 3,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_FVl8kG0NEeqKyOWDKs0Yog">
+    <configurationValues name="Level" value="Info"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+<!--@BendPoints 7,23-->
+    <nodeSuccessors name="next" next="JoinNode_DVgxoG9yEeqbaqLt6qj0ag"/>
+    <parameterBindings name="MessageParam0" objectPath="DisableJob"/>
+    <parameterBindings name="MessageParam1" objectPath="DisableJobDomain"/>
+    <parameterBindings name="MessageText" constant="Cannot get Joconfiguration  {} for job domain {}"/>
+  </nodes>
+<!--@Location 2,13-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_x7eNQCILEei6VfGvZLiyNg" strict="true"
+      name="SendMail" callMode="Private">
+    <nodeSuccessors name="next" next="GetJobConfiguration_U-qbgCISEei6VfGvZLiyNg"/>
+    <parameters name="OrganizationThresholdFailure" type="java.util.List&lt;ThresholdFailure>"/>
+    <parameters name="DisableJob" type="java.lang.String"/>
+    <parameters name="DisableJobDomain" type="java.lang.String"/>
+    <parameters name="Brand" type="java.lang.String"/>
+    <parameters name="SendMailDomain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="ThresholdFailures" type="java.util.List&lt;ThresholdFailure>"
+        optional="true"/>
+  </nodes>
+<!--@Location 2,14-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration_U-qbgCISEei6VfGvZLiyNg">
+    <configurationValues name="DefaultJobName" value="Process Chain Import Error Notification"/>
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper_3rJBoCISEei6VfGvZLiyNg"/>
+    <nodeSuccessors name="pipelet_error" next="LogMessage_xOkZYG0LEeqKyOWDKs0Yog"/>
+    <parameterBindings name="JobDomain" nullBinding="true"/>
+    <parameterBindings name="JobDomainName" objectPath="Brand"/>
+    <parameterBindings name="JobName" nullBinding="true"/>
+    <parameterBindings name="JobUUID" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,15-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_3rJBoCISEei6VfGvZLiyNg">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="SendMail_TY7fUCadEei2N7oaimZpXQ"/>
+    <parameterBindings name="InValue_1" objectPath="JobConfiguration:MailFrom"/>
+    <parameterBindings name="InValue_2" objectPath="JobConfiguration:MailTo"/>
+    <returnValueBindings name="OutValue_1" objectPath="MailFrom"/>
+    <returnValueBindings name="OutValue_2" objectPath="MailTo"/>
+  </nodes>
+<!--@Location 2,16-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SendMail_TY7fUCadEei2N7oaimZpXQ">
+    <configurationValues name="UseErrorConnector" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/SendMail.xml"/>
+    <nodeSuccessors name="next" next="EndNode_zFGu0CILEei6VfGvZLiyNg"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_ORVmAG9yEeqbaqLt6qj0ag"/>
+    <parameterBindings name="MailSubject" nullBinding="true"/>
+    <parameterBindings name="MailTemplate" constant="job/ProductThresholdNotificationMail"/>
+  </nodes>
+<!--@Location 2,17-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_zFGu0CILEei6VfGvZLiyNg" strict="true"/>
+<!--@Location 3,16-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_ORVmAG9yEeqbaqLt6qj0ag">
+    <nodeSuccessors name="next" next="EndNode_mqugICadEei2N7oaimZpXQ"/>
+  </nodes>
+<!--@Location 3,17-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_mqugICadEei2N7oaimZpXQ" name="error"
+      strict="true"/>
+<!--@Location 3,14-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_xOkZYG0LEeqKyOWDKs0Yog">
+    <configurationValues name="Level" value="Info"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_ORVmAG9yEeqbaqLt6qj0ag"/>
+    <parameterBindings name="MessageParam0" constant="Process Chain Import Error Notification"/>
+    <parameterBindings name="MessageParam1" nullBinding="true"/>
+    <parameterBindings name="MessageParam2" objectPath="Brand"/>
+    <parameterBindings name="MessageText" constant="Cannot get Joconfiguration  {} for {} ,job domain Domain {}"/>
+  </nodes>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_9KYDcA_oEeivk9-U3UqBtQ" strict="true"
+      name="Start" callMode="Private">
+    <nodeSuccessors name="next" next="CreateIteratorFromConfigValues_prGeECIBEei6VfGvZLiyNg"/>
+    <parameters name="CheckBrands" type="java.lang.String"/>
+    <parameters name="DisableJob" type="java.lang.String"/>
+    <parameters name="DisableJobDomain" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateIteratorFromConfigValues_prGeECIBEei6VfGvZLiyNg">
+    <configurationValues name="Delimiters" value=","/>
+    <pipelet href="enfinity:/core/pipelets/CreateIteratorFromConfigValues.xml"/>
+    <nodeSuccessors name="next" next="LoopNode_VGackCICEei6VfGvZLiyNg"/>
+    <parameterBindings name="ValuesString" objectPath="CheckBrands"/>
+    <returnValueBindings name="ValuesIterator" objectPath="Brands"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode_VGackCICEei6VfGvZLiyNg" loop="Brands">
+    <nodeSuccessors name="next" next="EndNode_OvTJgCICEei6VfGvZLiyNg"/>
+    <entry key="Brand">
+      <nodeSuccessors name="loop_entry_next" next="CallNode_K03M4CIFEei6VfGvZLiyNg"/>
+    </entry>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_K03M4CIFEei6VfGvZLiyNg">
+<!--@BendPoints 5,10-->
+    <nodeSuccessors name="next" next="CallNode_pQyAUEIQEeiju6AwCM64Tw"/>
+    <startNode referencedName="This:Check"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_pQyAUEIQEeiju6AwCM64Tw">
+<!--@BendPoints 5,13 4,13 4,7-->
+    <nodeSuccessors name="next" next="LoopNode_VGackCICEei6VfGvZLiyNg_Entry"/>
+    <startNode referencedName="ProcessCheckSafetyProductReplication-CheckImportStatus"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_OvTJgCICEei6VfGvZLiyNg" strict="true"/>
+</pipeline:Pipeline>

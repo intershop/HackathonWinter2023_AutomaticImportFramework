@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="Pipelet1" >
+<pipeletName>LeftPadString</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.string.LeftPadString</pipeletClass>
+<errorConnector>false</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Input" >
+<key>Input</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Size" >
+<key>Size</key>
+<input>required</input>
+<propertyClass>java.lang.Integer</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Pad" >
+<key>Pad</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-out_Output" >
+<key>Output</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

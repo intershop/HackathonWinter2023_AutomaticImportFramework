@@ -1,0 +1,16 @@
+apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+
+intershop {
+	displayName = 'Platform - Replication Extensions'
+}
+
+dependencies {
+    compile group: 'com.intershop', name: 'core'
+    compile group: 'com.intershop', name: 'bc_mvc'
+    compile group: 'com.intershop', name: 'bc_organization'
+    compile group: 'com.intershop', name: 'isml'
+    compile group: 'com.intershop', name: 'servletengine'
+    compile group: 'com.intershop', name: 'tools'
+    compile project(':pf_utils')
+}

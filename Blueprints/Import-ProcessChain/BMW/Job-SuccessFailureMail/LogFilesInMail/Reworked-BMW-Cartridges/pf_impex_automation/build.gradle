@@ -1,0 +1,29 @@
+apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.cartridge-resourcelist'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop 
+{
+    displayName = 'pf_impex_automation'
+
+    packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+dependencies 
+{
+    compile project(':pf_utils')
+    compile group: 'com.intershop.platform', name: 'core'
+    compile group: 'com.intershop.platform', name: 'servletengine'
+    compile group: 'com.intershop.platform', name: 'isml'
+    compile group: 'com.intershop.business', name: 'bc_image'
+    compile group: 'com.intershop.platform', name: 'orm'
+    compile group: 'com.intershop.business', name: 'xcs'
+    compile group: 'com.intershop.business', name: 'bc_mvc'
+    compile group: 'com.intershop.platform', name: 'bc_mail'
+    compile group: 'com.intershop.business', name: 'sld_system_app'
+}

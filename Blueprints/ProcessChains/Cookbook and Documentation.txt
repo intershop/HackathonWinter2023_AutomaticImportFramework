@@ -1,0 +1,5 @@
+Cookbook - Process Chains
+	https://intranet.intershop.com/kb/index.php/Display/240F90
+--> MicroTraining : ES6.4_ProcessChain.ppt	https://intranet.intershop.com/kb/index.php/Deliver/DOC/240F90/ES6.4-ProcessChain.ppt
+--> Support Article - Process Chains Playground	https://intranet.intershop.com/kb/go.php/a/ENFDEVDOC/pages/1876560308/Support+Article+-+Process+Chains+Playground
+--> Support Article - Reset and Investigate Schedule Job Execution Issues	https://intranet.intershop.com/kb/go.php/a/ENFDEVDOC/pages/1884950029/Support+Article+-+Reset+and+Investigate+Schedule+Job+Execution+Issues

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="Matches" >
+<pipeletName>Matches</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.regex.Matches</pipeletClass>
+<errorConnector>true</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Mode" >
+<key>Mode</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+<propertyEditor>
+<DPropertyEditor dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditor">
+<editorClass>SelectionEditor</editorClass>
+<parameters>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_0" >
+<key>item</key>
+<value>Find</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_item_1" >
+<key>item</key>
+<value>Match</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_editable_2" >
+<key>editable</key>
+<value>false</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Mode_PropertyEditor_sorted_3" >
+<key>sorted</key>
+<value>false</value>
+</DPropertyEditorParameter>
+</parameters>
+</DPropertyEditor>
+</propertyEditor>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_DefaultRegEx" >
+<key>DefaultRegEx</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_RegEx" >
+<key>RegEx</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_String" >
+<key>String</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_DefaultReplacement" >
+<key>DefaultReplacement</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Replacement" >
+<key>Replacement</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match0" >
+<key>Match0</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match1" >
+<key>Match1</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match2" >
+<key>Match2</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match3" >
+<key>Match3</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match4" >
+<key>Match4</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Match5" >
+<key>Match5</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_ReplacedString" >
+<key>ReplacedString</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

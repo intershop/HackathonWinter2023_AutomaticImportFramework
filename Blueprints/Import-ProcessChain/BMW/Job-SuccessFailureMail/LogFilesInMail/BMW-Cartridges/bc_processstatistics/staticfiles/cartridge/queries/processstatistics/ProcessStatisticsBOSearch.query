@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="ProcessDomain" type="com.intershop.beehive.core.capi.domain.Domain" optional="true"/>
+        <parameter name="SortAttribute" type="java.lang.String" optional="true" />
+        <parameter name="SortDirection" type="java.lang.String" optional="true" />
+        <parameter name="ProcessType" type="java.lang.String" optional="true" /> <!-- Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessTypes" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessName" type="java.lang.String" optional="true" />
+        <parameter name="ProcessResults" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. An element 'NULL' means: where result is null. -->
+        <parameter name="ChannelDomainName" type="java.lang.String" optional="true" />
+        <parameter name="IsProcessAssigned" type="java.lang.Boolean" optional="true" /> <!-- If TRUE then only ProcessStatistics with an assigned Process are returned; If FALSE then only ProcessStatistics without an assigned Process are returned; If missing then all ProcessStatistics are returned. -->
+        <parameter name="Process" type="com.intershop.beehive.core.capi.locking.Process" optional="true" />
+    </parameters>
+    <return-mappings>
+        <return-mapping name="ProcessStatisticsBO" type="bo-orm" class="com.intershop.component.processstatistics.internal.ProcessStatisticsPO" mapperclass="ProcessStatisticsBOToProcessStatisticsBOMapper">
+            <return-attribute name="UUID" />
+        </return-mapping>
+    </return-mappings>
+    <processor name="OracleSQL">
+    </processor>
+    <template type="countedobjects">
+        SELECT uuid,
+               COUNT(*) OVER() AS rowcount,
+		    <template-if condition="(isDefined(SortAttribute))">
+		        <template-if condition="(lcase(SortAttribute) EQ 'startdate')">
+		                     startdate
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'enddate')"/>
+		                     enddate
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'result')"/>
+		                     result
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'type')"/>
+		                     type
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'name')"/>
+		                     name
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'domain')"/>
+		                     domainid
+		        <if-elseif condition="(lcase(SortAttribute) EQ 'runtime')"/>
+		                     enddate - startdate
+		        <if-else/>
+		                     startdate
+		        </template-if>
+		                     AS sorting,
+		    <if-else/>
+		                     startdate AS sorting,
+		    </template-if>
+               startdate AS SortingLevel2
+          FROM ProcessStatistics
+         WHERE 1 = 1
+              <!-- expressions -->
+              <template-call name="processstatistics/ProcessStatisticsBOSearchExpressions">
+                  <call-parameter name="ProcessDomain"     value="ProcessDomain"/>
+                  <call-parameter name="ProcessType"       value="ProcessType"/>
+                  <call-parameter name="ProcessTypes"      value="ProcessTypes"/>
+                  <call-parameter name="ProcessName"       value="ProcessName"/>
+                  <call-parameter name="ProcessResults"    value="ProcessResults"/>
+                  <call-parameter name="ChannelDomainName" value="ChannelDomainName"/>
+                  <call-parameter name="IsProcessAssigned" value="IsProcessAssigned"/>
+                  <call-parameter name="Process"           value="Process"/>
+              </template-call>
+         <!-- sorting by sort attribute -->       
+         ORDER BY sorting
+         <template-if condition="isDefined(SortDirection) AND ucase(pad(SortDirection,1)) EQ 'D'">
+           DESC NULLS LAST, SortingLevel2 DESC 
+         <if-else />
+           ASC NULLS LAST, SortingLevel2 DESC 
+         </template-if>              
+    </template>
+</query>

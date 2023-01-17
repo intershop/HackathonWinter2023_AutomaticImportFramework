@@ -1,0 +1,392 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<isinclude template="inc/Modules">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td class="breadcrumb">
+			<a href="#URL(Action('ViewSMCExtensions-Start'))#" class="breadcrumb"><istext key="smc.extension.link.extensions"/></a>&nbsp;&gt;&nbsp;
+			<istext key="processstatistics.smc.extension.link.processstatistics"/>
+		</td>
+	</tr>
+</table>
+<div><img src="#WebRoot()#/images/space.gif" width="1" height="7" alt="" border="0"/></div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<!-- Main Content -->
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td width="100%" class="table_title aldi"><istext key="processstatistics.list.title.processstatistics"/></td>
+				</tr>
+				<isif condition="#NOT isDefined(SortBy)#">
+					<!--- default sort order --->
+					<isset scope="request" name="SortBy" value="StartDate">
+					<isset scope="request" name="SortOrder" value="Descending">
+				</isif>
+				<isif condition="#SortBy EQ 'Type'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderType" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderType" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderType" value="Ascending"> <!--- default sort order for Type --->
+				</isif>
+				<isif condition="#SortBy EQ 'Name'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderName" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderName" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderName" value="Ascending"> <!--- default sort order for Name --->
+				</isif>
+				<isif condition="#SortBy EQ 'StartDate'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderStartDate" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderStartDate" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderStartDate" value="Descending"> <!--- default sort order for StartDate --->
+				</isif>
+				<isif condition="#SortBy EQ 'EndDate'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderEndDate" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderEndDate" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderEndDate" value="Descending"> <!--- default sort order for EndDate --->
+				</isif>
+				<isif condition="#SortBy EQ 'RunTime'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderRunTime" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderRunTime" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderRunTime" value="Descending"> <!--- default sort order for RunTime --->
+				</isif>
+				<isif condition="#SortBy EQ 'Result'#">
+					<isif condition="#SortOrder EQ 'Ascending'#">
+						<isset scope="request" name="NewOrderResult" value="Descending">
+					<iselse>
+						<isset scope="request" name="NewOrderResult" value="Ascending">
+					</isif>
+				<iselse>
+					<isset scope="request" name="NewOrderResult" value="Ascending"> <!--- default sort order for Result --->
+				</isif>
+
+				<isif condition="#isDefined(ShowDeleteConfirmation)#">
+					<isif condition="#isDefined(Clipboard)#">
+						<isif condition="#hasElements(Clipboard:ObjectUUIDs)#">
+							<tr>
+								<td class="w e s" colspan="1">
+									<form action="#URL(Action('ViewProcessStatistics-Dispatch'))#" method="post" name="commit">
+										<input type="hidden" name="SortBy" value="<isprint value="#SortBy#">"/>
+										<input type="hidden" name="SortOrder" value="<isprint value="#SortOrder#">"/>
+										<table border="0" cellpadding="4" cellspacing="0" width="100%" class="confirm_box">
+											<tr>
+												<td class="error_icon e"><img src="#WebRoot()#/images/confirmation.gif" width="16" height="15" alt="" border="0"/></td>
+												<td class="confirm" width="100%">
+												<istext key="dbinit.list.message.confirmation.delete"/>
+													
+												</td>
+												<td nowrap="nowrap">
+													<table border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td><input type="submit" name="deleteListCommit" value="#localizeText('smc.OK.button')#" class="button"/></td>
+															<td>&nbsp;
+															</td>
+															<td><input type="submit" name="deleteListCommit" value="#localizeText('smc.Cancel.button')#" class="button"/></td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</form>
+								</td>
+							</tr>
+						<iselse/>
+							<tr><td>
+								<table border="0" cellspacing="0" cellpadding="4" width="100%" class="error_box w e s">
+									<tr>
+										<td class="error_icon top e"><img src="#WebRoot()#/images/error.gif" width="16" height="15" alt="" border="0"/></td>
+										<td class="error top" width="100%">
+											<istext key="dbinit.list.message.noselection.delete"/>
+										</td>
+									</tr>
+								</table>
+							</td></tr>
+						</isif>
+					</isif>
+				</isif>
+
+				<tr>
+					<td class="table_title_description w e">
+						<istext key="processstatistics.list.description.processstatistics" encoding="off"/>
+					</td>
+				</tr>
+			</table>
+
+			<form action="#URL(Action('ViewProcessStatistics-Dispatch'))#" method="post" name="filterForm">
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox n w e">
+					<tr>
+						<td class="infobox_title" nowrap="nowrap"><istext key="processstatistics.list.description.processstatistics.filter.infobox_title"/></td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="processstatistics.list.form.filter.name.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ProcessStatisticsNameFilter" class="select">
+								<option value=""><istext key="processstatistics.list.form.filter.name.option.all"/></option>
+								<isloop iterator="ProcessNames" alias="ProcessName">
+									<isif condition="#ProcessName EQ 'NULL'#">
+										<option value="NULL" <isif condition="#ProcessStatisticsNameFilter EQ 'NULL'#">selected="selected"</isif>><istext key="processstatistics.list.form.filter.name.option.noresult"/></option>
+									<iselse/>
+										<option value="<isprint value="#ProcessName#">" <isif condition="#ProcessStatisticsNameFilter EQ ProcessName#">selected="selected"</isif>><isprint value="#ProcessName#"></option>
+									</isif>
+								</isloop>
+							</select>
+						</td>
+						<td class="infobox_item" nowrap="nowrap">&nbsp;</td>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="processstatistics.list.form.filter.result.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ProcessStatisticsResultFilter" class="select">
+								<option value=""><istext key="processstatistics.list.form.filter.result.option.all"/></option>
+								<isloop iterator="ProcessStatisticsResults" alias="ProcessStatisticsResult">
+									<isif condition="#ProcessStatisticsResult EQ 'NULL'#">
+										<option value="NULL" <isif condition="#ProcessStatisticsResultFilter EQ 'NULL'#">selected="selected"</isif>><istext key="processstatistics.list.form.filter.result.option.noresult"/></option>
+									<iselse/>
+										<option value="<isprint value="#ProcessStatisticsResult#">" <isif condition="#ProcessStatisticsResultFilter EQ ProcessStatisticsResult#">selected="selected"</isif>><isprint value="#ProcessStatisticsResult#"></option>
+									</isif>
+								</isloop>
+							</select>
+						</td>
+						<td class="infobox_item" width="100%">&nbsp;</td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="processstatistics.list.form.filter.organization.label"/></td>
+						<td class="infobox_item" nowrap="nowrap">
+							<select name="ProcessStatisticsOrganizationFilter" class="select" onchange="submit()">
+								<option value=""><istext key="processstatistics.list.form.filter.organization.option.all"/></option>
+								<isloop iterator="ProcessStatisticsOrganizations" alias="ProcessStatisticsOrganization">
+									<option value="<isprint value="#ProcessStatisticsOrganization#">" <isif condition="#ProcessStatisticsOrganizationFilter EQ ProcessStatisticsOrganization#">selected="selected"</isif>><isprint value="#ProcessStatisticsOrganization#"></option>
+								</isloop>
+							</select>
+						</td>
+						<td class="infobox_item" width="100%">&nbsp;</td>
+						<td width="100%" align="right">
+							<table border="0" cellspacing="4" cellpadding="0">
+								<tr>
+									<td class="button">
+										<input type="hidden" name="SortBy"    value="<isprint value="#SortBy#">"/>
+										<input type="hidden" name="SortOrder" value="<isprint value="#SortOrder#">"/>
+										<input type="submit" name="filter" value="#localizeText('smc.Apply.button')#" class="button"/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap" align="right"><istext key="processstatistics.list.form.filter.channel.label"/></td>
+						<td nowrap="nowrap">
+							
+							<isinclude template="webcontrols/Modules">
+							
+							<isset name="ProcessStatisticsChannelFilterSize" value="#0#" scope="request" />
+							
+							<select id="process-statistics-channel-filter" name="ProcessStatisticsChannelFilter">
+								<isif condition="#isDefined(ProcessStatisticsOrganizationFilter) AND (len(trim(ProcessStatisticsOrganizationFilter)) > 0)#">
+									<option value=""><istext key="processstatistics.list.form.filter.channel.option.all"/></option>
+									<isloop iterator="ProcessStatisticsChannels" alias="ProcessStatisticsChannel">
+										<isset name="ProcessStatisticsChannelFilterSize" value="#ProcessStatisticsChannelFilterSize + 1#" scope="request" />
+										<option value="<isprint value="#ProcessStatisticsChannel:RepositoryDomain:DomainName#">" <isif condition="#ProcessStatisticsChannelFilter EQ ProcessStatisticsChannel:RepositoryDomain:DomainName#">selected="selected"</isif>><isprint value="#ProcessStatisticsChannel:Id#"> &quot;<isprint value="#ProcessStatisticsChannel:DisplayName#">&quot;</option>
+									</isloop>
+								<iselse/>
+									<option value=""><istext key="processstatistics.list.form.filter.channel.option.no_organization"/></option>
+								</isif>
+							</select>
+							
+							<isset name="ProcessStatisticsChannelFilterType" value="none" scope="request" />
+							<isif condition="#ProcessStatisticsChannelFilterSize > 20#">
+								<isset name="ProcessStatisticsChannelFilterType" value="search" scope="request" />
+							</isif>
+							
+							<ISDropDown id="process-statistics-channel-filter"
+										filter="#ProcessStatisticsChannelFilterType#"
+										selectedlist="2"
+										classes="process-statistics-channel-filter">
+
+						</td>
+						<td class="infobox_item" width="100%">&nbsp;</td>
+					</tr>
+				</table>
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="infobox w e s">
+					<tr>
+						<td class="infobox_item" nowrap="nowrap">
+							<istext key="processstatistics.list.form.filter.hint"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<form action="#URL(Action('ViewProcessStatistics-Dispatch'))#" method="post" name="ProcessStatisticsList">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<isif condition="#not hasLoopElements(ProcessStatisticsBOs)#">
+									<tr>
+										<td class="table_detail w e s" colspan="7"><istext key="processstatistics.list.noentries"/></td>
+									</tr>
+								<iselse>
+									<tr>
+										<!---
+										<td class="table_header w e s center" nowrap="nowrap" width="70" valign="middle">
+											<div id="A">
+												<table border="0" cellspacing="0" cellpadding="0" class="table_header center" width="75">
+													<tr>
+														<td nowrap="nowrap">
+															<a href="javascript:selectAll('ProcessStatisticsList','SelectedObjectUUID','A','B');" class="tableheader"><istext key="smc.SelectAll.link4"/></a>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div id="B" style="display:none">
+												<table border="0" cellspacing="0" cellpadding="0" class="table_header center" width="75">
+													<tr>
+														<td nowrap="nowrap">
+														<a href="javascript:selectAll('ProcessStatisticsList','SelectedObjectUUID','A','B');" class="tableheader"><istext key="smc.ClearAll.link4"/></a>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</td>
+										--->
+										<td class="table_header w e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'Type'),     Parameter('SortOrder', NewOrderType),      Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.ProcessType"   encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'Name'),     Parameter('SortOrder', NewOrderName),      Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.ProcessName"   encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'TargetCluster'),Parameter('SortOrder', NewOrderTargetCluster), Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#">---><istext key="processstatistics.list.table.header.TargetCluster" encoding="off"/><!---</a>---></td>
+										<td class="table_header   e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'StartDate'),Parameter('SortOrder', NewOrderStartDate), Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.StartDate"     encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'EndDate'),  Parameter('SortOrder', NewOrderEndDate),   Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.EndDate"       encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'RunTime'),  Parameter('SortOrder', NewOrderRunTime),   Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.RunTime"       encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'Result'),   Parameter('SortOrder', NewOrderResult),    Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#"><istext key="processstatistics.list.table.header.Result"        encoding="off"/></a></td>
+										<td class="table_header   e s" valign="middle"><!---<a class="tableheader" href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'), Parameter('SortBy', 'Result'),   Parameter('SortOrder', NewOrderResult),    Parameter('ProcessStatisticsNameFilter', ProcessStatisticsNameFilter), Parameter('ProcessStatisticsResultFilter', ProcessStatisticsResultFilter), Parameter('ProcessStatisticsOrganizationFilter', ProcessStatisticsOrganizationFilter), Parameter('ProcessStatisticsChannelFilter', ProcessStatisticsChannelFilter))#">---><istext key="processstatistics.list.table.header.Channels"      encoding="off"/><!---</a>---></td>
+									</tr>
+									<isloop iterator="ProcessStatisticsBOs" alias="ProcessStatisticsBO">
+										<isset scope="request" name="ProcessStatisticsPO" value="#ProcessStatisticsBO:Extension("PersistentObjectBOExtension"):PersistentObject#">
+										<isset scope="request" name="ChannelsTakingPartInReplication" value="#ProcessStatisticsPO:ChannelsTakingPartInReplication#">
+										<tr>
+											<!---
+											<td class="w e s center">
+												<input type="checkbox"
+													name="SelectedObjectUUID"
+													value="<isprint value="#ProcessStatisticsBO:ID#"/>"
+													<isif condition="#Clipboard:contains(ProcessStatisticsBO:ID)#">checked="checked"</isif>
+												/>
+												<input type="hidden" name="ObjectUUID" value="<isprint value="#ProcessStatisticsBO:ID#">"/>
+											</td>
+											--->
+											<td class="table_detail w e s"><isprint value="#ProcessStatisticsBO:Type#"></td>
+											<td class="table_detail e s" nowrap="nowrap">
+												<!---<a href="#URL(Action('ViewProcessStatistics-ProcessStatisticsDetail'), Parameter('ProcessStatisticsID', ProcessStatisticsBO:ID))#" class="table_detail_link">---><isprint value="#ProcessStatisticsBO:Name#"><!---</a>--->
+												<isif condition="#(ProcessStatisticsBO:Type EQ 'Replication') AND NOT (ProcessStatisticsPO:IsSelfConfiguredReplicationProcess EQ 'true')#">
+													(*)
+												</isif>
+											</td>
+											<td class="table_detail e s" nowrap="nowrap"><isprint value="#ProcessStatisticsPO:TargetClusterName#">&nbsp;</td>
+											<td class="table_detail e s" nowrap="nowrap"><isprint value="#ProcessStatisticsBO:StartDate#" style="DATE_SHORT">&nbsp;<isprint value="#ProcessStatisticsBO:StartDate#" style="DATE_TIME">&nbsp;<isprint value="#ProcessStatisticsBO:StartDate#" formatter="z">&nbsp;</td>
+											<td class="table_detail e s" nowrap="nowrap"><isprint value="#ProcessStatisticsBO:EndDate#" style="DATE_SHORT">&nbsp;<isprint value="#ProcessStatisticsBO:EndDate#" style="DATE_TIME">&nbsp;<isprint value="#ProcessStatisticsBO:EndDate#" formatter="z">&nbsp;</td>
+											<td class="table_detail e s">
+												<isif condition="#isDefined(ProcessStatisticsBO:StartDate) AND isDefined(ProcessStatisticsBO:EndDate)#">
+													<isset name="RunTimeInMilliSeconds" value="#ProcessStatisticsBO:EndDate:Time - ProcessStatisticsBO:StartDate:Time#" scope="request"/>  <!-- actual run time in milliseconds: <isprint value="#RunTimeInMilliSeconds#"> -->
+													<isset name="RunTimeInMinutes" value="#RunTimeInMilliSeconds / (1000 * 60) + 0.49999#" scope="request"/>  <!-- run time in the lowest unit shown, added 1/2 for later correct rounding: <isprint value="#RunTimeInMinutes#"> minutes -->
+													<isset name="RunTimeHours" value="#RunTimeInMinutes / 60 - 0.49999#" scope="request"/>
+													<isif condition="#RunTimeHours < 0#">
+														<isset name="RunTimeHours" value="#0#" scope="request"/>
+													</isif>
+													<isset name="RunTimeMinutes" value="#RunTimeInMinutes % 60 - 0.49999#" scope="request"/>
+													<isif condition="#RunTimeMinutes < 0#">
+														<isset name="RunTimeMinutes" value="#0#" scope="request"/>
+													</isif>
+													<isprint value="#RunTimeHours#" formatter="00">:<isprint value="#RunTimeMinutes#" formatter="00">
+												</isif>
+											</td>
+											<td class="table_detail e s" nowrap="nowrap">
+												<isif condition="#isDefined(ProcessStatisticsBO:Result)#">
+													<isprint value="#ProcessStatisticsBO:Result#">
+												</isif>
+												<isif condition="#isDefined(ProcessStatisticsBO:Process)#">
+													<!--
+													<isset scope="request" name="Process" value="#ProcessStatisticsBO:Process#">
+													<br/> * Underlying process__________, type = "<isprint value="#Process:Type#">", name = "<isprint value="#Process:Name#">", state = "<isprint value="#Process:State#">"
+													<isif condition="#isDefined(Process:Childs) AND hasLoopElements(Process:Childs)#">
+														<isloop iterator="Process:Childs" alias="ChildProcess">
+															<br/> ** Child process______________, type = "<isprint value="#ChildProcess:Type#">", name = "<isprint value="#ChildProcess:Name#">", state = "<isprint value="#ChildProcess:State#">"
+															<isif condition="#isDefined(ChildProcess:Childs) AND hasLoopElements(ChildProcess:Childs)#">
+																<isloop iterator="ChildProcess:Childs" alias="SecondLevelChildProcess">
+																	<br/> *** Second level child process, type = "<isprint value="#SecondLevelChildProcess:Type#">", name = "<isprint value="#SecondLevelChildProcess:Name#">", state = "<isprint value="#SecondLevelChildProcess:State#">"
+																</isloop>
+															</isif>
+														</isloop>
+													</isif>
+													-->
+												</isif>
+											</td>
+											<td class="table_detail e s">
+												<isif condition="#isDefined(ChannelsTakingPartInReplication) AND hasLoopElements(ChannelsTakingPartInReplication)#">
+													<isloop iterator="ChannelsTakingPartInReplication" alias="ChannelDomainName">
+														<isprint value="#ChannelDomainName#"><isif condition="#hasNext(ChannelDomainName)#">, </isif>
+													</isloop>
+												</isif>
+											</td>
+										</tr>
+									</isloop>
+								</isif>
+							</table>
+							<!---
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="w e s">
+								<tr>
+									<td align="right">
+										<table cellpadding="0" cellspacing="4" border="0">
+											<tr>
+												<td class="button">
+													<input type="submit" name="resetList" value="#localizeText('smc.Reset.button')#" class="button" <isif condition="#not hasLoopElements(ProcessStatisticsBOs)#">disabled="disabled"</isif>/>
+													<input type="submit" name="deleteList" value="#localizeText('smc.Delete.button')#" class="button" <isif condition="#not hasLoopElements(ProcessStatisticsBOs)#">disabled="disabled"</isif>/>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							--->
+							<input type="hidden" name="SortBy"                              value="<isprint value="#SortBy#">"/>
+							<input type="hidden" name="SortOrder"                           value="<isprint value="#SortOrder#">"/>
+							<input type="hidden" name="ProcessStatisticsNameFilter"         value="<isprint value="#ProcessStatisticsNameFilter#">"/>
+							<input type="hidden" name="ProcessStatisticsResultFilter"       value="<isprint value="#ProcessStatisticsResultFilter#">"/>
+							<input type="hidden" name="ProcessStatisticsOrganizationFilter" value="<isprint value="#ProcessStatisticsOrganizationFilter#">"/>
+							<input type="hidden" name="ProcessStatisticsChannelFilter"      value="<isprint value="#ProcessStatisticsChannelFilter#">"/>
+							<table width="100%" cellpadding="0" cellspacing="0" border="0">
+								<tr>
+									<td>
+										<div><img src="#WebRoot()#/images/space.gif" width="1" height="6" alt="" border="0"/></div>
+										<ISPagingBar pageable="ProcessStatisticsBOs" variablepagesize="true">
+									</td>
+								</tr>
+							</table>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td><img src="#WebRoot()#/images/space.gif" width="1" height="6" alt="" border="0"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</td>
+	</tr>
+</table>

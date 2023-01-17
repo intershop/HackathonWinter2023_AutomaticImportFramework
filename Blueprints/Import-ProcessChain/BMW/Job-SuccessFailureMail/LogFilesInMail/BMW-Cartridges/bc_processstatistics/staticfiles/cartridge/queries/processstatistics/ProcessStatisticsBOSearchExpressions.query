@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="ProcessDomain" type="com.intershop.beehive.core.capi.domain.Domain" optional="true"/>
+        <parameter name="ProcessType" type="java.lang.String" optional="true" /> <!-- Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessTypes" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. Use a single ProcessType or an iterator ProcessTypes. -->
+        <parameter name="ProcessName" type="java.lang.String" optional="true" />
+        <parameter name="ProcessResults" type="java.util.Iterator" optional="true" /> <!-- Iterator<String>. Optional and possibly empty. An element 'NULL' means: where result is null. -->
+        <parameter name="ChannelDomainName" type="java.lang.String" optional="true" />
+        <parameter name="IsProcessAssigned" type="java.lang.Boolean" optional="true" /> <!-- If TRUE then only ProcessStatistics with an assigned Process are returned; If FALSE then only ProcessStatistics without an assigned Process are returned; If missing then all ProcessStatistics are returned. -->
+        <parameter name="Process" type="com.intershop.beehive.core.capi.locking.Process" optional="true" />
+    </parameters>
+    <processor name="OracleSQL">
+    </processor>
+    <template>
+    	  <template-if condition="isDefined(Process)">
+    	   AND processuuid = <template-variable value="Process:UUID"/>
+    	  </template-if>
+          <template-if condition="isDefined(ProcessDomain)">
+           AND domain = <template-variable value="ProcessDomain:UUID"/>
+          </template-if>
+          <template-if condition="isDefined(ProcessType) AND len(trim(ProcessType)) > 0">
+           AND type = <template-variable value="ProcessType"/>
+          </template-if>
+          <template-if condition="isDefined(ProcessTypes)">
+	        <template-if condition="hasElements(ProcessTypes)">
+	          AND type IN (
+	            <template-loop iterator="ProcessTypes" alias="ProcessType">
+	                <loop-statement>
+			           <template-variable value="ProcessType"/>
+	                </loop-statement>
+	                <loop-separator>, </loop-separator>
+	            </template-loop>
+	          )
+	        </template-if>
+          </template-if>
+          <template-if condition="isDefined(ProcessName) AND len(trim(ProcessName)) > 0">
+           AND name = <template-variable value="ProcessName"/>
+          </template-if>
+          <template-if condition="isDefined(ProcessResults)">
+	        <template-if condition="hasElements(ProcessResults)">
+	          AND (
+	            <template-loop iterator="ProcessResults" alias="ProcessResult">
+	                <loop-statement>
+			          <template-if condition="ProcessResult EQ 'NULL'">
+			           result IS NULL OR LENGTH(TRIM(result)) = 0
+			          <if-else/>
+			           result = <template-variable value="ProcessResult"/>
+			          </template-if>
+	                </loop-statement>
+	                <loop-separator> OR </loop-separator>
+	            </template-loop>
+	          )
+	        </template-if>
+          </template-if>
+          <template-if condition="isDefined(ChannelDomainName) AND len(trim(ChannelDomainName)) > 0">
+           AND attributes LIKE '%' || <template-variable value="ChannelDomainName"/> || '%'
+          </template-if>
+          <template-if condition="isDefined(IsProcessAssigned)">
+	        <template-if condition="IsProcessAssigned">
+	          AND processuuid IS NOT NULL
+	        <if-else/>
+	          AND processuuid IS NULL
+	        </template-if>
+          </template-if>
+    </template>
+</query>

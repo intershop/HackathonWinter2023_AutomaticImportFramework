@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This pipelines loads and executes a process chain. The process chain is stored in a xml file.
+@DisplayName ExecuteProcessChain
+@Group Process-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ExecuteProcessChain" type="job">
+<!--@Location 6,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" strict="true" name="PostImportProcesExecution"
+      callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode2"/>
+    <parameters name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"
+        optional="true"/>
+    <parameters name="ProcessChainResult" type="java.lang.Integer" optional="true"/>
+  </nodes>
+<!--@Location 6,1-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="ProcessStatisticsBO">
+    <nodeSuccessors name="decision_yes" next="GetCurrentDate2"/>
+<!--@BendPoints 17,3 17,15-->
+    <nodeSuccessors name="decision_no" next="JoinNode1"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate2">
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode0"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="ProcessChainResult"
+      operator="str_eq" conditionValue="0">
+    <nodeSuccessors name="decision_yes" next="SetIndirectDictValue4"/>
+    <nodeSuccessors name="decision_no" next="SetIndirectDictValue5"/>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue4">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="UpdateProcessStatisticsBO2"/>
+    <parameterBindings name="KeyNameHolder" constant="Result"/>
+    <parameterBindings name="MappedEntry" constant="CHECK_SUCCESS"/>
+  </nodes>
+<!--@Location 6,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateProcessStatisticsBO2">
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateProcessStatisticsBO.xml"/>
+    <nodeSuccessors name="next" next="CallNode_NpGFAITfEei99IePpQirUw"/>
+    <parameterBindings name="DoUpdateEndDate" constant="(Boolean)true"/>
+    <parameterBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateProcess" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateResult" constant="(Boolean)true"/>
+    <parameterBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <parameterBindings name="EndDate" objectPath="CurrentDate"/>
+    <parameterBindings name="Name" nullBinding="true"/>
+    <parameterBindings name="Process" nullBinding="true"/>
+    <parameterBindings name="StartDate" nullBinding="true"/>
+    <returnValueBindings name="DoUpdateEndDate" constant="(Boolean)true"/>
+    <returnValueBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateProcess" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateResult" constant="(Boolean)true"/>
+    <returnValueBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <returnValueBindings name="EndDate" objectPath="CurrentDate"/>
+    <returnValueBindings name="Name" nullBinding="true"/>
+    <returnValueBindings name="Process" nullBinding="true"/>
+    <returnValueBindings name="StartDate" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_NpGFAITfEei99IePpQirUw">
+    <nodeSuccessors name="next" next="JoinNode1"/>
+    <startNode referencedName="ProcessImportStatistics-AfterChainExecution"/>
+  </nodes>
+<!--@Location 6,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="EndNode3"/>
+  </nodes>
+<!--@Location 6,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" strict="true">
+    <returnValues name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 7,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue5">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+<!--@BendPoints 15,11-->
+    <nodeSuccessors name="next" next="UpdateProcessStatisticsBO2"/>
+    <parameterBindings name="KeyNameHolder" constant="Result"/>
+    <parameterBindings name="MappedEntry" constant="FAILURE"/>
+  </nodes>
+<!--@Location 4,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="PreImportProcessExecution"
+      callMode="Private">
+    <nodeSuccessors name="next" next="GetApplicationBO0"/>
+    <parameters name="ImportProcessChainBORepository" type="com.intershop.component.processstatistics.capi.impex.process.chain.ImportProcessChainBORepository"/>
+    <parameters name="ProcessChain" type="com.intershop.beehive.core.capi.process.ProcessChain"/>
+    <parameters name="XmlFileName" type="java.lang.String"/>
+    <parameters name="StartedByProcess" type="java.lang.String" optional="true"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"
+        optional="true"/>
+    <parameters name="JobConfigurationUUID" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO0">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="SetIndirectDictValue0"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue0">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="SetIndirectDictValue1"/>
+    <parameterBindings name="KeyNameHolder" constant="ImportProcessChainBORepository"/>
+    <parameterBindings name="MappedEntry" objectPath="ApplicationBO:Repository(&quot;ImportProcessChainBORepository&quot;, ProcessChain:TargetDomain:UUID)"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue1">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="SetIndirectDictValue2"/>
+    <parameterBindings name="KeyNameHolder" constant="ImportProcessChainBO"/>
+    <parameterBindings name="MappedEntry" objectPath="ImportProcessChainBORepository:ImportProcessChainBOByXMLFileName(XmlFileName)"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue2">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode1"/>
+    <parameterBindings name="KeyNameHolder" constant="ProcessStatisticsBORepository"/>
+    <parameterBindings name="MappedEntry" objectPath="ImportProcessChainBO:Extension(&quot;Statistics&quot;)"/>
+  </nodes>
+<!--@Location 4,5-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="ProcessStatisticsBORepository">
+    <nodeSuccessors name="decision_yes" next="GetCurrentDate0"/>
+<!--@BendPoints 10,11 10,21-->
+    <nodeSuccessors name="decision_no" next="JoinNode0"/>
+  </nodes>
+<!--@Location 4,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate0">
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="CreateProcessStatisticsBO0"/>
+  </nodes>
+<!--@Location 4,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateProcessStatisticsBO0">
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/CreateProcessStatisticsBO.xml"/>
+    <nodeSuccessors name="next" next="UpdateProcessStatisticsBO0"/>
+    <parameterBindings name="Domain" objectPath="CurrentDomain"/>
+    <parameterBindings name="Name" objectPath="ProcessChain:Task:Name"/>
+    <parameterBindings name="StartDate" objectPath="CurrentDate"/>
+    <parameterBindings name="Type" constant="Import"/>
+    <returnValueBindings name="Domain" objectPath="CurrentDomain"/>
+    <returnValueBindings name="Name" objectPath="ProcessChain:Task:Name"/>
+    <returnValueBindings name="StartDate" objectPath="CurrentDate"/>
+    <returnValueBindings name="Type" constant="Import"/>
+  </nodes>
+<!--@Location 4,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateProcessStatisticsBO0">
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateProcessStatisticsBO.xml"/>
+    <nodeSuccessors name="next" next="CallNode_UVCYkITfEei99IePpQirUw"/>
+    <parameterBindings name="DoUpdateEndDate" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateProcess" constant="(Boolean)true"/>
+    <parameterBindings name="DoUpdateResult" constant="(Boolean)true"/>
+    <parameterBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <parameterBindings name="EndDate" nullBinding="true"/>
+    <parameterBindings name="Name" nullBinding="true"/>
+    <parameterBindings name="Result" constant="INTERRUPTED"/>
+    <parameterBindings name="StartDate" nullBinding="true"/>
+    <returnValueBindings name="DoUpdateEndDate" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateProcess" constant="(Boolean)true"/>
+    <returnValueBindings name="DoUpdateResult" constant="(Boolean)true"/>
+    <returnValueBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <returnValueBindings name="EndDate" nullBinding="true"/>
+    <returnValueBindings name="Name" nullBinding="true"/>
+    <returnValueBindings name="Result" constant="INTERRUPTED"/>
+    <returnValueBindings name="StartDate" nullBinding="true"/>
+  </nodes>
+<!--@Location 4,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_UVCYkITfEei99IePpQirUw">
+    <nodeSuccessors name="next" next="JoinNode0"/>
+    <startNode referencedName="ProcessImportStatistics-BeforeChainExecution"/>
+  </nodes>
+<!--@Location 4,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="DecisionNode_r-pEQEE0EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 4,11-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_r-pEQEE0EeewFY5V4nwziQ"
+      conditionKey="StartedByProcess" operator="str_empty">
+    <nodeSuccessors name="decision_yes" next="JoinNode_AcF_4EE1EeewFY5V4nwziQ"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode__cMCEEE0EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 4,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_AcF_4EE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location 4,16-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true">
+    <returnValues name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"
+        optional="true"/>
+  </nodes>
+<!--@Location 5,11-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode__cMCEEE0EeewFY5V4nwziQ"
+      conditionKey="Process">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_D3a3QEE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 5,12-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute_wWB7QEE0EeewFY5V4nwziQ">
+    <configurationValues name="DefaultAttributeName" value="StartedByProcess"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_D3a3QEE1EeewFY5V4nwziQ"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="StartedByProcess"/>
+    <parameterBindings name="ExtensibleObject" objectPath="Process"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 5,13-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration_yvrdwEE1EeewFY5V4nwziQ">
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_2WGx4EE1EeewFY5V4nwziQ"/>
+    <parameterBindings name="JobDomain" nullBinding="true"/>
+    <parameterBindings name="JobDomainName" nullBinding="true"/>
+    <parameterBindings name="JobName" nullBinding="true"/>
+    <parameterBindings name="JobUUID" objectPath="JobConfigurationUUID"/>
+  </nodes>
+<!--@Location 5,14-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute_yvsE0EE1EeewFY5V4nwziQ">
+    <configurationValues name="DefaultAttributeName" value="StartedByProcess"/>
+    <pipelet href="enfinity:/core/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_CN6i0EE1EeewFY5V4nwziQ"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="JobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 5,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_CN6i0EE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="JoinNode_AcF_4EE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 6,13-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_2WGx4EE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="JoinNode_22dF4EE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 6,14-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_22dF4EE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="JoinNode_CN6i0EE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 6,12-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_D3a3QEE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="JoinNode_2WGx4EE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 1,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="LoadXmlProcessChain1"/>
+<!--file location of xml file, relative to IS_SHARE-->
+    <parameters name="XmlFileName" type="java.lang.String"/>
+<!--The current domain, used if no other domain is specified using 'ProcessChainDomain'.-->
+    <parameters name="CurrentDomain" type="com.intershop.beehive.core.capi.domain.Domain"
+        optional="true"/>
+<!--domain for process chain-->
+    <parameters name="ProcessChainDomain" type="com.intershop.beehive.core.capi.domain.Domain"
+        optional="true"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+    <parameters name="StartedByProcess" type="java.lang.String" optional="true"/>
+    <parameters name="JobConfigurationUUID" type="java.lang.String" optional="true"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"
+        optional="true"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LoadXmlProcessChain1">
+    <pipelet href="enfinity:/core/pipelets/LoadXmlProcessChain.xml"/>
+    <nodeSuccessors name="next" next="GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_OTALsD8lEeioY_K-7YFS7g"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration_aeOLYD8lEeioY_K-7YFS7g">
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_OTALsD8lEeioY_K-7YFS7g"/>
+    <parameterBindings name="JobDomain" nullBinding="true"/>
+    <parameterBindings name="JobDomainName" nullBinding="true"/>
+    <parameterBindings name="JobName" nullBinding="true"/>
+    <parameterBindings name="JobUUID" objectPath="JobConfigurationUUID"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="HandleProcessChainRestart_cZN6cD8PEeioY_K-7YFS7g">
+    <pipelet href="enfinity:/pf_impex_automation/pipelets/HandleProcessChainRestart.xml"/>
+    <nodeSuccessors name="next" next="RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_BU61YD8JEeioY_K-7YFS7g"/>
+    <parameterBindings name="SelectedProcessChainStep" objectPath="JobConfiguration:SelectedProcessChainStep"/>
+    <returnValueBindings name="SelectedProcessChainStep" objectPath="JobConfiguration:SelectedProcessChainStep"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute_RhF_sD8iEeioY_K-7YFS7g">
+    <configurationValues name="DefaultAttributeName" value="SelectedProcessChainStep"/>
+    <pipelet href="enfinity:/core/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="GetApplicationBO1"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="JobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO1">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="SetIndirectDictValue3"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetIndirectDictValue3">
+    <pipelet href="enfinity:/core/pipelets/SetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="CallNode0"/>
+    <parameterBindings name="KeyNameHolder" constant="ImportProcessChainBORepository"/>
+    <parameterBindings name="MappedEntry" objectPath="ApplicationBO:Repository(&quot;ImportProcessChainBORepository&quot;, ProcessChain:TargetDomain:UUID)"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode0">
+    <nodeSuccessors name="next" next="ExecuteProcessChain0"/>
+    <startNode referencedName="ExecuteProcessChain-PreImportProcessExecution"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteProcessChain0">
+    <pipelet href="enfinity:/core/pipelets/ExecuteProcessChain.xml"/>
+    <nodeSuccessors name="next" next="CallNode1"/>
+  </nodes>
+<!--@Location 1,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="EndNode1"/>
+    <startNode referencedName="ExecuteProcessChain-PostImportProcesExecution"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" name="ok" strict="true">
+<!--result of process chain-->
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_BU61YD8JEeioY_K-7YFS7g">
+    <nodeSuccessors name="next" next="RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveCustomAttribute_Xq52kD8iEeioY_K-7YFS7g">
+    <configurationValues name="DefaultAttributeName" value="SelectedProcessChainStep"/>
+    <pipelet href="enfinity:/core/pipelets/RemoveCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="EndNode2"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="JobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" name="error" strict="true">
+<!--ProcessChainResult STATUS_NOTFOUND if the chain can not be loaded-->
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_OTALsD8lEeioY_K-7YFS7g">
+    <nodeSuccessors name="next" next="JoinNode_BU61YD8JEeioY_K-7YFS7g"/>
+  </nodes>
+</pipeline:Pipeline>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<displayName>ExecuteProcessChain</displayName>
+<group>Process</group>
+<description>This pipelines loads and executes a process chain. The process chain is stored in a xml file.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode1_ReturnValue_ProcessChainResult"  localeId="en_US" >
+<description>result of process chain</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode2_ReturnValue_ProcessChainResult"  localeId="en_US" >
+<description>ProcessChainResult STATUS_NOTFOUND if the chain can not be loaded</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_XmlFileName"  localeId="en_US" >
+<description>file location of xml file, relative to IS_SHARE</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_CurrentDomain"  localeId="en_US" >
+<description>The current domain, used if no other domain is specified using &apos;ProcessChainDomain&apos;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_ProcessChainDomain"  localeId="en_US" >
+<description>domain for process chain</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

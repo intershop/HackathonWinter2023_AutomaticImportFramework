@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Pagelet</group>
+<description>Job pipeline for pagelets</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode0"  localeId="en_US" >
+<description>Set all pagelet names of the lead locale to the pagelet name defined in the given locale.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

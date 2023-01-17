@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Import</group>
+<description>Collects and stores import statistics using ProcessStatisticsBO</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Online Products</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Vehicle Types</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Online Vehicle Types</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Online Parts</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Parts</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Category Assignments</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Products w/o Assignments</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg"  localeId="en_US" >
+<customName>Count Products</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text_ITrhUKRhEeiqqd1HrEIM_A"  localeId="en_US" >
+<description>&lt;b&gt;TODO&lt;/b&gt; jcmeyer: avoid string&lt;br /&gt;
+substitution here - many examples&lt;br /&gt;
+for channel repo look-up available</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

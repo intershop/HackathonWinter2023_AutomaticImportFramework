@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+<description>Process pipeline to execute a replication process.
+The pipeline is override to catch all calls to TriggerReplicationProcess-Trigger because all replication processes are executed via this pipeline. Unfortunately we cannot override this pipeline directly because then we miss some important information which is not transferred to this strict pipeline. Instead we override the pipelines calling TriggerReplicationProcess-Trigger. These are only two, TriggerReplicationProcess-Start and TriggerReplicationProcess-CreateAndStart.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="AddObjectToCollection0"  localeId="en_US" >
+<description>ChannelIdsTakingPartInReplicationIterator
+add(ChannelTakingPartInReplication:RepositoryDomain:DomainName)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="CallNode10"  localeId="en_US" >
+<description>FallbackResult := &quot;FAILURE&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="CallNode4"  localeId="en_US" >
+<description>FallbackResult := &quot;FAILURE&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="CallNode9"  localeId="en_US" >
+<description>FallbackResult := &quot;SUCCESS&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetCurrentDate1"  localeId="en_US" >
+<description>StartDate :=
+CurrentDate</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>ProcessStatisticsPO :=
+ProcessStatisticsBO:Extension(&quot;PersistentObjectBOExtension&quot;):PersistentObject</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper1"  localeId="en_US" >
+<description>ProcessStatisticsBORepository :=
+ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper10"  localeId="en_US" >
+<description>UsedChannelsTakingPartInReplication :=
+ChannelsTakingPartInReplication</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper2"  localeId="en_US" >
+<description>Name :=
+ReplicationProcess:ReplicationProcessID</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper3"  localeId="en_US" >
+<description>Name :=
+ReplicationProcess:UUID</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper4"  localeId="en_US" >
+<description>StartDate :=
+ReplicationProcess:StartDate</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode0"  localeId="en_US" >
+<description>Call Super and
+collect process statistics in addition.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ReplicationProcess"  localeId="en_US" >
+<description>The replication process to start.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_IsAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels are replicated instead of only channels willing to take part in the replication.
+ChannelsTakingPartInReplication has to be ignored in case IsAllChannels is &quot;true&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_IsRegularReplicationProcess"  localeId="en_US" >
+<description>&quot;true&quot; in case it is a &quot;Self-Configured Replication Process&quot; as should be used for all replication processes.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Call Super and
+collect process statistics in addition.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode2_param_Domain"  localeId="en_US" >
+<description>The domain of the process statistics object. Any domain is valid.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode2_param_IsRegularReplicationProcess"  localeId="en_US" >
+<description>&quot;true&quot; in case it is a &quot;Self-Configured Replication Process&quot; as should be used for all replication processes.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text0"  localeId="en_US" >
+<description>Do not define
+UsedChannelsTakingPartInReplication
+in this case.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute0"  localeId="en_US" >
+<description>ProcessStatisticsPO:ReplicationProcessUUID :=
+ReplicationProcess:UUID</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute1"  localeId="en_US" >
+<description>ProcessStatisticsPO:ChannelsTakingPartInReplication :=
+ChannelIdsTakingPartInReplicationIterator</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute2"  localeId="en_US" >
+<description>ProcessStatisticsPO:StagingProcessMode :=
+ReplicationProcess:Type</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute3"  localeId="en_US" >
+<description>ProcessStatisticsPO:TargetSystemName :=
+ReplicationProcess:TargetSystem</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute4"  localeId="en_US" >
+<description>ProcessStatisticsPO
+.IsSelfConfiguredReplicationProcess :=
+Boolean.TRUE;
+Set in case it is a &quot;Self-Configured Replication Process&quot; as should be used for all replication processes, in contrast to replication processes manually configured/started in Operations.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateProcessStatisticsBO0"  localeId="en_US" >
+<description>ProcessStatisticsBO:Process :=
+ReplicationProcess</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

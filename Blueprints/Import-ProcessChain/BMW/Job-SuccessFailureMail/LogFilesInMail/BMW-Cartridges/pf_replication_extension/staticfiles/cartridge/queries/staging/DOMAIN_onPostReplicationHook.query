@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used during replication of DOMAIN entries. Create page cache settings during initial replication of a domain.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="false" description="The involved DomainIDs."/>
+</parameters>
+<processor name="OracleSQL">
+	<processor-preprocessing output="REPOSITORY_EditingName"   input="&apos;REPOSITORY&apos;"   processing="StagingNamingHelper"/>
+	<processor-preprocessing output="ORGANIZATION_EditingName" input="&apos;ORGANIZATION&apos;" processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_EditingName"       input="&apos;DOMAIN&apos;"       processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_AV_EditingName"    input="&apos;DOMAIN_AV&apos;"    processing="StagingNamingHelper"/>
+</processor>
+<template>
+    INSERT INTO DOMAIN (TYPECODE, STATUS, PARENTSITEID, SITEID, ENTRYMASK, PAGECACHINGALLOWEDFLAG, STATICCONTENTMAXAGE, PAGECACHEID, STATICCONTENTCACHEID, PROFILEID, SERVERGROUP, BUSINESSMODEL, DEFAULTAPPLICATIONID, UUID, DOMAINID, OCA, LASTMODIFIED)
+                 SELECT TYPECODE, STATUS, PARENTSITEID, SITEID, ENTRYMASK,                      1,               86400, PAGECACHEID, STATICCONTENTCACHEID, PROFILEID, SERVERGROUP, BUSINESSMODEL, DEFAULTAPPLICATIONID, UUID, DOMAINID, OCA, LASTMODIFIED
+                 FROM <template-variable value="DOMAIN_EditingName:EditTableName" processing="text"/>
+                 WHERE UUID IN (
+	   SELECT d.SITEID
+	    from <template-variable value="REPOSITORY_EditingName:EditTableName"   processing="text"/> rep
+	    join <template-variable value="ORGANIZATION_EditingName:EditTableName" processing="text"/> org      on (org.ORGANIZATIONDOMAINID = rep.DOMAINID)
+	    join <template-variable value="DOMAIN_EditingName:EditTableName"       processing="text"/> d        on (d.DOMAINID = rep.REPOSITORYDOMAINID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"    processing="text"/> d_av     on (d_av.ownerid = d.SITEID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"    processing="text"/> d_avRepl on (d_avRepl.ownerid = d.SITEID) 
+	   where org.TYPECODE = 30 AND d_avRepl.name = 'TakesPartInReplication' AND d_avRepl.stringvalue = 'true'
+	     AND d.SITEID IN
+	     (
+	          <template-loop iterator="DomainIDs" alias="DomainID"><loop-statement>
+			          <template-variable value="DomainID"/>
+			          </loop-statement>
+			          <loop-separator>,</loop-separator>
+	          </template-loop>
+	     )
+	     AND NOT EXISTS (SELECT 1 FROM DOMAIN dLive WHERE dLive.UUID = d.SITEID)
+	  )
+</template>
+</query>

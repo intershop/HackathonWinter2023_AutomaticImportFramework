@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+	<parameters>
+		<parameter optional="false" name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+		<parameter optional="true" name="DBLink" type="java.lang.String"/>
+		<parameter optional="true" name="AssignedToCategory" type="java.lang.Boolean"/>
+		<parameter optional="true" name="ProductTypeName" type="java.lang.String"/>
+		<parameter optional="true" name="Online" type="java.lang.Boolean"/>
+	</parameters>
+	<processor name="OracleSQL">
+		<processor-preprocessing output="Sharing" input="Channel:RepositoryDomain" processing="ProductSharingHelper"/>
+	</processor>
+	<template type="count">
+		select 
+			count(*) AS COUNT
+			from 
+				product<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> p
+			LEFT OUTER JOIN
+				derivedproduct<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> dp 
+				ON (dp.baseproductid=p.uuid AND dp.domainid=<template-variable value="Channel:RepositoryDomain:UUID"/>)
+			<template-if condition="isDefined(ProductTypeName)">, producttype<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> pt</template-if>
+		    WHERE
+		    (
+		    	(
+	         	p.domainid IN (<template-loop alias="Domain" iterator="Sharing:Domains"><loop-statement><template-variable value="Domain:UUID"/></loop-statement><loop-separator>,</loop-separator></template-loop>)
+		 	    <template-if condition="hasElements(Sharing:ProductSets)">
+		 	        OR EXISTS (
+		 	            SELECT 1
+		 	            FROM
+		 	                productsetassignment<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> psa
+		 	            JOIN
+		 	                productset<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> ps ON (psa.productsetuuid=ps.uuid)
+		 	            WHERE
+		 	                p.uuid=psa.productUUID
+		 	            AND
+		 	                p.domainid=ps.domainid
+		 	            AND
+		 	                psa.productsetuuid IN (<template-loop alias="ProductSet" iterator="Sharing:ProductSets"><loop-statement><template-variable value="ProductSet:UUID"/></loop-statement><loop-separator>,</loop-separator></template-loop>)
+		 	        )
+		 	    </template-if>
+		 	    <template-if condition="isDefined(Sharing:InboundProductSet)">
+		 	    	AND (
+		 	    		EXISTS (
+		 	    			SELECT 1
+		 	    			FROM
+		 	        			productsetassignment<template-if condition="isDefined(DBLink)">@<template-variable value="DBLink" processing="text"/></template-if> psa
+		 	    			WHERE
+		 	        			p.uuid=psa.productUUID
+		 	    			AND
+		 	        			psa.productsetuuid = <template-variable value="Sharing:InboundProductSet:UUID"/>
+		 				)
+		 				OR
+		 				(p.domainid = <template-variable value="Channel:RepositoryDomain:UUID"/>)
+		 			)
+		 	    </template-if>
+		 	    )
+		 	    <template-if condition="isDefined(AssignedToCategory)">
+		 	    	AND <template-if condition="NOT AssignedToCategory">NOT</template-if>
+		 	    	EXISTS (
+		 	    		SELECT 1 from productcategoryassignment where productid=p.uuid and domainid=p.domainid
+		 	    	)
+		 	    </template-if>
+		 	    <template-if condition="isDefined(ProductTypeName)">
+		 	    	AND pt.name=<template-variable value="ProductTypeName"/> AND pt.uuid=p.producttypeid
+		 	    </template-if>
+		 	    <template-if condition="isDefined(Online)">
+		 	    	AND p.onlineflag=<template-if condition="Online">1<if-else/>0</template-if>
+		 	    </template-if>
+		    )				
+	</template>
+</query>

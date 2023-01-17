@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used during replication of PREFERENCE entries. Fix problems with preferences on Live created before the PREFERENCEDEFINITION has been replicated.
+	This is necessary because sometimes a PREFERENCEDEFINITION has been created on Live using DBInit and thus, it has a different UUID than the one on Edit. During replication the one in Live is replaced but the PREFERENCE entries are not updated accordingly!">
+<parameters>
+	<!-- <parameter name="DomainIDs" type="java.util.Collection" optional="false" description="The involved DomainIDs."/> -->
+</parameters>
+<processor name="OracleSQL">
+</processor>
+<template>
+    UPDATE preference p
+       SET p.preferencedefinitionid =
+             (SELECT pd.uuid
+                FROM preferencedefinition pd
+               WHERE pd.preferencename = p.preferencename)
+     WHERE EXISTS (SELECT 1 FROM preferencedefinition pd
+                    WHERE pd.preferencename = p.preferencename
+                      AND p.preferencedefinitionid &lt;&gt; pd.uuid)
+</template>
+</query>

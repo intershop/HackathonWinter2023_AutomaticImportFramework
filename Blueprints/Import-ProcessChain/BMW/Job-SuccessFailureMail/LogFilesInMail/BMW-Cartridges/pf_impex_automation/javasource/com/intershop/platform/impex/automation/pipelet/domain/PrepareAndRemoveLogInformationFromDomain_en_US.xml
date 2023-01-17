@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_DirectoryName"  localeId="en_US" >
+<description>Target domain to append information as domain ca</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

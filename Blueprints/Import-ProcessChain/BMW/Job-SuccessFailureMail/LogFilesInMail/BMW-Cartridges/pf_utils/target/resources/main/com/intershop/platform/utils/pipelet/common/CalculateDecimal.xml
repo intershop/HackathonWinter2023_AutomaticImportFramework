@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="CalculateNumber" >
+<pipeletName>CalculateDecimal</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.common.CalculateDecimal</pipeletClass>
+<errorConnector>false</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Operation" >
+<key>Operation</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+<propertyEditor>
+<DPropertyEditor dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditor">
+<editorClass>SelectionEditor</editorClass>
+<parameters>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_0" >
+<key>item</key>
+<value>+</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_1" >
+<key>item</key>
+<value>-</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_2" >
+<key>item</key>
+<value>*</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_3" >
+<key>item</key>
+<value>/</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_4" >
+<key>item</key>
+<value>ScaleByPowerOfTen</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_5" >
+<key>item</key>
+<value>Negate</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_6" >
+<key>item</key>
+<value>Min</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_7" >
+<key>item</key>
+<value>Max</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_8" >
+<key>item</key>
+<value>Convert</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_9" >
+<key>item</key>
+<value>1</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_10" >
+<key>item</key>
+<value>0</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Operation_editor_item_11" >
+<key>item</key>
+<value>10</value>
+</DPropertyEditorParameter>
+</parameters>
+</DPropertyEditor>
+</propertyEditor>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Operand1" >
+<key>Op1Decimal</key>
+<propertyClass>java.math.BigDecimal</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Operand2" >
+<key>Op1Double</key>
+<propertyClass>java.lang.Double</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Op2Decimal" >
+<key>Op2Decimal</key>
+<propertyClass>java.math.BigDecimal</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Op2Int" >
+<key>Op2Int</key>
+<propertyClass>java.lang.Integer</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary_Result" >
+<key>Result</key>
+<output>guaranteed</output>
+<propertyClass>java.math.BigDecimal</propertyClass>
+<group>dictionary-out</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

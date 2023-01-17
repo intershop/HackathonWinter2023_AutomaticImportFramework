@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>Class</group>
+<description>Get a Java Class by its class or interface name.
+The error connector is used if the class cannot be found.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_ClassName"  localeId="en_US" >
+<description>The Java class name of a class or interface, e.g. &quot;com.intershop.component.inventory.capi.service.InventoryService&quot;</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

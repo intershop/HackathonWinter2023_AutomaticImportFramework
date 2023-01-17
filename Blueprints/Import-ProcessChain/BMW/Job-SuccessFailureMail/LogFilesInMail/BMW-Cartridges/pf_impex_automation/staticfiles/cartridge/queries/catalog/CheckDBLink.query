@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+	<parameters>
+		<parameter optional="false" name="DBLink" type="java.lang.String"/>
+	</parameters>
+	<processor name="OracleSQL" />
+	<template type="count">
+		SELECT count(1) 
+		FROM 
+			user_db_links 
+		WHERE 
+			lower(db_link)=lower(<template-variable value="DBLink" />)
+	</template>
+</query>
+	

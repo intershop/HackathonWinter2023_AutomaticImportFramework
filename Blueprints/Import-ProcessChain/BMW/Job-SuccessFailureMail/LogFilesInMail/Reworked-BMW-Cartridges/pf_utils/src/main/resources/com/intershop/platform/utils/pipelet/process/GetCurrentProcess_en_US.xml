@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>Process</group>
+<description>Returns the process currently executed by this thread.
+If there is no such process then the error connector is used.
+The implementation is a little strange as we cannot directly access the currently running processes of the current thread. That&apos;s why we start and immediately stop a transient dummy process. In between we can access the parent process of this &quot;running&quot; dummy - and this parent is the actual current process on top of the process stack.
+Since the transient dummy process is not full featured, error log entries with &quot;UnsupportedOperationException&quot; may occur. Anyway, the pipelet will ignore it and will continue execution. Nevertheless, there may be subsequent errors that interrupt execution.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-out_CurrentProcess"  localeId="en_US" >
+<description>The top most process in the process stack of this thread.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

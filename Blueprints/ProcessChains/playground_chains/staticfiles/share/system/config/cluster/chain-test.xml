@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+	defaultChainElementTimeout="14400"
+>
+<p:sequence name="MAIN SEQUENCE" >
+		<p:concurrent name="Chain 1 - Concurrent  - Step1">
+			<p:job job="Wait1min" name="Wait 1 min (SLDSystem)- Step1.a"  domain="SLDSystem">
+				<p:ignore>NOTFOUND</p:ignore>
+			</p:job>
+			<p:job job="Wait1minAndFail" name="Wait 1min And Fail (SLDSystem) - Step1.b"  domain="SLDSystem">
+				<p:ignore>NOTFOUND</p:ignore>
+				<p:ignore>ERROR</p:ignore>
+			</p:job>
+		</p:concurrent>	
+		<p:job job="Wait1min3" name="Wait 1 min - 3 (SLDSystem) - Step2"  domain="SLDSystem">
+			<p:ignore>NOTFOUND</p:ignore>
+		</p:job>
+		<p:job job="Wait1min4" name="Wait 1 min - 4 (SLDSystem) - Step3"  domain="SLDSystem">
+			<p:ignore>NOTFOUND</p:ignore>
+		</p:job>
+		<p:job job="Wait1min5" name="Wait 1 min - 5 (SLDSystem) - Step4"  domain="SLDSystem">
+			<p:ignore>NOTFOUND</p:ignore>
+		</p:job>
+		<p:job job="Wait1min6" name="Wait 1 min - 6 (SLDSystem) - Step5"  domain="SLDSystem">
+			<p:ignore>NOTFOUND</p:ignore>
+		</p:job>
+		</p:sequence>
+</p:chain>

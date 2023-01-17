@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Job</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg"  localeId="en_US" >
+<description>SP_SetTireProductsOffline</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg"  localeId="en_US" >
+<description>SP_SetTireProductsBackOnline</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

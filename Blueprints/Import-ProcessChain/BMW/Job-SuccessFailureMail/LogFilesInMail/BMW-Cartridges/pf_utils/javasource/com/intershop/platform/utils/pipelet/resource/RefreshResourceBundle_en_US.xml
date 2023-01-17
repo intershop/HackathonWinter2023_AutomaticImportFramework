@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>Resource</group>
+<description>This pipelet is used to clean up the cached resource bundle information for a class defined through the given class name. The error connector is used in case no according class can be found.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_ClassName"  localeId="en_US" >
+<description>The class name defining the class to refresh the resource bundle for.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

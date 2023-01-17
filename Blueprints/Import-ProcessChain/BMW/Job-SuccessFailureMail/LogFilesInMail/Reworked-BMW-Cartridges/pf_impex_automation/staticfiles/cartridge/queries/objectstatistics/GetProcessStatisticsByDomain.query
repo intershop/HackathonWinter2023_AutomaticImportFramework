@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Gets statistics for import processes by domain">
+<parameters>
+	<parameter name="Domain" type="com.intershop.beehive.core.capi.domain.Domain" optional="false"/>
+	<parameter name="ProcessType" type="java.lang.String" optional="true"/>
+</parameters>
+<return-mappings>
+	<return-mapping name="ProcessStatisticsBO" type="bo-orm" class="com.intershop.component.processstatistics.internal.ProcessStatisticsPO" mapperclass="ProcessStatisticsBOToProcessStatisticsBOMapper">
+		<return-attribute name="UUID"/>
+	</return-mapping>
+</return-mappings>
+<processor name="OracleSQL">
+</processor>
+<template type="objects">
+	
+			SELECT uuid
+			FROM processstatistics
+			WHERE
+				domainid=<template-variable value="Domain:UUID"/>
+				<template-if condition="isDefined(ProcessType)">
+					AND type=<template-variable value="ProcessType"/>
+					</template-if>
+			ORDER BY
+				startdate DESC
+		
+</template>
+</query>

@@ -1,0 +1,20 @@
+//apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+
+intershop 
+{
+    displayName = 'Playground_chains '
+}
+
+
+dependencies 
+{
+
+   compile group: 'com.intershop.platform', name: 'core'
+   compile group: 'com.intershop.platform', name: 'bc_foundation'
+   compile group: 'com.intershop.platform', name: 'servletengine'
+   compile group: 'com.intershop.platform', name: 'isml'
+   compile group: 'com.intershop.platform', name: 'app'
+   compile group: 'com.intershop.business', name: 'bc_shipping_data'
+
+}

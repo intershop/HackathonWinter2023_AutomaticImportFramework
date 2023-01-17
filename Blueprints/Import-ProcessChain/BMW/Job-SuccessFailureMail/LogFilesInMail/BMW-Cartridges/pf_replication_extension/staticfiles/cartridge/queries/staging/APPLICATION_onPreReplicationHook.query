@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="This is a quick hack as long as ISH=850-622 (Orphaned Applications on Live for deleted Channels) is not solved. The problem: When replicating a deleted channel then the back office applications of this channel will not be deleted in Live. After re-creating a channel with the same ID the replication fails because the alternate key of APPLICATION contains this ID and the old, orphaned, applications on Live have the same AK but different UUID as the applications re-created for the new channel on Edit.">
+<parameters>
+	<!-- <parameter name="DomainIDs" type="java.util.Collection" optional="true" description="The involved DomainIDs."/> -->
+</parameters>
+<processor name="OracleSQL">
+	<processor-preprocessing output="APPLICATION_EditingName"  input="&apos;APPLICATION&apos;"  processing="StagingNamingHelper"/>
+</processor>
+<template>
+    DELETE FROM APPLICATION app_live
+     WHERE EXISTS (SELECT 1
+                     FROM <template-variable value="APPLICATION_EditingName:EditTableName" processing="text"/> app_edit
+                    WHERE app_live.siteid = app_edit.siteid
+                      AND app_live.urlidentifier = app_edit.urlidentifier
+                      AND app_live.uuid &lt;&gt; app_edit.uuid
+                   )
+</template>
+</query>

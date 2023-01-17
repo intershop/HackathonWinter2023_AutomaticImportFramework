@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>net</group>
+<description>Send a HTTP request and return the response</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Method"  localeId="en_US" >
+<description>HTTP methid, default &quot;GET&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_AuthLogin"  localeId="en_US" >
+<description>login for basic authentication , default none</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_AuthPasswort"  localeId="en_US" >
+<description>password for basic authentication , default none</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_ProxyHost"  localeId="en_US" >
+<description>proxy host IP/ dns name , default none</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_ProxyPort"  localeId="en_US" >
+<description>proxy port - verifued to be bumber between 100 and 65553, , default none</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_RetryCount"  localeId="en_US" >
+<description>number of retries to call the server, default 0</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_RetryInterval"  localeId="en_US" >
+<description>minutes to the next retry, default 0</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_ContentType"  localeId="en_US" >
+<description>HTTP Contenf-Type,  defaults to &quot;&quot;,
+examplse Content-type: application/json; charset=utf-8</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Encoding"  localeId="en_US" >
+<description>the character encoding of the content to sent to the server&quot;, default UTF-8</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-out_ResponseCode"  localeId="en_US" >
+<description>HTTP Response Code</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-inout_Content"  localeId="en_US" >
+<description>HTTP Content to send/ received,  defaults to &quot;&quot;,</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

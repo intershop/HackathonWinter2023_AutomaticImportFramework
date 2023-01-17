@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+  <info organisation="com.intershop.bmw" module="pf_replication_extension" revision="3.7.1-local" status="integration" publication="20220324100610">
+    <e:displayName>Platform - Replication Extensions</e:displayName>
+  </info>
+  <configurations>
+    <conf name="default" visibility="public" extends="runtime"/>
+    <conf name="runtime" visibility="public"/>
+  </configurations>
+  <publications>
+    <artifact name="pf_replication_extension" type="share" ext="zip" conf="runtime"/>
+    <artifact name="pf_replication_extension" type="jar" ext="jar" conf="runtime"/>
+    <artifact name="pf_replication_extension" type="cartridge" ext="zip" conf="runtime"/>
+    <artifact name="deploy" type="deploy-gradle" ext="gradle"/>
+  </publications>
+  <dependencies>
+    <dependency org="com.intershop" name="core" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop" name="bc_mvc" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop" name="bc_organization" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop" name="isml" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop" name="servletengine" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop" name="tools" conf="runtime-&gt;default" rev="7.5.5.0"/>
+    <dependency org="com.intershop.bmw" name="pf_utils" rev="3.7.1-local" conf="runtime-&gt;default"/>
+  </dependencies>
+</ivy-module>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+	<fulfill requirement="extensionFactory"
+		of="com.intershop.beehive.core.capi.businessobject.BusinessObjectExtensionFactories">
+		<!-- extension factories for ProcessStatisticsBO -->
+		<instance with="ProcessStatisticsBORepositoryExtensionFactory" />
+		<instance with="RepositoryBOImportProcessChainBORepositoryExtensionFactory" />
+		<instance with="ImportProcessChainBOStatisticsExtensionFactory" />
+		<instance with="ProcessStatisticsBOImportChainProcessDetailsExtensionFactory" />
+		<instance with="ProcessStatisticsBOImportMonitoringExtensionFactory" />
+	</fulfill>
+
+	<!-- ProcessStatisticsPO -> ProcessStatisticsBO mapper for query results -->
+	<instance name="ProcessStatisticsBOToProcessStatisticsBOMapper"
+		with="PersistentObjectToBusinessObjectMapper">
+		<fulfill requirement="boToPOmapperExtensionID" value="ProcessStatisticsBORepository" />
+	</instance>
+</components>

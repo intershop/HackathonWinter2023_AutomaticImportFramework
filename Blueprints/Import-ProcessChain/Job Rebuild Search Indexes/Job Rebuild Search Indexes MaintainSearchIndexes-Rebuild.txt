@@ -1,0 +1,18 @@
+Search Indexes can be in a:
+ * Channel (repository type code 32/partner, 42/B2B, 52/B2C)
+ * MasterRepository (organization level, repository type code 21, the MasterRepository domain and NOT the organization domain itself)
+
+
+Job "Rebuild Search Indexes" / Pipeline MaintainSearchIndexes-Rebuild
+=====================================================================
+Requires parameter "SearchIndexDomainName" (job attribute, e.g. SearchIndexDomainName="inSPIRED-inTRONICS"), otherwise all search indexes in the system are rebuilt.
+The job domain has no influence on the search indexes that are rebuild, only parameter "SearchIndexDomainName".
+
+
+By default, only search indexes of one repository will be rebuilt.
+To be able to supply an organization domain name as SearchIndexDomainName and build indexes of all its channels/repositories and even of all channels/repositories of its partner organizations:
+ * See overloaded MaintainSearchIndexes-CheckDomainName
+ * SearchIndexDomainName="<Enterprise/Partner Org>", e.g. SearchIndexDomainName="inSPIRED" / SearchIndexDomainName="Myers"
+
+
+ISH=959-546 Job Rebuild Search Indexes / MaintainSearchIndexes-Rebuild does not find indexes when using parameter SearchIndexDomainName

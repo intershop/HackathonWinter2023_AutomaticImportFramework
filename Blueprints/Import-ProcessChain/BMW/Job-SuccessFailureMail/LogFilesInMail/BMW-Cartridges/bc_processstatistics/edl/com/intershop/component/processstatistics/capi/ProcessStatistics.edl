@@ -1,0 +1,59 @@
+import "enfinity:/core/edl/com/intershop/beehive/core/capi/domain/ExtensibleObject.edl";
+import "enfinity:/core/edl/com/intershop/beehive/core/capi/locking/Process.edl";
+import "enfinity:/core/edl/com/intershop/beehive/core/types.edl";
+
+namespace com.intershop.component.processstatistics.capi
+{
+	/**
+	 * The ProcessStatistics persistent object is used to collect statistics information
+	 * about any kind of processes.
+	 * It is usually used for collecting information about all replication processes
+	 * or about all import process chains.
+	 * There is currently no automatic collection of any data. Instead, one has to use
+	 * the pipelets or similar code to create ProcessStatistics persistent objects.
+	 * The ProcessStatistics persistent object uses XML custom attributes
+	 * to be able to store data with more than 4000 bytes/chars.
+	 * 
+	 * @author t.koerbs@intershop.de
+	 * @version 1.0, 2016-Nov-22
+	 * @since 3.3.2
+	 *       
+	 *          Initial version.
+	 */
+	cartridge interface ProcessStatistics extends ExtensibleObject
+	{
+		/*
+		 * The type of the process.
+		 * Used to group processes of the same type when evaluating statistics.
+		 * Usually something like: "Import", "Replication".
+		 */
+		attribute ^type : string required readonly;
+		
+		/*
+		 * The name of the process.
+		 * Usually the name of the scheduled job or the replication process id.
+		 */
+		attribute name : string required;
+		
+		/*
+		 * The start date of the process.
+		 */
+		attribute startDate : datetime required;
+		
+		/*
+		 * The end date of the process.
+		 */
+		attribute endDate : datetime;
+		
+		/*
+		 * The result code of the process.
+		 * Usually something like: "SUCCESS", "WARNING", "FAILURE", "ERROR", "NOTFOUND", "INTERRUPTED". See also process chain errors (&lt;p:ignore&gt;).
+		 */
+		attribute result : string;
+
+		/*
+		 * The underlying process.
+		 */
+		relation process : Process[0..1];
+	}
+}

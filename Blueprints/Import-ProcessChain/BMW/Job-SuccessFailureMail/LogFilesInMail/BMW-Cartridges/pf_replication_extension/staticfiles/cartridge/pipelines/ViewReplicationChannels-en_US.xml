@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+<description>Get lists of channels taking part in the next replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteObjectsQuery6"  localeId="en_US" >
+<description>Do not use
+ReplicationChannelsSearchParameters
+to avoid restricting the filter entries
+to values occuring in the current list only.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteObjectsQuery7"  localeId="en_US" >
+<description>Do not use
+ReplicationChannelsSearchParameters
+to avoid restricting the filter entries
+to values occuring in the current list only.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue1"  localeId="en_US" >
+<description>TakesPartInReplication := &quot;true&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue2"  localeId="en_US" >
+<description>TakesPartInReplication := &quot;false&quot;</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

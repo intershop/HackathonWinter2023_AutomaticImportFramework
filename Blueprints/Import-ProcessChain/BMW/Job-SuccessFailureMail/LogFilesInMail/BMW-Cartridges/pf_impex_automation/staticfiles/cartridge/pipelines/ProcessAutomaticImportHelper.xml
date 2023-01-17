@@ -1,0 +1,2573 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipeline dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeline" id="Pipeline1" >
+<name>ProcessAutomaticImportHelper</name>
+<type>process</type>
+<nodes>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddLogInformationToDomain0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddLogInformationToDomain</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileName</key>
+<alias>AbsoluteFileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>TargetDomain</key>
+<alias>ProcessChainProcess:Parent:Domain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_impex_automation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="BrowseDirectory0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>BrowseDirectory</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultDirectoryPath</key>
+<value>catalog/upload</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>UnitDirectory</key>
+<value>IMPEX_SRC_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="CalculateDate1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>CalculateDate</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>CalculationMethod</key>
+<value>Subtract</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Date</key>
+<alias>CurrentDate</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Days</key>
+<alias>NumberOfDays</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>CalculatedDate</key>
+<alias>MaxSaveDate</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="Call2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImpexJob-GetFinishedImpexJobs</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ConcatenateStrings0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ConcatenateStrings</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultString2</key>
+<value>-0.log</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>String1</key>
+<alias>JobConfiguration:UUID</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Concatenated</key>
+<alias>LogFile</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="CreateZipFile0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>CreateZipFile</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Compression</key>
+<value>true</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSourceDirectoryPath</key>
+<value>catalog</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSourceUnitDirectory</key>
+<value>IMPEX_SRC_DIR</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultTargetDirectoryPath</key>
+<value>archive</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultTargetUnitDirectory</key>
+<value>IMPEX_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SourceFileName</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SourceUnitDomain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>TargetFileName</key>
+<alias>ZipFileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>TargetUnitDomain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="CreateZipFile2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>CreateZipFile</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Compression</key>
+<value>true</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSourceDirectoryPath</key>
+<value>catalog</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSourceUnitDirectory</key>
+<value>IMPEX_SRC_DIR</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultTargetDirectoryPath</key>
+<value>archive</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultTargetUnitDirectory</key>
+<value>IMPEX_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SourceFileName</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SourceUnitDomain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>TargetFileName</key>
+<alias>ZipFileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>TargetUnitDomain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>8</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>Job:LastExecutionTime</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>AbsoluteFileName</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>JobConfiguration:LastExecutionTime:Time</conditionKey>
+<conditionValue>0</conditionValue>
+<conditionOperator>neq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>JobConfiguration:Status</conditionKey>
+<conditionValue>1</conditionValue>
+<conditionOperator>neq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ProcessChainProcess:Parent:Domain</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode5" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>16</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>UnitDomain:ImportProcessChainError</conditionKey>
+<conditionValue>true</conditionValue>
+<conditionOperator>str-eq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="DeleteFile0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>DeleteFile</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultDirectoryPath</key>
+<value>catalog/upload</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>UnitDirectory</key>
+<value>IMPEX_SRC_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileName</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="DeleteFile1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>DeleteFile</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultDirectoryPath</key>
+<value>catalog</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>UnitDirectory</key>
+<value>IMPEX_SRC_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileName</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="DeleteFile3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>DeleteFile</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>UnitDirectory</key>
+<value>IMPEX_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DirectoryPath</key>
+<alias>&quot;archive&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>UnitDomain</key>
+<alias>JobDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="DetermineUnit0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>DetermineUnit</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>UnitName</key>
+<alias>JobConfiguration:DomainName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Unit</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode1_ReturnValue_Files" >
+<key>Files</key>
+<guaranteed>true</guaranteed>
+<type>java.util.Iterator</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode10" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode10_ReturnValue_AbsoluteFileName" >
+<key>AbsoluteFileName</key>
+<guaranteed>false</guaranteed>
+<type>java.lang.String</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode11" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>Success</name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode12" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>16</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>AtLeastOneBrandFailed</name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode13" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode14" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>21</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode4_ReturnValue_ProcessChainResult" >
+<key>ProcessChainResult</key>
+<guaranteed>false</guaranteed>
+<type>java.lang.Object</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode5" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode6" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>15</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode7" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>14</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode8" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>14</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode9" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>14</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>Error</name>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="FilterIteratorByAttribute1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>FilterIteratorByAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Attribute</key>
+<value>FullName</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Include</key>
+<value>Matching</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>Match</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Iterator</key>
+<alias>Files</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FilteredIterator</key>
+<alias>Files</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_utils</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="FilterIteratorByAttribute2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>FilterIteratorByAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Attribute</key>
+<value>SelectedFile</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Include</key>
+<value>Matching</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>Match</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Iterator</key>
+<alias>FinishedImpexJobs</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FilteredIterator</key>
+<alias>Jobs</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_utils</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetCurrentDate1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetCurrentDate</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>OffsetTime</key>
+<value>00:01</value>
+</DPipeletConfigProperty>
+</configProperties>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetDomainByName0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>16</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetDomainByName</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DomainName</key>
+<alias>UnitName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetDomainByName1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetDomainByName</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DomainName</key>
+<alias>UnitName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetDomainByName2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>21</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetDomainByName</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DomainName</key>
+<alias>UnitName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetProcessChainProcess0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetProcessChainProcess</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetStringSubstitution0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetStringSubstitution</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultPattern</key>
+<value>(.xml)$</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSubstitutionPattern</key>
+<value>-error.zip</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InputString</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Pattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SubstitutionPattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutputString</key>
+<alias>ZipFileName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetStringSubstitution1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetStringSubstitution</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultPattern</key>
+<value>(.xml)$</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSubstitutionPattern</key>
+<value>.zip</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InputString</key>
+<alias>Job:SelectedFile</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Pattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SubstitutionPattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutputString</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetStringSubstitution2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetStringSubstitution</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultPattern</key>
+<value>(.xml)$</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultSubstitutionPattern</key>
+<value>.zip</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InputString</key>
+<alias>FileName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Pattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SubstitutionPattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutputString</key>
+<alias>ZipFileName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="IsDateBefore1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>9</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>IsDateBefore</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Date1</key>
+<alias>Job:LastExecutionTime</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Date2</key>
+<alias>MaxSaveDate</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode10" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode15" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode19" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>9</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode5" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode6" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode7" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode8" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode9" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="KeyMapper1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>KeyMapper</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InValue_1</key>
+<alias>&quot;(Integer)4&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutValue_1</key>
+<alias>ProcessChainResult</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DLoopNode" id="LoopNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<iteratorKey>Jobs</iteratorKey>
+<elementKey>Job</elementKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="RemoveJobConfiguration2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>RemoveJobConfiguration</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>JobConfiguration</key>
+<alias>Job</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ResolveFilename1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ResolveFilename</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>UnitDirectory</key>
+<value>IMPEX_DIR</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DirectoryPath</key>
+<alias>&quot;log&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileName</key>
+<alias>LogFile</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SetDictionaryValue4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SetDictionaryValue</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Name</key>
+<value>JobNamePrefix</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Value</key>
+<value>ProcessCatalogImpex</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ValueType</key>
+<value>Dictionary Value</value>
+</DPipeletConfigProperty>
+</configProperties>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="SortIteratorByAttribute1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>SortIteratorByAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Attribute</key>
+<value>Name</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Order</key>
+<value>Ascending</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Iterator</key>
+<alias>Directory:Files</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SortedIterator</key>
+<alias>Files</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_utils</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>CompressImportFileOnError</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_FileName" >
+<key>FileName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode0_param_UnitDomain" >
+<key>UnitDomain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>GetImportFiles</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_UnitDomain" >
+<key>UnitDomain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode1_param_RegularExpression" >
+<key>RegularExpression</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode2" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>CompressImportFile</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode2_param_FileName" >
+<key>FileName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode2_param_UnitDomain" >
+<key>UnitDomain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode3" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>CleanupFinishedJobList</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode3_param_JobDomain" >
+<key>JobDomain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode3_param_NumberOfDays" >
+<key>NumberOfDays</key>
+<required>true</required>
+<type>java.lang.Integer</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode3_param_RegularExpression" >
+<key>RegularExpression</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode4" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>SetErrorState</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode5" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>10</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>SetErrorLogFile</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode5_param_Process" >
+<key>Process</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode5_param_AbsoluteFileName" >
+<key>AbsoluteFileName</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode5_param_UnitDomain" >
+<key>UnitDomain</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.domain.Domain</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode6" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>GetLogFileName</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode7" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>16</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>CheckAllBrandsSuccess</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode7_param_UnitName" >
+<key>UnitName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode8" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>SetBrandFailed</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode8_param_UnitName" >
+<key>UnitName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode9" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>21</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ResetFailedStatus</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode9_param_UnitName" >
+<key>UnitName</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateCustomAttribute0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>ImportProcessChainError</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeType</key>
+<value>String</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeValue</key>
+<value>true</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeType</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeValue</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateCustomAttribute1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>21</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateCustomAttribute</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeName</key>
+<value>ImportProcessChainError</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeType</key>
+<value>String</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultAttributeValue</key>
+<value>false</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeName</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeType</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>AttributeValue</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ExtensibleObject</key>
+<alias>UnitDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>LocaleInformation</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+</nodes>
+<transitions>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition10" >
+<fromId>CreateZipFile2</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode2</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition11" >
+<fromId>GetStringSubstitution2</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode2</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>5</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition12" >
+<fromId>DeleteFile1</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode3</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition13" >
+<fromId>JoinNode2</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode3</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition14" >
+<fromId>JoinNode3</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode1</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>11</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition16" >
+<fromId>SetDictionaryValue4</fromId>
+<fromConnector>next</fromConnector>
+<toId>Call2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition17" >
+<fromId>RemoveJobConfiguration2</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode8</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition18" >
+<fromId>GetStringSubstitution1</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode5</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>21</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition19" >
+<fromId>JoinNode19</fromId>
+<fromConnector>next</fromConnector>
+<toId>RemoveJobConfiguration2</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>15</x>
+<y>26</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition20" >
+<fromId>StartNode3</fromId>
+<fromConnector>next</fromConnector>
+<toId>SetDictionaryValue4</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition21" >
+<fromId>GetStringSubstitution1</fromId>
+<fromConnector>next</fromConnector>
+<toId>DeleteFile3</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>15</x>
+<y>22</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition22" >
+<fromId>DeleteFile3</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode5</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition23" >
+<fromId>IsDateBefore1</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetStringSubstitution1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition24" >
+<fromId>JoinNode5</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode19</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>25</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition26" >
+<fromId>CalculateDate1</fromId>
+<fromConnector>next</fromConnector>
+<toId>LoopNode1</toId>
+<toConnector>in</toConnector>
+<transactionControl>begin</transactionControl>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>15</x>
+<y>14</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition27" >
+<fromId>DeleteFile3</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode19</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition28" >
+<fromId>LoopNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode6</toId>
+<toConnector>in</toConnector>
+<transactionControl>commit</transactionControl>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>15</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>30</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>15</x>
+<y>30</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition29" >
+<fromId>Call2</fromId>
+<fromConnector>Error</fromConnector>
+<toId>EndNode3</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition31" >
+<fromId>GetCurrentDate1</fromId>
+<fromConnector>next</fromConnector>
+<toId>CalculateDate1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition33" >
+<fromId>JoinNode8</fromId>
+<fromConnector>next</fromConnector>
+<toId>LoopNode1</toId>
+<toConnector>loop</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>14</x>
+<y>29</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>14</x>
+<y>15</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition34" >
+<fromId>StartNode4</fromId>
+<fromConnector>next</fromConnector>
+<toId>KeyMapper1</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>19</x>
+<y>4</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition5" >
+<fromId>DeleteFile1</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode1</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition6" >
+<fromId>JoinNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode2</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>12</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition7" >
+<fromId>GetStringSubstitution2</fromId>
+<fromConnector>next</fromConnector>
+<toId>CreateZipFile2</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>6</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition8" >
+<fromId>StartNode2</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetStringSubstitution2</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>4</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="Transition9" >
+<fromId>CreateZipFile2</fromId>
+<fromConnector>next</fromConnector>
+<toId>DeleteFile1</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>8</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddLogInformationToDomain0_next_JoinNode15_in1" >
+<fromId>AddLogInformationToDomain0</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode15</toId>
+<toConnector>in1</toConnector>
+<transactionControl>flush</transactionControl>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_BrowseDirectory0_error_JoinNode0_in1" >
+<fromId>BrowseDirectory0</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode0</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>5</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>11</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_BrowseDirectory0_next_SortIteratorByAttribute1_in" >
+<fromId>BrowseDirectory0</fromId>
+<fromConnector>next</fromConnector>
+<toId>SortIteratorByAttribute1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_Call2_next_FilterIteratorByAttribute2_in" >
+<fromId>Call2</fromId>
+<fromConnector>next</fromConnector>
+<toId>FilterIteratorByAttribute2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ConcatenateStrings0_next_DetermineUnit0_in" >
+<fromId>ConcatenateStrings0</fromId>
+<fromConnector>next</fromConnector>
+<toId>DetermineUnit0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CreateZipFile0_error_JoinNode7_in1" >
+<fromId>CreateZipFile0</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode7</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CreateZipFile0_next_DeleteFile0_in" >
+<fromId>CreateZipFile0</fromId>
+<fromConnector>next</fromConnector>
+<toId>DeleteFile0</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>8</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_no_JoinNode4_in1" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode4</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>17</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_yes_IsDateBefore1_in" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>yes</fromConnector>
+<toId>IsDateBefore1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode1_no_JoinNode10_in1" >
+<fromId>DecisionNode1</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode10</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>23</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode1_yes_DecisionNode4_in" >
+<fromId>DecisionNode1</fromId>
+<fromConnector>yes</fromConnector>
+<toId>DecisionNode4</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode2_no_EndNode7_in" >
+<fromId>DecisionNode2</fromId>
+<fromConnector>no</fromConnector>
+<toId>EndNode7</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode2_yes_ConcatenateStrings0_in" >
+<fromId>DecisionNode2</fromId>
+<fromConnector>yes</fromConnector>
+<toId>ConcatenateStrings0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode3_no_EndNode8_in" >
+<fromId>DecisionNode3</fromId>
+<fromConnector>no</fromConnector>
+<toId>EndNode8</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode3_yes_DecisionNode2_in" >
+<fromId>DecisionNode3</fromId>
+<fromConnector>yes</fromConnector>
+<toId>DecisionNode2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode4_no_JoinNode10_in1" >
+<fromId>DecisionNode4</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode10</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode4_yes_AddLogInformationToDomain0_in" >
+<fromId>DecisionNode4</fromId>
+<fromConnector>yes</fromConnector>
+<toId>AddLogInformationToDomain0</toId>
+<toConnector>in</toConnector>
+<transactionControl>flush</transactionControl>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode5_no_EndNode11_in" >
+<fromId>DecisionNode5</fromId>
+<fromConnector>no</fromConnector>
+<toId>EndNode11</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>35</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode5_yes_EndNode12_in" >
+<fromId>DecisionNode5</fromId>
+<fromConnector>yes</fromConnector>
+<toId>EndNode12</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DeleteFile0_error_JoinNode6_in1" >
+<fromId>DeleteFile0</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode6</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DeleteFile0_next_JoinNode9_in1" >
+<fromId>DeleteFile0</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode9</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DetermineUnit0_error_EndNode9_in" >
+<fromId>DetermineUnit0</fromId>
+<fromConnector>error</fromConnector>
+<toId>EndNode9</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>28</x>
+<y>11</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DetermineUnit0_next_ResolveFilename1_in" >
+<fromId>DetermineUnit0</fromId>
+<fromConnector>next</fromConnector>
+<toId>ResolveFilename1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_FilterIteratorByAttribute1_next_JoinNode0_in1" >
+<fromId>FilterIteratorByAttribute1</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode0</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_FilterIteratorByAttribute2_next_GetCurrentDate1_in" >
+<fromId>FilterIteratorByAttribute2</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetCurrentDate1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetDomainByName0_next_DecisionNode5_in" >
+<fromId>GetDomainByName0</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode5</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetDomainByName1_next_UpdateCustomAttribute0_in" >
+<fromId>GetDomainByName1</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateCustomAttribute0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetDomainByName2_next_UpdateCustomAttribute1_in" >
+<fromId>GetDomainByName2</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateCustomAttribute1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetProcessChainProcess0_next_DecisionNode1_in" >
+<fromId>GetProcessChainProcess0</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetStringSubstitution0_error_JoinNode7_in1" >
+<fromId>GetStringSubstitution0</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode7</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>5</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetStringSubstitution0_next_CreateZipFile0_in" >
+<fromId>GetStringSubstitution0</fromId>
+<fromConnector>next</fromConnector>
+<toId>CreateZipFile0</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>6</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_IsDateBefore1_error_JoinNode4_in1" >
+<fromId>IsDateBefore1</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode4</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode0_next_EndNode1_in" >
+<fromId>JoinNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode10_next_JoinNode15_in1" >
+<fromId>JoinNode10</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode15</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>23</x>
+<y>13</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode15_next_EndNode5_in" >
+<fromId>JoinNode15</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode5</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode4_next_JoinNode8_in1" >
+<fromId>JoinNode4</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode8</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>18</x>
+<y>19</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>18</x>
+<y>29</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode6_next_JoinNode9_in1" >
+<fromId>JoinNode6</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode9</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>13</x>
+<y>11</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode7_next_JoinNode6_in1" >
+<fromId>JoinNode7</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode6</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode9_next_EndNode0_in" >
+<fromId>JoinNode9</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode0</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>12</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_KeyMapper1_next_EndNode4_in" >
+<fromId>KeyMapper1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode4</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_LoopNode1_do_DecisionNode0_in" >
+<fromId>LoopNode1</fromId>
+<fromConnector>do</fromConnector>
+<toId>DecisionNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ResolveFilename1_next_EndNode10_in" >
+<fromId>ResolveFilename1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode10</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_SortIteratorByAttribute1_next_FilterIteratorByAttribute1_in" >
+<fromId>SortIteratorByAttribute1</fromId>
+<fromConnector>next</fromConnector>
+<toId>FilterIteratorByAttribute1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode0_next_GetStringSubstitution0_in" >
+<fromId>StartNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetStringSubstitution0</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>4</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode1_next_BrowseDirectory0_in" >
+<fromId>StartNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>BrowseDirectory0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode5_next_GetProcessChainProcess0_in" >
+<fromId>StartNode5</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetProcessChainProcess0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode6_next_DecisionNode3_in" >
+<fromId>StartNode6</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode3</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode7_next_GetDomainByName0_in" >
+<fromId>StartNode7</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetDomainByName0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode8_next_GetDomainByName1_in" >
+<fromId>StartNode8</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetDomainByName1</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode9_next_GetDomainByName2_in" >
+<fromId>StartNode9</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetDomainByName2</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateCustomAttribute0_next_EndNode13_in" >
+<fromId>UpdateCustomAttribute0</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode13</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateCustomAttribute1_next_EndNode14_in" >
+<fromId>UpdateCustomAttribute1</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode14</toId>
+<toConnector>in</toConnector>
+</DTransition>
+</transitions>
+</DPipeline>

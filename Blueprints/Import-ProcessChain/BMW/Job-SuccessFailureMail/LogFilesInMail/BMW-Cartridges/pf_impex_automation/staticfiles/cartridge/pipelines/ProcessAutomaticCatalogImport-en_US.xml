@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<displayName>ProcessAutomaticCatalogImport</displayName>
+<group>Job</group>
+<description>Pipeline is managing the import of catalog and categories</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Call5"  localeId="en_US" >
+<description>@displayNearNode@Create and start import job</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode1"  localeId="en_US" >
+<description>@displayNearNode@Delete the catalog?</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode20_ReturnValue_Catalog"  localeId="en_US" >
+<description>
+		
+        </description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetFirstElementOfIterator0"  localeId="en_US" >
+<description>@displayNearNode@Left: Master-Import
+Right: Channel-Import</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper2"  localeId="en_US" >
+<description>@displayNearNode@Some data required as form data, map these values</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper5"  localeId="en_US" >
+<description>@displayNearNode@ImportMode = &quot;DELETE&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Checks if the given CatalogID already exists in one of the selected channels.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_CatalogID"  localeId="en_US" >
+<description>The ID of the catalog that shall be created.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_SelectedChannels"  localeId="en_US" >
+<description>Channels containing iterator.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode10"  localeId="en_US" >
+<description>@displayNearNode@Create a new catalog.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode2"  localeId="en_US" >
+<description>@displayNearNode@Import of a specified file. 
+Two jobs are created (verify and import).</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode2_param_ImageDefinitionDomainUUID"  localeId="en_US" >
+<description>The UUID of the Image Definition Domain</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode3"  localeId="en_US" >
+<description>Delete categories marked with custom attribute &quot;delete&quot;. #
+ToDo: 
+1) Check the deletion of pagelet assignments
+2) Check import functionality to mark categories with delete flag</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode7"  localeId="en_US" >
+<description>@displayNearNode@Creates a job. 
+Wait until the job execution has finished.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode7_param_SourceDirectory"  localeId="en_US" >
+<description>should be some like &quot;marketing&quot;...</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode7_param_ImageDefinitionDomainUUID"  localeId="en_US" >
+<description>The UUID of the Image Definition Domain</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode8"  localeId="en_US" >
+<description>Start node for import process of catalogs and categories.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode9"  localeId="en_US" >
+<description>@displayNearNode@Get a catalog if exists, otherwise create it.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="TextNode2"  localeId="en_US" >
+<description>Wait until
+job finished</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

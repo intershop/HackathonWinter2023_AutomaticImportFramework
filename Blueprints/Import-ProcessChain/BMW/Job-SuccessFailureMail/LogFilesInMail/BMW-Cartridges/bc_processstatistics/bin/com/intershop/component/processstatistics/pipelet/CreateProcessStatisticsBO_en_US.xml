@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>ProcessStatistics</group>
+<description>The ProcessStatisticsBO business interface is used for statistics information about any kind of processes.
+It is usually used for collecting information about a replication process or about an import process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Domain"  localeId="en_US" >
+<description>The domain of the process statistics object. Any domain is valid.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Type"  localeId="en_US" >
+<description>The type of the process. Used to group processes of the same type when evaluating statistics.
+Usually something like: &quot;Import&quot;, &quot;Replication&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Name"  localeId="en_US" >
+<description>The name of the process.
+Usually the name of the scheduled job or the replication process id.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_StartDate"  localeId="en_US" >
+<description>The start date of the process.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

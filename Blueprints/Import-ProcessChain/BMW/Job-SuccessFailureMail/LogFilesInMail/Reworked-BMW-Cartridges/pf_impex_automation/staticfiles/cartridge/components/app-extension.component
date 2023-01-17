@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+    <fulfill requirement="selectedCartridge" value="pf_impex_automation" of="intershop.B2CBackoffice.Cartridges"/>
+</components>

@@ -1,0 +1,103 @@
+<%@ page import="org.apache.commons.io.FilenameUtils,java.util.Date,java.text.SimpleDateFormat" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<iscontent type="text/html" session="false" charset="UTF-8" compact="true">
+<isif condition="#isDefined(ProcessChainProcess:ParentPO:JobConfiguration:ImportPackageID)#">
+	<isset name="ImportPackageID" scope="request" value="#ProcessChainProcess:ParentPO:JobConfiguration:ImportPackageID#"/>
+</isif>
+
+<subject><isprint value="#System#"/> - <isprint value="#RegistrationDomain#"/><isif condition="#isDefined(ImportPackageID)#"> <isprint value="#ImportPackageID#"/></isif> - import process chain execution <isprint value="#Process:JobConfiguration:getAttribute("Status")#"/></subject>
+<html>
+	<head>
+		<style type="text/css">
+			body {
+				font: 100% Verdana, Arial, Helvetica, sans-serif;
+				color: #000;
+				background: #fff;
+			}
+			body p { 
+				font-size: 12px;
+			}
+			p {
+				font-size: 12px;
+			}
+			p.additional {
+				margin-top: 20px;
+				font-size: 10px;
+				color: #333;
+			}
+			span.bold {
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<p>
+			<span class="bold">System:</span> <isprint value="#System#"/><br/>
+			<span class="bold">Import process:</span> Shop Export<isif condition="#isDefined(ImportPackageID)#"> <isprint value="#ImportPackageID#"/></isif> <isprint value="#RegistrationDomain#"/><br/>
+			<span class="bold">Import status:</span> <isprint value="#Process:JobConfiguration:getAttribute("Status")#"/><br/>
+		</p>
+		<p>
+			<span class="bold">Host name:</span> <isprint value="#Process:HostName#"><br />
+		</p>
+		<p>
+			----------------------<br/>
+			<isif condition="#hasElements(Files)#">Waiting imports on eShop file system:<br/>
+				<%
+					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm:ss");
+					Date date = new Date();
+				%>
+				<isloop iterator="Files" alias="File">
+				<%
+					File file = (File)getObject("File");
+					date.setTime(file.lastModified());
+					out.println(FilenameUtils.getBaseName(file.getName()) + ", received " + sdf.format(date) + "<br/>");
+				%>
+				</isloop>
+			<iselse>No imports waiting on eShop file system.<br/>
+			</isif>
+			----------------------
+		</p>
+			<isif condition="#isDefined(LogInformation)#">
+				<p>
+					Some sub tasks returned warnings and errors. Please check the attached log files:
+				</p>
+				----------------------
+				<isloop iterator="LogInformation" alias="logInfo">
+				<p>
+					<% 
+						String[] logEntry = ((String)getObject("logInfo")).split("\\|");
+						getPipelineDictionary().put("jobFileName",logEntry[0].substring(logEntry[0].lastIndexOf("\\")+1));
+						getPipelineDictionary().put("jobName",logEntry[1]);
+						getPipelineDictionary().put("jobDescription",logEntry[2]);
+						getPipelineDictionary().put("jobDomain",logEntry[3]);
+					%>
+				
+					<span class="bold">Job name: </span><isprint value="#jobName#"/><br />
+					<span class="bold">Job description: </span><isprint value="#jobDescription#"/><br />
+					<span class="bold">Job execution domain: </span> <isprint value="#jobDomain#"/> <br />
+					<span class="bold">Log File Name: </span> <isprint value="#jobFileName#"/> <br />
+					Please find the original import file compressed on eserver path: /share/sites/<isprint value="#jobDomain#"/>-Site/units/<isprint value="#jobDomain#"/>/impex/archive.
+					<br /><br />
+					----------------------
+				</p>
+				</isloop>
+				<p><br/>
+					Please note:<br/>
+					Before restarting the import process chain, please be aware of the parameter <b>CleanupUploadFolder</b> for the job configuration <b>ProcessImportPreProcess</b> within domain <b>root</b>.<br/>
+					The valid options for this parameter when starting the process chain are <b>true</b> and <b>false</b>.<br /><br />
+					1. Import process chain starting with parameter set to <b>true</b><br />
+					   All import files which are not processed due to import errors on the previous import process will be deleted before starting the new import process. Choose this option if new files are available and these files are a <b>REPLACEMENT</b> of the erroneous imports.<br /><br />
+					2. Import process chain starting with parameter set to <b>false</b><br />
+					   All import files which are not processed due to import errors on the previous import process will be imported before importing new import files. Choose this option if the import of these files is neccessary to get consistent data. 
+				</p>
+			</isif>
+		<p>
+			Yours sincerely,<br/>
+			The Intershop support team
+		</p>
+		<p class="additional">
+			*** This is an automatically generated email, please do not reply ***
+		</p>
+	</body>
+</html>
+

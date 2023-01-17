@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="OrganizationID"  type="java.lang.String" optional="true" />
+        <parameter name="MarketChannelID" type="java.lang.String" optional="true" />
+        <parameter name="TakesPart"       type="java.lang.String" optional="true" /> <!-- one of: <empty>, YES, NO -->
+    </parameters>
+    <return-mappings>
+        <return-mapping name="OrganizationID" type="rename">
+            <return-attribute name="id" />
+        </return-mapping>
+    </return-mappings>
+    <processor name="OracleSQL">
+    </processor>
+    <template type="objects">
+        SELECT DISTINCT org.id AS id
+          FROM Organization org, Repository rep
+         WHERE org.OrganizationDomainID = rep.DomainID
+              <!-- expressions -->
+              <template-call name="replicationchannels/ReplicationChannelsSearchExpressions">
+                  <call-parameter name="OrganizationID"  value="OrganizationID"/>
+                  <call-parameter name="MarketChannelID" value="MarketChannelID"/>
+                  <call-parameter name="TakesPart"       value="TakesPart"/>
+              </template-call>
+         <!-- sorting by sort attribute -->       
+         ORDER BY id
+    </template>
+</query>

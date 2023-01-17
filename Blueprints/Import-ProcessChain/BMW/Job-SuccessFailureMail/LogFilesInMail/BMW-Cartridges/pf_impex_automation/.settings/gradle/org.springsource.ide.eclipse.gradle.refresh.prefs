@@ -1,0 +1,8 @@
+#com.intershop.studio.cartridge.gradle.CartridgeGradleRefreshPreferences
+#Mon Apr 29 15:08:15 CEST 2019
+addResourceFilters=true
+afterTasks=;
+beforeTasks=build;
+enableAfterTasks=false
+enableBeforeTasks=false
+useHierarchicalNames=false

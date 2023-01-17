@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xml="http://www.w3.org/XML/1998/namespace" xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd" keepAliveTime="10" name="Sequence of jobs with concurrent jobs sub task">
+	<p:sequence name="Main: Sequence with concurrent sub task">
+		<p:job job="Wait1min2" timeout="5" name="Wait 1 min - Step1"  domain="SLDSystem">
+			<p:description lang="en-US">Has 5 minutes timeout and should execute in less than 5 minutes</p:description>
+		</p:job>
+		<p:job job="Wait1min3" timeout="5" name="Wait 1 min - Step2"  domain="SLDSystem">
+			<p:description lang="en-US">Has 5 minutes timeout and should execute in less than 5 minutes</p:description>
+		</p:job>
+		<p:concurrent name="Longer running jobs - Concurrent  - Step3">
+			<p:job job="Wait10min1" timeout="11" name="Wait 10 min  - Step3.a"  domain="SLDSystem"/>
+			<p:job job="Wait1min" timeout="11" name="Wait 10 min - Step3.b"  domain="SLDSystem"/>
+		</p:concurrent>
+		<p:job job="Wait1min5" timeout="5" name="Wait 1 min  - Step4"  domain="SLDSystem">
+			<p:description lang="en-US">Has 5 minutes timeout and should execute in less than 5 minutes</p:description>
+		</p:job>
+		<p:job job="Wait1min6" timeout="5" name="Wait 1 min - Step5"  domain="SLDSystem">
+			<p:description lang="en-US">Has 5 minutes timeout and should execute in less than 5 minutes</p:description>
+		</p:job>
+	</p:sequence>
+</p:chain>

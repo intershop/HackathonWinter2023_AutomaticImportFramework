@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Impex</group>
+<description>Cleanup pipeline when import process finished</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode3"  localeId="en_US" >
+<description>Map-Size = 1
+if each brand is on the same import ID</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text2"  localeId="en_US" >
+<description>This job after cleanup of each brand import.
+It checks if the package with the same number
+are imported for all brands. if yes, the root ExportID is
+set to the package number and the next imports can succeed.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text3"  localeId="en_US" >
+<description>Calls the job with the Start node
+CheckAllBrandsImportID in this pipeline.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

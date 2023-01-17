@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Returns the proxy catalog in a given domain for a certain concrete catalog if it exists.">
+<parameters>
+	<parameter name="DomainID" type="java.lang.String" optional="false"/>
+	<parameter name="Catalog" type="com.intershop.component.mvc.capi.catalog.Catalog" optional="false"/>
+</parameters>
+<return-mappings>
+	<return-mapping name="Catalog" type="orm" class="com.intershop.component.mvc.internal.catalog.CatalogPO">
+		<return-attribute name="uuid"/>
+	</return-mapping>
+</return-mappings>
+<processor name="OracleSQL">
+</processor>
+<template type="objects">
+	SELECT c.uuid 
+	FROM Catalog c 
+	WHERE c.catalogdomainid = <template-variable value="Catalog:DomainID"/> 
+	  AND c.domainid = <template-variable value="DomainID"/> 
+	  AND c.proxyflag = 1
+</template>
+</query>

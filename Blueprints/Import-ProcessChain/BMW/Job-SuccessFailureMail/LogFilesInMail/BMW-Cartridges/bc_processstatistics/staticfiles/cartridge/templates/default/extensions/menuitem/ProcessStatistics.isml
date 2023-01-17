@@ -1,0 +1,3 @@
+﻿<li <isif condition="#SelectedSubMenuItem EQ 'ProcessStatistics'#">class="active"</isif>>
+	<a href="#URL(Action('ViewProcessStatistics-ProcessStatisticsList'))#" id="Startup"><istext key="processstatistics.smc.extension.link.processstatistics"/></a>
+</li>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet"  localeId="en_US" >
+<group>Security</group>
+<description>The pipelet checks the user&apos;s permission against the given authorization object. If the user doesn&apos;t
+have the permission at the given authorization object the pipelet returns PIPELET_ERROR 
+The UserPermission is evaluated with the following precedence:
+1. Permission from pipeline dictionary, if there is no
+2. PermissionID from pipeline dictionary, if there is no
+3. DefaultPermissionID from config parameters, if there is no
+If no permissionID is found and exception is thrown.</description>
+<displayName>GetRoleAssignments</displayName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="Property_CurrentUser"  localeId="en_US" >
+<description>The current user to check the permission of. This parameter is required.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="Property_AuthorizationObject"  localeId="en_US" >
+<description>The object to check the permission against. Can be an Organization or a Domain (channel/repository domain).
+This parameter is required.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

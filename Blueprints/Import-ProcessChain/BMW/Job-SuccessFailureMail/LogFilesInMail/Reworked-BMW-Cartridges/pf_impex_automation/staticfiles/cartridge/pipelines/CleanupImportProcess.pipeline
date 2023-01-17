@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Cleanup pipeline when import process finished
+@Group Impex-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="CleanupImportProcess" type="process">
+<!--This job after cleanup of each brand import.
+It checks if the package with the same number
+are imported for all brands. if yes, the root ExportID is
+set to the package number and the next imports can succeed.
+@Location 4,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text2"/>
+<!--Calls the job with the Start node
+CheckAllBrandsImportID in this pipeline.
+@Location 0,6-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text3"/>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" strict="true" name="CheckAllBrandsImportID"
+      callMode="Private">
+    <nodeSuccessors name="next" next="SplitString0"/>
+    <parameters name="ImportBrands" type="java.lang.String"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SplitString0">
+    <pipelet href="enfinity:/core/pipelets/SplitString.xml"/>
+    <nodeSuccessors name="next" next="LoopNode0"/>
+    <parameterBindings name="Delimeter" constant=","/>
+    <parameterBindings name="Trim" constant="(Boolean)true"/>
+    <parameterBindings name="ValuesString" objectPath="ImportBrands"/>
+    <returnValueBindings name="ValuesIterator" objectPath="Brands"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode0" loop="Brands">
+    <nodeSuccessors name="next" next="DecisionNode3"/>
+    <entry key="Brand">
+      <nodeSuccessors name="loop_entry_next" next="ConcatenateStrings0"/>
+    </entry>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings0">
+    <configurationValues name="DefaultString1" value="-Site"/>
+    <pipelet href="enfinity:/core/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="RemoveDictionaryValues1"/>
+    <parameterBindings name="String0" objectPath="Brand"/>
+    <returnValueBindings name="Concatenated" objectPath="SiteDomain"/>
+  </nodes>
+<!--@Location 4,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveDictionaryValues1">
+    <configurationValues name="Keys" value="Domain,LastExportID"/>
+    <pipelet href="enfinity:/core/pipelets/RemoveDictionaryValues.xml"/>
+    <nodeSuccessors name="next" next="GetDomainByName1"/>
+  </nodes>
+<!--@Location 4,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName1">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode5"/>
+    <parameterBindings name="DomainName" objectPath="SiteDomain"/>
+  </nodes>
+<!--@Location 4,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper0">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode2"/>
+    <parameterBindings name="InValue_1" objectPath="Domain:LastExportID"/>
+    <returnValueBindings name="OutValue_1" objectPath="LastExportID"/>
+  </nodes>
+<!--@Location 4,8-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="LastExportID">
+    <nodeSuccessors name="decision_yes" next="AddEntryToMap0"/>
+    <nodeSuccessors name="decision_no" next="EndNode3"/>
+  </nodes>
+<!--@Location 4,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddEntryToMap0">
+    <pipelet href="enfinity:/core/pipelets/AddEntryToMap.xml"/>
+<!--@BendPoints 7,19 7,9 7,7-->
+    <nodeSuccessors name="next" next="LoopNode0_Entry"/>
+    <parameterBindings name="InMap" objectPath="IDMap"/>
+    <parameterBindings name="Key" objectPath="LastExportID"/>
+    <parameterBindings name="Value" constant="LastExportID"/>
+    <returnValueBindings name="OutMap" objectPath="IDMap"/>
+  </nodes>
+<!--@Location 7,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" name="" strict="true"/>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode5">
+    <nodeSuccessors name="next" next="JoinNode6"/>
+  </nodes>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode6">
+    <nodeSuccessors name="next" next="JoinNode7"/>
+  </nodes>
+<!--@Location 7,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode7">
+    <nodeSuccessors name="next" next="EndNode1"/>
+  </nodes>
+<!--@Location 8,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" name="" strict="true"/>
+<!--Map\-Size = 1
+if each brand is on the same import ID
+@Location 5,3-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode3" conditionKey="IDMap:Size"
+      operator="eq" conditionValue="1">
+    <nodeSuccessors name="decision_yes" next="GetDomainByName2"/>
+    <nodeSuccessors name="decision_no" next="JoinNode5"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName2">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttribute0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode6"/>
+    <parameterBindings name="DomainName" constant="root"/>
+    <returnValueBindings name="Domain" objectPath="RootDomain"/>
+  </nodes>
+<!--@Location 7,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute0">
+    <configurationValues name="DefaultAttributeName" value="LastExportID"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="EndNode4"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode7"/>
+    <parameterBindings name="AttributeValue" objectPath="LastExportID"/>
+    <parameterBindings name="ExtensibleObject" objectPath="RootDomain"/>
+  </nodes>
+<!--@Location 8,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode4" strict="true"/>
+<!--@Location \-1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="GetDomainByName0"/>
+    <parameters name="LastExportID" type="java.lang.String" optional="true"/>
+    <parameters name="UnitName" type="java.lang.String"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"
+        optional="true"/>
+  </nodes>
+<!--@Location \-1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName0">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="UpdateLastExportID0"/>
+<!--@BendPoints 5,5-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode1"/>
+    <parameterBindings name="DomainName" objectPath="UnitName"/>
+    <returnValueBindings name="Domain" objectPath="UnitDomain"/>
+  </nodes>
+<!--@Location \-1,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateLastExportID0">
+    <pipelet href="enfinity:/bmw_ac_pim/pipelets/UpdateLastExportID.xml"/>
+    <nodeSuccessors name="next" next="CleanupPIMWorkingDirectory0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode1"/>
+    <parameterBindings name="ImportBrand" objectPath="UnitName"/>
+    <parameterBindings name="LastExportID" nullBinding="true"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentDomain"/>
+    <returnValueBindings name="ImportBrand" objectPath="UnitName"/>
+    <returnValueBindings name="LastExportID" nullBinding="true"/>
+    <returnValueBindings name="UnitDomain" objectPath="CurrentDomain"/>
+  </nodes>
+<!--@Location \-1,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CleanupPIMWorkingDirectory0">
+    <pipelet href="enfinity:/bmw_ac_pim/pipelets/CleanupPIMWorkingDirectory.xml"/>
+    <nodeSuccessors name="next" next="GetJobConfiguration0"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="ImportBrand" objectPath="UnitName"/>
+    <returnValueBindings name="ImportBrand" objectPath="UnitName"/>
+  </nodes>
+<!--@Location \-1,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetJobConfiguration0">
+    <configurationValues name="DefaultJobDomainName" value="root"/>
+    <configurationValues name="DefaultJobName" value="CheckAllBrandsImportID"/>
+    <pipelet href="enfinity:/core/pipelets/GetJobConfiguration.xml"/>
+    <nodeSuccessors name="next" next="ExecuteJob0"/>
+<!--@BendPoints 1,11-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode9"/>
+  </nodes>
+<!--@Location \-1,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteJob0">
+    <pipelet href="enfinity:/core/pipelets/ExecuteJob.xml"/>
+    <nodeSuccessors name="next" next="JoinNode8"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode9"/>
+  </nodes>
+<!--@Location \-1,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode8">
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location \-1,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true"/>
+<!--@Location 0,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode9">
+<!--@BendPoints 1,15-->
+    <nodeSuccessors name="next" next="JoinNode8"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="CallNode0"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode0">
+    <nodeSuccessors name="next" next="EndNode2"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-SetErrorState"/>
+  </nodes>
+<!--@Location 2,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" name="error" strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="JoinNode0"/>
+  </nodes>
+</pipeline:Pipeline>

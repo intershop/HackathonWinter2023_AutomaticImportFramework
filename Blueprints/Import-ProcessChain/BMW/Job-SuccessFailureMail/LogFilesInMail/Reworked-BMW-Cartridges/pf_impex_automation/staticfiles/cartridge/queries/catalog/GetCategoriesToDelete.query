@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Get all categories marked as delete including all those, having a parant to delete. The result is order from leafs to the root, in natural deletion order">
+<parameters>
+	<parameter name="Domain" type="com.intershop.beehive.core.capi.domain.Domain" optional="false"/>
+</parameters>
+<return-mappings>
+	<return-mapping name="CatalogCategoryID" type="rename">
+		<return-attribute name="uuid"/>
+	</return-mapping>
+	<return-mapping name="Position" type="rename">
+		<return-attribute name="orderno"/>
+	</return-mapping>
+</return-mappings>
+<processor name="OracleSQL">
+</processor>
+<template type="objects">
+	select unique
+	ccd.uuid, (select max(level) from catalogcategory cci
+	      start with cci.uuid = ccd.uuid
+	      connect by cci.uuid = prior parentcategoryid) as orderno
+	from
+	(
+	      select cci.uuid
+	      from catalogcategory cci
+	      start with exists (select * from catalog c where c.catalogdomainid = cci.domainid and c.domainid = <template-variable value="Domain:DomainID"/>)
+	             and exists (select * from catalogcategory_av ccav where ccav.ownerid = cci.uuid and ccav.name = &apos;delete&apos; and ccav.stringvalue = &apos;true&apos;)
+	      connect by prior cci.uuid = parentcategoryid
+	) ccd
+	order by orderno desc
+</template>
+</query>

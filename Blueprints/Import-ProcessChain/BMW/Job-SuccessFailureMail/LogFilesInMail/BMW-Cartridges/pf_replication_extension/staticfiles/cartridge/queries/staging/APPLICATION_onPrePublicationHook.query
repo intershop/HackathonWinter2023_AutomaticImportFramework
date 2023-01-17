@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used during replication of APPLICATION entries. It uses AppendDomainSpecificStagingProcessor (= INSERT only). Here we UPDATE storefront applications of Market and Dealer channels.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="false" description="The involved DomainIDs."/>
+</parameters>
+<processor name="OracleSQL">
+	<processor-preprocessing output="REPOSITORY_EditingName"   input="&apos;REPOSITORY&apos;"   processing="StagingNamingHelper"/>
+	<processor-preprocessing output="ORGANIZATION_EditingName" input="&apos;ORGANIZATION&apos;" processing="StagingNamingHelper"/>
+	<processor-preprocessing output="APPLICATION_EditingName"  input="&apos;APPLICATION&apos;"  processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_EditingName"       input="&apos;DOMAIN&apos;"       processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_AV_EditingName"    input="&apos;DOMAIN_AV&apos;"    processing="StagingNamingHelper"/>
+</processor>
+<template>
+    UPDATE APPLICATION dst SET (dst.SITEID, dst.APPID, dst.URLIDENTIFIER, dst.ENABLEDFLAG, dst.DEFAULTCURRENCY, dst.CURRENCIES, dst.DEFAULTLOCALE, dst.LOCALES, dst.DEFAULTTIMEZONE, dst.DOMAINID, dst.OCA, dst.LASTMODIFIED)
+                      = (SELECT src.SITEID, src.APPID, src.URLIDENTIFIER, src.ENABLEDFLAG, src.DEFAULTCURRENCY, src.CURRENCIES, src.DEFAULTLOCALE, src.LOCALES, src.DEFAULTTIMEZONE, src.DOMAINID, src.OCA, src.LASTMODIFIED
+                         FROM <template-variable value="APPLICATION_EditingName:EditTableName" processing="text"/> src
+                         WHERE dst.UUID = src.UUID)
+     WHERE
+	  EXISTS (SELECT 1 FROM <template-variable value="APPLICATION_EditingName:EditTableName" processing="text"/> src WHERE dst.UUID = src.UUID)
+      AND
+	  dst.SITEID IN (
+	   SELECT d.SITEID
+	    from <template-variable value="REPOSITORY_EditingName:EditTableName"   processing="text"/> rep
+	    join <template-variable value="ORGANIZATION_EditingName:EditTableName" processing="text"/> org      on (org.ORGANIZATIONDOMAINID = rep.DOMAINID)
+	    join <template-variable value="DOMAIN_EditingName:EditTableName"       processing="text"/> d        on (d.DOMAINID = rep.REPOSITORYDOMAINID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"    processing="text"/> d_avRepl on (d_avRepl.ownerid = d.SITEID) 
+	   where org.TYPECODE = 30 AND d_avRepl.name = 'TakesPartInReplication' AND d_avRepl.stringvalue = 'true'
+	     AND d.SITEID IN
+	     (
+	          <template-loop iterator="DomainIDs" alias="DomainID"><loop-statement>
+			          <template-variable value="DomainID"/>
+			          </loop-statement>
+			          <loop-separator>,</loop-separator>
+	          </template-loop>
+	     )
+	  )
+</template>
+</query>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>job</group>
+<description>Pipeline is handling after import processes.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValueDesc" id="EndNode0_ReturnValue_UnitDomain"  localeId="en_US" >
+<description>The domain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>@displayNearNode@Prefix pipeline determines the enterprise Domain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text0"  localeId="en_US" >
+<description>History:
+
+2014-11-11 t.hofbeck@intershop.de:
+	- initial creation: general pipeline for after import processes</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

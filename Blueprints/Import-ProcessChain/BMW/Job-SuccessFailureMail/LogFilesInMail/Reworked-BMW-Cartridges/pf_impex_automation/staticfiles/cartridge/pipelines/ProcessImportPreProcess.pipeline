@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Pipeline is handling pre import processes.
+@Group job-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessImportPreProcess" type="process">
+<!--History:
+
+2015\-05\-12 t.hofbeck@intershop.de:
+	\- initial creation: general pipeline for pre import processes
+@Location 0,1-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text0"/>
+<!--@displayNearNode@Prefix pipeline determines the enterprise Domain.
+@Location 4,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" name="Prefix" callMode="Private">
+    <nodeSuccessors name="next" next="GetDomainByName0"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName0">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="JoinNode0"/>
+<!--@BendPoints 11,5 11,7-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="DomainName" objectPath="UnitName"/>
+    <returnValueBindings name="Domain" objectPath="UnitDomain"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true">
+<!--The domain.-->
+    <returnValues name="UnitDomain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+  </nodes>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="CallNode1"/>
+    <parameters name="UnitName" type="java.lang.String"/>
+    <parameters name="FileNamePrefix" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="ExtensionPointNode1"/>
+    <startNode referencedName="ProcessImportPreProcess-Prefix"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:ExtensionPointNode" nodeID="ExtensionPointNode1" name="IncludeOrganization"
+      strict="true">
+    <nodeSuccessors name="next" next="EndNode4"/>
+<!--@BendPoints 7,7-->
+    <nodeSuccessors name="pipelet_error" next="CallNode3"/>
+    <parameters name="UnitDomain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="FileNamePrefix" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode4" strict="true"/>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode3">
+    <nodeSuccessors name="next" next="EndNode3"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-SetErrorState"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" name="error" strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+</pipeline:Pipeline>

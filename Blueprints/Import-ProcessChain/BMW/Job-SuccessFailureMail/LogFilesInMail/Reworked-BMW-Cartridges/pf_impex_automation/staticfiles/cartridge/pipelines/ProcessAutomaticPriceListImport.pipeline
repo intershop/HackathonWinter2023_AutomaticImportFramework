@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Pipeline is managing the import of price lists.
+@DisplayName ProcessAutomaticPriceListImport
+@Group Job-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessAutomaticPriceListImport" type="job">
+<!--Wait until
+job finished
+@Location 11,6-->
+  <nodes xsi:type="pipeline:Text" nodeID="TextNode3"/>
+<!--Creates a job. 
+Wait until the job execution has finished.
+@Location 9,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode12" strict="true" name="CreateJob"
+      callMode="Private">
+<!--@BendPoints 19,4-->
+    <nodeSuccessors name="next" next="KeyMapper10"/>
+    <parameters name="CurrentUnit" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="SelectedFile" type="java.lang.String"/>
+<!--should be some like "marketing"...-->
+    <parameters name="SourceDirectory" type="java.lang.String"/>
+    <parameters name="ProcessPipelineName" type="java.lang.String"/>
+    <parameters name="ProcessPipelineStartNode" type="java.lang.String"/>
+    <parameters name="JobDescription" type="java.lang.String"/>
+    <parameters name="JobName" type="java.lang.String"/>
+    <parameters name="ProcessExecutionDomain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="Repository" type="com.intershop.beehive.core.capi.domain.Domain"
+        optional="true"/>
+    <parameters name="AttributeGroupDomainUUID" type="java.lang.String" optional="true"/>
+    <parameters name="RepositoryDomainName" type="java.lang.String" optional="true"/>
+    <parameters name="Source" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 9,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper10">
+    <configurationValues name="ValueType" value="Dictionary Value"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper1"/>
+    <parameterBindings name="InValue_1" objectPath="CurrentUnit:Domain"/>
+    <parameterBindings name="InValue_2" constant="ProcessCatalogImpex"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessOwningDomain"/>
+    <returnValueBindings name="OutValue_2" objectPath="JobName"/>
+  </nodes>
+<!--@displayNearNode@Some data required as form data, map these values
+@Location 9,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper1">
+    <configurationValues name="ValueType" value="Form Value"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="Call2"/>
+    <parameterBindings name="InValue_1" objectPath="SelectedFile"/>
+    <parameterBindings name="InValue_2" objectPath="SourceDirectory"/>
+    <parameterBindings name="InValue_3" objectPath="Organization:UUID"/>
+    <parameterBindings name="InValue_4" objectPath="Repository:RepositoryDomain:DomainName"/>
+    <parameterBindings name="InValue_5" objectPath="ProcessPipelineName"/>
+    <parameterBindings name="InValue_6" objectPath="ProcessPipelineStartNode"/>
+    <returnValueBindings name="OutValue_1" objectPath="SelectedFile"/>
+    <returnValueBindings name="OutValue_2" objectPath="SourceDirectory"/>
+    <returnValueBindings name="OutValue_3" objectPath="CurrentOrganizationUUID"/>
+    <returnValueBindings name="OutValue_4" objectPath="DomainName"/>
+    <returnValueBindings name="OutValue_5" objectPath="ProcessPipelineName"/>
+    <returnValueBindings name="OutValue_6" objectPath="ProcessPipelineStartNode"/>
+  </nodes>
+<!--@displayNearNode@Create and start import job
+@Location 9,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="Call2">
+    <nodeSuccessors name="next" next="JoinNode12"/>
+    <nodeSuccessors name="Error" next="JoinNode12"/>
+    <startNode referencedName="ProcessImpexJob-Create"/>
+  </nodes>
+<!--@Location 9,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode12">
+<!--@BendPoints 19,12-->
+    <nodeSuccessors name="next" next="Decision2"/>
+  </nodes>
+<!--@Location 9,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="Decision2" conditionKey="JobConfiguration:LastExecutionTime:Time"
+      operator="gt" conditionValue="0">
+<!--@BendPoints 19,14-->
+    <nodeSuccessors name="decision_yes" next="Decision3"/>
+<!--@BendPoints 21,13-->
+    <nodeSuccessors name="decision_no" next="Join1"/>
+  </nodes>
+<!--@Location 9,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="Decision3" conditionKey="JobConfiguration:Status"
+      operator="neq" conditionValue="1">
+    <nodeSuccessors name="decision_yes" next="DecisionNode5"/>
+    <nodeSuccessors name="decision_no" next="Join1"/>
+  </nodes>
+<!--@Location 9,8-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode5" conditionKey="JobConfiguration:LogCount_Warn">
+    <nodeSuccessors name="decision_yes" next="DecisionNode0"/>
+<!--@BendPoints 21,17-->
+    <nodeSuccessors name="decision_no" next="JoinNode3"/>
+  </nodes>
+<!--@Location 9,9-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="JobConfiguration:LogCount_Warn"
+      operator="gt" conditionValue="0">
+    <nodeSuccessors name="decision_yes" next="JoinNode6"/>
+    <nodeSuccessors name="decision_no" next="JoinNode3"/>
+  </nodes>
+<!--@Location 9,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode6">
+    <nodeSuccessors name="next" next="CallNode5"/>
+  </nodes>
+<!--@Location 9,12-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode5">
+<!--@BendPoints 21,25 21,27-->
+    <nodeSuccessors name="next" next="JoinNode1"/>
+    <nodeSuccessors name="Error" next="JoinNode1"/>
+    <startNode referencedName="ProcessImpexJob-GetLogContent"/>
+  </nodes>
+<!--@Location 9,13-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="CallNode7"/>
+  </nodes>
+<!--@Location 9,14-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode7">
+    <nodeSuccessors name="next" next="JoinNode8"/>
+    <nodeSuccessors name="Error" next="JoinNode0"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-GetLogFileName"/>
+  </nodes>
+<!--@Location 9,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode8">
+    <nodeSuccessors name="next" next="DecisionNode1"/>
+  </nodes>
+<!--@Location 9,16-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="JobConfiguration:FinishedWithError">
+    <nodeSuccessors name="decision_yes" next="DecisionNode4"/>
+<!--@BendPoints 23,33-->
+    <nodeSuccessors name="decision_no" next="JoinNode5"/>
+  </nodes>
+<!--@Location 9,17-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode4" conditionKey="JobConfiguration:FinishedWithError"
+      operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="EndNode8"/>
+    <nodeSuccessors name="decision_no" next="JoinNode5"/>
+  </nodes>
+<!--@Location 9,18-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode8" name="error" strict="true">
+    <returnValues name="AbsoluteFileName" type="java.lang.String" optional="true"/>
+    <returnValues name="JobConfiguration" type="com.intershop.beehive.core.capi.job.JobConfiguration"
+        optional="true"/>
+  </nodes>
+<!--@Location 11,17-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode5">
+    <nodeSuccessors name="next" next="KeyMapper0"/>
+  </nodes>
+<!--@DisplayName GetPriceListIDFromJobConfiguration
+@Location 11,18-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper0">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode9"/>
+    <parameterBindings name="InValue_1" objectPath="JobConfiguration:PriceListID"/>
+    <returnValueBindings name="OutValue_1" objectPath="PriceListID"/>
+  </nodes>
+<!--@Location 11,19-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode9" name="" strict="true">
+    <returnValues name="AbsoluteFileName" type="java.lang.String" optional="true"/>
+    <returnValues name="PriceListID" type="java.lang.String" optional="true"/>
+    <returnValues name="JobConfiguration" type="com.intershop.beehive.core.capi.job.JobConfiguration"
+        optional="true"/>
+  </nodes>
+<!--@Location 11,14-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+<!--@BendPoints 23,31-->
+    <nodeSuccessors name="next" next="JoinNode8"/>
+  </nodes>
+<!--@Location 10,9-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode3">
+    <nodeSuccessors name="next" next="DecisionNode6"/>
+  </nodes>
+<!--@Location 10,10-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode6" conditionKey="JobConfiguration:LogCount_Error">
+    <nodeSuccessors name="decision_yes" next="DecisionNode3"/>
+<!--@BendPoints 23,21-->
+    <nodeSuccessors name="decision_no" next="JoinNode7"/>
+  </nodes>
+<!--@Location 10,11-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode3" conditionKey="JobConfiguration:LogCount_Error"
+      operator="gt" conditionValue="0">
+    <nodeSuccessors name="decision_yes" next="JoinNode6"/>
+    <nodeSuccessors name="decision_no" next="JoinNode7"/>
+  </nodes>
+<!--@Location 11,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode7">
+    <nodeSuccessors name="next" next="JoinNode0"/>
+  </nodes>
+<!--@Location 10,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="Join1">
+<!--@BendPoints 22,15-->
+    <nodeSuccessors name="next" next="Wait2"/>
+  </nodes>
+<!--@Location 11,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait2">
+    <configurationValues name="MillisecondsToWait" value="5000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+<!--@BendPoints 24,15 24,11-->
+    <nodeSuccessors name="next" next="JoinNode12"/>
+  </nodes>
+<!--Delete the channel price list before importing the new price list with the same id.
+@Location 13,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode8" strict="true" name="DeletePriceList"
+      callMode="Private">
+    <nodeSuccessors name="next" next="KeyMapper2"/>
+    <parameters name="CurrentUnit" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="PriceListID" type="java.lang.String"/>
+  </nodes>
+<!--@Location 13,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper2">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="ExecuteStoredProcedure0"/>
+    <parameterBindings name="InValue_1" objectPath="CurrentUnit:Domain:UUID"/>
+    <returnValueBindings name="OutValue_1" objectPath="DomainID"/>
+  </nodes>
+<!--@Location 13,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteStoredProcedure0">
+    <configurationValues name="AllowNullParameter" value="false"/>
+    <configurationValues name="ParameterDefinition" value="DomainID=string;PriceListID=string"/>
+    <configurationValues name="StoredProcedure" value="SP_DELETEPRICELISTBYID"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteStoredProcedure.xml"/>
+    <nodeSuccessors name="next" next="EndNode2"/>
+<!--@BendPoints 29,7-->
+    <nodeSuccessors name="pipelet_error" next="EndNode0"/>
+  </nodes>
+<!--@Location 13,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" strict="true"/>
+<!--@Location 14,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" name="error" strict="true"/>
+<!--Import of a specified file. 
+Two jobs are created (verify and import).
+@Location 6,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" strict="true" name="Import"
+      callMode="Private">
+    <nodeSuccessors name="next" next="ConcatenateStrings1"/>
+    <parameters name="SelectedFile" type="java.lang.String"/>
+    <parameters name="SourceDirectory" type="java.lang.String"/>
+    <parameters name="CurrentUnit" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="Source" type="java.lang.String" optional="true"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+    <parameters name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings1">
+    <configurationValues name="DefaultString0" value="ProcessPriceListImport (verify "/>
+    <configurationValues name="DefaultString2" value=")"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="CallNode_xh5vwBfQEeinVIYUtm_rnw"/>
+    <parameterBindings name="String1" objectPath="SelectedFile"/>
+    <returnValueBindings name="Concatenated" objectPath="JobNameVerify"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_xh5vwBfQEeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="CallNode2"/>
+    <parameterBindings name="Repository" objectPath="Channel"/>
+    <startNode referencedName="ProcessImportStatistics-BeforeFileImport"/>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode2">
+    <nodeSuccessors name="next" next="DecisionNode7"/>
+<!--@BendPoints 15,9-->
+    <nodeSuccessors name="error" next="JoinNode2"/>
+    <parameterBindings name="JobDescription" constant="Validates procelist import file."/>
+    <parameterBindings name="JobName" objectPath="JobNameVerify"/>
+    <parameterBindings name="ProcessExecutionDomain" objectPath="CurrentUnit:Domain"/>
+    <parameterBindings name="ProcessPipelineName" constant="ProcessPriceListImport"/>
+    <parameterBindings name="ProcessPipelineStartNode" constant="Validate"/>
+    <startNode referencedName="This:CreateJob"/>
+  </nodes>
+<!--@Location 6,5-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode7" conditionKey="PriceListID">
+    <nodeSuccessors name="decision_yes" next="CallNode12"/>
+    <nodeSuccessors name="decision_no" next="JoinNode2"/>
+  </nodes>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode12">
+    <nodeSuccessors name="next" next="ConcatenateStrings4"/>
+    <nodeSuccessors name="error" next="EndNode10"/>
+    <startNode referencedName="ProcessAutomaticPriceListImport-DeletePriceList"/>
+  </nodes>
+<!--@Location 6,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings4">
+    <configurationValues name="DefaultString0" value="ProcessPriceListImport (import "/>
+    <configurationValues name="DefaultString2" value=")"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="CallNode4"/>
+    <parameterBindings name="String1" objectPath="SelectedFile"/>
+    <returnValueBindings name="Concatenated" objectPath="JobNameImport"/>
+  </nodes>
+<!--@Location 6,8-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode4">
+    <nodeSuccessors name="next" next="CallNode_XOYjMBfREeinVIYUtm_rnw"/>
+    <nodeSuccessors name="error" next="JoinNode4"/>
+    <parameterBindings name="JobDescription" constant="Imports pricelists."/>
+    <parameterBindings name="JobName" objectPath="JobNameImport"/>
+    <parameterBindings name="ProcessExecutionDomain" objectPath="CurrentUnit:Domain"/>
+    <parameterBindings name="ProcessPipelineName" constant="ProcessPriceListImport"/>
+    <parameterBindings name="ProcessPipelineStartNode" constant="Import"/>
+    <startNode referencedName="This:CreateJob"/>
+  </nodes>
+<!--@Location 6,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_XOYjMBfREeinVIYUtm_rnw">
+    <nodeSuccessors name="next" next="EndNode5"/>
+    <parameterBindings name="Repository" objectPath="Channel"/>
+    <startNode referencedName="ProcessImportStatistics-AfterFileImport"/>
+  </nodes>
+<!--@Location 6,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode5" strict="true">
+    <returnValues name="AbsoluteFileName" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 7,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode4">
+    <nodeSuccessors name="next" next="EndNode3"/>
+  </nodes>
+<!--@Location 7,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" name="error" strict="true">
+    <returnValues name="AbsoluteFileName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode10" name="error" strict="true"/>
+<!--@Location 7,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+    <nodeSuccessors name="next" next="JoinNode4"/>
+  </nodes>
+<!--Start node for import process of price lists.
+@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode9" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="VerifyInteger2"/>
+    <parameters name="NumberOfDaysToArchiveImportFiles" type="java.lang.String"/>
+    <parameters name="Source" type="java.lang.String" optional="true"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyInteger2">
+    <configurationValues name="RejectNonInteger" value="false"/>
+    <configurationValues name="isOptional" value="false"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyInteger.xml"/>
+<!--@BendPoints 5,6-->
+    <nodeSuccessors name="next" next="GetStringSubstitution4"/>
+    <nodeSuccessors name="pipelet_error" next="CreateLogEntry1"/>
+    <parameterBindings name="LocalizedString" objectPath="NumberOfDaysToArchiveImportFiles"/>
+    <returnValueBindings name="IntegerObject" objectPath="NumberOfDays"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetStringSubstitution4">
+    <configurationValues name="DefaultPattern" value="(-Site)$"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetStringSubstitution.xml"/>
+<!--@BendPoints 5,8-->
+    <nodeSuccessors name="next" next="Pipelet1"/>
+    <parameterBindings name="InputString" objectPath="CurrentDomain:DomainName"/>
+    <parameterBindings name="Pattern" nullBinding="true"/>
+    <parameterBindings name="SubstitutionPattern" constant=""/>
+    <returnValueBindings name="OutputString" objectPath="ChannelID"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Pipelet1">
+    <pipelet href="enfinity:/core/pipelets/DetermineUnit.xml"/>
+    <nodeSuccessors name="next" next="CallNode9"/>
+    <parameterBindings name="UnitName" objectPath="ChannelID"/>
+    <returnValueBindings name="Unit" objectPath="CurrentUnit"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode9">
+<!--@BendPoints 5,12-->
+    <nodeSuccessors name="next" next="DecisionNode2"/>
+    <parameterBindings name="RegularExpression" constant="pricelist_import_.*\.xml"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-GetImportFiles"/>
+  </nodes>
+<!--@displayNearNode@delete only if at least a new file exists
+@Location 2,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="Files"
+      operator="has_elements">
+    <nodeSuccessors name="decision_yes" next="GetRepositoryByRepositoryDomain_UmcG0ByCEeiRcvrJer7rog"/>
+<!--@BendPoints 9,13-->
+    <nodeSuccessors name="decision_no" next="JoinNode10"/>
+  </nodes>
+<!--@Location 2,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetRepositoryByRepositoryDomain_UmcG0ByCEeiRcvrJer7rog">
+    <pipelet href="enfinity:/bc_mvc/pipelets/GetRepositoryByRepositoryDomain.xml"/>
+    <nodeSuccessors name="next" next="LoopNode5"/>
+    <parameterBindings name="RepositoryDomain" objectPath="CurrentUnit"/>
+    <returnValueBindings name="Repository" objectPath="Channel"/>
+  </nodes>
+<!--@Location 2,8-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode5" loop="Files">
+    <nodeSuccessors name="next" next="JoinNode10"/>
+    <entry key="File">
+<!--@BendPoints 5,18-->
+      <nodeSuccessors name="loop_entry_next" next="CopyFile1"/>
+    </entry>
+  </nodes>
+<!--@Location 2,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CopyFile1">
+    <configurationValues name="DefaultSourceDirectoryPath" value="catalog/upload"/>
+    <configurationValues name="DefaultSourceUnitDirectory" value="IMPEX_SRC_DIR"/>
+    <configurationValues name="DefaultTargetDirectoryPath" value="catalog"/>
+    <configurationValues name="DefaultTargetUnitDirectory" value="IMPEX_SRC_DIR"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/CopyFile.xml"/>
+    <nodeSuccessors name="next" next="DeleteFile2"/>
+<!--@BendPoints 6,19-->
+    <nodeSuccessors name="pipelet_error" next="EndNode7"/>
+    <parameterBindings name="Locale" objectPath="CurrentRequest:Locale"/>
+    <parameterBindings name="SourceFileName" objectPath="File:FullName"/>
+    <parameterBindings name="SourceUnitDomain" objectPath="CurrentUnit"/>
+    <parameterBindings name="TargetFileName" objectPath="File:FullName"/>
+    <parameterBindings name="TargetUnitDomain" objectPath="CurrentUnit"/>
+  </nodes>
+<!--@Location 2,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="DeleteFile2">
+    <configurationValues name="DefaultDirectoryPath" value="catalog/upload"/>
+    <configurationValues name="UnitDirectory" value="IMPEX_SRC_DIR"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/DeleteFile.xml"/>
+<!--@BendPoints 5,22-->
+    <nodeSuccessors name="next" next="CallNode13"/>
+    <nodeSuccessors name="pipelet_error" next="EndNode1"/>
+    <parameterBindings name="FileName" objectPath="File:FullName"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+  </nodes>
+<!--@Location 2,11-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode13">
+    <nodeSuccessors name="next" next="CallNode10"/>
+<!--@BendPoints 7,23-->
+    <nodeSuccessors name="error" next="CallNode0"/>
+    <parameterBindings name="SelectedFile" objectPath="File:FullName"/>
+    <parameterBindings name="SourceDirectory" constant="catalog/"/>
+    <startNode referencedName="This:Import"/>
+  </nodes>
+<!--@Location 2,12-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode10">
+    <nodeSuccessors name="next" next="CallNode14"/>
+    <parameterBindings name="FileName" objectPath="File:FullName"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-CompressImportFile"/>
+  </nodes>
+<!--@Location 2,13-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode14">
+    <nodeSuccessors name="next" next="CallNode8"/>
+    <parameterBindings name="ReminderName" constant="ProductDataImported"/>
+    <startNode referencedName="ProcessReminder-Set"/>
+  </nodes>
+<!--@Location 2,14-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode8">
+    <nodeSuccessors name="next" next="RemoveDictionaryValue0"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-SetErrorLogFile"/>
+  </nodes>
+<!--@Location 2,15-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveDictionaryValue0">
+    <configurationValues name="Key" value="AbsoluteFileName"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/RemoveDictionaryValue.xml"/>
+<!--@BendPoints 3,31 3,17-->
+    <nodeSuccessors name="next" next="LoopNode5_Entry"/>
+  </nodes>
+<!--@Location 3,12-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode0">
+    <nodeSuccessors name="next" next="CallNode1"/>
+    <parameterBindings name="FileName" objectPath="File:FullName"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-CompressImportFileOnError"/>
+  </nodes>
+<!--@Location 3,13-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="CallNode3"/>
+    <parameterBindings name="JobDomain" objectPath="CurrentUnit"/>
+    <parameterBindings name="RegularExpression" constant="pricelist_import_.*\.xml"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-CleanupFinishedJobList"/>
+  </nodes>
+<!--@Location 3,14-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode3">
+    <nodeSuccessors name="next" next="CallNode6"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-SetErrorState"/>
+  </nodes>
+<!--@Location 3,15-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode6">
+    <nodeSuccessors name="next" next="EndNode4"/>
+    <parameterBindings name="UnitDomain" objectPath="CurrentUnit"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-SetErrorLogFile"/>
+  </nodes>
+<!--@Location 3,16-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode4" name="error" strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 3,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" name="error" strict="true"/>
+<!--@Location 3,9-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode7" name="error" strict="true"/>
+<!--@Location 4,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode10">
+    <nodeSuccessors name="next" next="CallNode11"/>
+  </nodes>
+<!--@Location 4,13-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode11">
+    <nodeSuccessors name="next" next="EndNode20"/>
+    <parameterBindings name="JobDomain" objectPath="CurrentUnit"/>
+    <parameterBindings name="RegularExpression" constant="pricelist_import_.*\.xml"/>
+    <startNode referencedName="ProcessAutomaticImportHelper-CleanupFinishedJobList"/>
+  </nodes>
+<!--@Location 4,14-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode20" strict="true"/>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateLogEntry1">
+    <configurationValues name="LogLevel" value="Error"/>
+    <configurationValues name="Message" value="DaysSaveJobProtocol is not a valid numeric value"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/CreateLogEntry.xml"/>
+    <nodeSuccessors name="next" next="EndNode21"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode21" name="error" strict="true"/>
+</pipeline:Pipeline>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+<parameters>
+    <parameter name="Catalog" type="com.intershop.component.mvc.capi.catalog.Catalog" optional="false"/>
+    <parameter name="SortFieldName" type="java.lang.String" optional="true"/>
+    <parameter name="SortDirection" type="java.lang.String" optional="true"/>
+    <parameter name="LocaleInformation" type="com.intershop.beehive.core.capi.localization.LocaleInformation" optional="true"/>
+</parameters>
+<return-mappings>
+    <return-mapping name="Channel" type="orm" class="com.intershop.component.mvc.internal.catalog.RepositoryPO">
+        <return-attribute name="UUID"/>
+    </return-mapping>
+</return-mappings>Catalog
+<processor name="OracleSQL">
+</processor>
+<template type="countedobjects">
+    SELECT channel.uuid, COUNT(*) OVER() AS ROWCOUNT 
+    <template-if condition="SortFieldName EQ 'DisplayName'">
+        , av.stringvalue AS SORTING
+    <if-elseif condition="SortFieldName EQ 'Id'"/>
+        , channel.id AS SORTING
+    <if-elseif condition="SortFieldName EQ 'TypeCode'"/>
+        , channel.typecode AS SORTING
+    </template-if>  
+    FROM repository channel
+    <template-if condition="SortFieldName EQ 'DisplayName'">
+        , repository_av av
+    </template-if>  
+    WHERE channel.domainid = <template-variable value="Catalog:OwningDomain:UUID"/>
+      AND channel.typecode not in (1,21,22)
+      AND channel.repositorydomainid NOT IN 
+        (SELECT proxy.domainid FROM catalog proxy
+          WHERE proxy.catalogdomainid = <template-variable value="Catalog:CatalogDomain:UUID"/> 
+            AND proxy.proxyflag = 1)
+    <template-if condition="SortFieldName EQ 'DisplayName'">
+        AND channel.uuid = av.ownerid(+)
+        AND av.name(+) = 'displayName'
+        AND av.localeid(+) = <template-variable value="LocaleInformation:LocaleID"/>
+    </template-if>  
+        <template-if condition="isDefined(SortFieldName)">
+                ORDER BY sorting
+        <template-if condition="isDefined(SortDirection) AND SortDirection EQ 'false'">
+                DESC
+        </template-if>
+    </template-if>
+</template>
+</query>

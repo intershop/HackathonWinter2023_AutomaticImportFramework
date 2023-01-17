@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+<description>Checks, if product replication should executed</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ExecuteObjectsQuery_g53c4EIJEeiju6AwCM64Tw"  localeId="en_US" >
+<customName>Collect Processes</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetRepository_f2D5UCIGEei6VfGvZLiyNg"  localeId="en_US" >
+<customName>GetMasterRepository</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetRepository_g5_YsEIJEeiju6AwCM64Tw"  localeId="en_US" >
+<customName>GetMasterRepository</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute_RQV9ICK2Eeio8vjz3asDxA"  localeId="en_US" >
+<customName>SwitchOFF: TakesPartInReplication</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="VerifyInteger_ZoKO0CIVEei6VfGvZLiyNg"  localeId="en_US" >
+<customName>Set TotalSourceCount=0</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="VerifyInteger_mJgPgCIVEei6VfGvZLiyNg"  localeId="en_US" >
+<customName>Set TotalTargetCount=0</customName>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

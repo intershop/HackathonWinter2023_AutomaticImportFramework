@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>Process</group>
+<description>Modifies given process chain steps to match given select process chain step. All steps before offset point will be removed. If there is no SelectedProcessChainStep nothing happens. If SelectedProcessChainStep was not found, pipelet returns  with ERROR.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

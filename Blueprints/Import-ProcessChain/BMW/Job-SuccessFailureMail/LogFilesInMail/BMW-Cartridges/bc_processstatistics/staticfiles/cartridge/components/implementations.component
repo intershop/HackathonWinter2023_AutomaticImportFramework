@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+	<!-- factories for repositories -->
+	<implementation name="ProcessStatisticsBORepositoryExtensionFactory"
+		implements="BusinessObjectExtensionFactory"
+		class="com.intershop.component.processstatistics.internal.ProcessStatisticsBORepositoryExtensionFactory" />
+
+	<implementation
+		name="RepositoryBOImportProcessChainBORepositoryExtensionFactory"
+		implements="BusinessObjectExtensionFactory"
+		class="com.intershop.component.processstatistics.internal.impex.process.chain.RepositoryBOImportProcessChainBORepositoryExtensionFactory" />
+
+	<implementation name="ImportProcessChainBOStatisticsExtensionFactory"
+		implements="BusinessObjectExtensionFactory"
+		class="com.intershop.component.processstatistics.internal.impex.process.chain.statistics.ImportProcessChainBOStatisticsExtensionFactory" />
+
+	<implementation name="ProcessStatisticsBOImportChainProcessDetailsExtensionFactory"
+		implements="BusinessObjectExtensionFactory"
+		class="com.intershop.component.processstatistics.internal.extension.ProcessStatisticsBOImportChainProcessDetailsExtensionFactory" />
+
+	<implementation name="ProcessStatisticsBOImportMonitoringExtensionFactory"
+		implements="BusinessObjectExtensionFactory"
+		class="com.intershop.component.processstatistics.internal.extension.ProcessStatisticsBOImportMonitoringExtensionFactory" />
+
+</components>

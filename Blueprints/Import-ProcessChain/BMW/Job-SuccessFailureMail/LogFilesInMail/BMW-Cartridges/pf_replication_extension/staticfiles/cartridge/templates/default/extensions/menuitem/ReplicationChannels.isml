@@ -1,0 +1,3 @@
+﻿<li <isif condition="#SelectedSubMenuItem EQ 'ReplicationChannels'#">class="active"</isif>>
+	<a href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'))#" id="Startup"><istext key="replicationchannels.smc.extension.link.replicationchannels"/></a>
+</li>

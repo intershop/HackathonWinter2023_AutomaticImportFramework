@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used during replication of PREFERENCE entries. Create page cache settings during initial replication.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="false" description="The involved DomainIDs."/>
+</parameters>
+<processor name="OracleSQL">
+	<processor-preprocessing output="PREFERENCE_EditingName"           input="&apos;PREFERENCE&apos;"           processing="StagingNamingHelper"/>
+	<processor-preprocessing output="PREFERENCEDEFINITION_EditingName" input="&apos;PREFERENCEDEFINITION&apos;" processing="StagingNamingHelper"/>
+	<processor-preprocessing output="REPOSITORY_EditingName"           input="&apos;REPOSITORY&apos;"           processing="StagingNamingHelper"/>
+	<processor-preprocessing output="ORGANIZATION_EditingName"         input="&apos;ORGANIZATION&apos;"         processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_EditingName"               input="&apos;DOMAIN&apos;"               processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_AV_EditingName"            input="&apos;DOMAIN_AV&apos;"            processing="StagingNamingHelper"/>
+</processor>
+<template>
+    INSERT INTO preference (domainid  , PREFERENCENAME   , intvalue, doublevalue, stringvalue, preferencedefinitionid, oca, lastmodified)
+                     SELECT dEdit.UUID, pd.PREFERENCENAME, NULL    , NULL       , 'Enabled'  , pd.UUID               , 0  , sysdate
+                     FROM <template-variable value="DOMAIN_EditingName:EditTableName"               processing="text"/> dEdit,
+                          <template-variable value="PREFERENCEDEFINITION_EditingName:EditTableName" processing="text"/> pd
+                     WHERE pd.PREFERENCENAME IN ('PagecacheIndexing', 'PagecacheKeywordProcessing')
+                       AND dEdit.UUID IN (
+	   SELECT d.SITEID
+	    from <template-variable value="REPOSITORY_EditingName:EditTableName"   processing="text"/> rep
+	    join <template-variable value="ORGANIZATION_EditingName:EditTableName" processing="text"/> org      on (org.ORGANIZATIONDOMAINID = rep.DOMAINID)
+	    join <template-variable value="DOMAIN_EditingName:EditTableName"       processing="text"/> d        on (d.DOMAINID = rep.REPOSITORYDOMAINID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"    processing="text"/> d_av     on (d_av.ownerid = d.SITEID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"    processing="text"/> d_avRepl on (d_avRepl.ownerid = d.SITEID) 
+	   where org.TYPECODE = 30 AND d_avRepl.name = 'TakesPartInReplication' AND d_avRepl.stringvalue = 'true'
+	     AND d.SITEID IN
+	     (
+	          <template-loop iterator="DomainIDs" alias="DomainID"><loop-statement>
+			          <template-variable value="DomainID"/>
+			          </loop-statement>
+			          <loop-separator>,</loop-separator>
+	          </template-loop>
+	     )
+	   )
+	   AND NOT EXISTS (SELECT 1 FROM preference pLive WHERE pLive.PREFERENCENAME = pd.PREFERENCENAME AND pLive.DOMAINID = dEdit.UUID)
+</template>
+</query>

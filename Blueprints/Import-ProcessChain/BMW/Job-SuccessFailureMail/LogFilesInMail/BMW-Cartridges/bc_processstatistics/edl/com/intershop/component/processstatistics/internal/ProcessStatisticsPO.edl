@@ -1,0 +1,52 @@
+import "enfinity:/core/edl/com/intershop/beehive/core/capi/domain/XMLExtensibleObjectPO.edl";
+import "enfinity:/core/edl/com/intershop/beehive/core/capi/locking/Process.edl";
+import "enfinity:/core/edl/com/intershop/beehive/core/internal/locking/ProcessPO.edl";
+import "enfinity:/bc_processstatistics/edl/com/intershop/component/processstatistics/capi/ProcessStatistics.edl";
+import "enfinity:/core/edl/com/intershop/beehive/core/types.edl";
+
+namespace com.intershop.component.processstatistics.internal
+{
+	/*
+	 * @see com.intershop.component.processstatistics.capi.ProcessStatistics
+	 */
+	orm class ProcessStatisticsPO extends XMLExtensibleObjectPO implements ProcessStatistics table "ProcessStatistics"
+	{
+		index (^type, startDate);
+		index (^type, result, startDate);
+		
+		/*
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getType()
+		 */
+		attribute ^type : string<256>;
+		
+		/*
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getName()
+		 */
+		attribute name : string<256>;
+		
+		/*
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getStartDate()
+		 */
+		attribute startDate : datetime;
+		
+		/*
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getEndDate()
+		 */
+		attribute endDate : datetime;
+		
+		/*
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getResult()
+		 */
+		attribute result : string<256>;
+		
+		/*
+		 * UUID of the underlying Process.
+		 * @see com.intershop.component.processstatistics.capi.ProcessStatistics#getProcess()
+		 */
+		attribute processUUID : uuid;
+		dependency process : Process handler "com.intershop.beehive.core.capi.locking.ProcessMgr"
+		{
+			foreign key (processUUID);
+		}
+	}
+}

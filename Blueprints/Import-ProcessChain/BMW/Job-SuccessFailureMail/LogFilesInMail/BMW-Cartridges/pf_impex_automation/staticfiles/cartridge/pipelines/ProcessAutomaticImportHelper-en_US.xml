@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<displayName>ProcessAutomaticImportHelper</displayName>
+<group>Job</group>
+<description>Helper pipeline for import runs.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Call2"  localeId="en_US" >
+<description>@displayNearNode@First get a complete list of all product impex jobs</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode0"  localeId="en_US" >
+<description>Compress file and delete the original file.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Get import files sorted by name asc containing given regular expression.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode2"  localeId="en_US" >
+<description>Compress file and delete the original file.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode3"  localeId="en_US" >
+<description>Cleanup of the job configurations and files.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode4"  localeId="en_US" >
+<description>Set error state for process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode5"  localeId="en_US" >
+<description>Set error log file for process chain.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode7"  localeId="en_US" >
+<description>Check if import process chain was successful for all brands
+or if at least one of the brands failed.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode7_param_UnitName"  localeId="en_US" >
+<description>The domain to read the info from; usually domain &quot;root&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode8"  localeId="en_US" >
+<description>Set import process chain status:
+At least one brand failed.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode8_param_UnitName"  localeId="en_US" >
+<description>The domain to store the info at; usually domain &quot;root&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode9"  localeId="en_US" >
+<description>Reset import process chain status:
+Clear the &quot;at least one brand failed&quot; status.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode9_param_UnitName"  localeId="en_US" >
+<description>The domain to store the info at; usually domain &quot;root&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute0"  localeId="en_US" >
+<description>UnitDomain:
+ImportProcessChainError :=
+&quot;true&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateCustomAttribute1"  localeId="en_US" >
+<description>UnitDomain:
+ImportProcessChainError :=
+&quot;false&quot;</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

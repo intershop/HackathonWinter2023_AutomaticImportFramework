@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Resolve all replication channels by brand. There will be all channels included for organiztaion = brand and">
+    <parameters>
+        <parameter name="Brand" type="java.lang.String" optional="false" />
+    </parameters>
+    <return-mappings>
+		<return-mapping name="Repository" type="orm" class="com.intershop.component.mvc.internal.catalog.RepositoryPO">
+			<return-attribute name="UUID"/>
+		</return-mapping>
+    </return-mappings>
+	<processor name="OracleSQL">
+	</processor>
+    <template type="countedobjects">
+        SELECT rep.uuid as UUID, count(*) over() as ROWCOUNT, di.domainname
+         	FROM DomainInformation di, Repository rep, Organization org
+         WHERE di.DomainID = rep.RepositoryDomainID
+	         AND org.typecode in (20, 30)
+	         AND UPPER(org.id) like UPPER(<template-variable value="Brand"/>) || '%'
+	         AND org.OrganizationDomainID = rep.DomainID
+	         AND rep.TypeCode = 52
+         ORDER BY di.domainname
+    </template>
+</query>

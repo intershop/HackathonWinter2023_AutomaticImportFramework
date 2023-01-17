@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>ProcessStatistics</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="ConcatenateStrings0"  localeId="en_US" >
+<description>InvalidResults :=
+InvalidResults + &quot;|NULL&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>Result := Process:State;
+DoUpdateResult := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper1"  localeId="en_US" >
+<description>DoUpdateStartDate := Boolean.FALSE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper2"  localeId="en_US" >
+<description>EndDate := Process:EndDate;
+DoUpdateEndDate := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper3"  localeId="en_US" >
+<description>StartDate := Process:StartDate;
+DoUpdateStartDate := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper4"  localeId="en_US" >
+<description>DoUpdateResult := Boolean.FALSE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper6"  localeId="en_US" >
+<description>StartDate := FallbackStartDate;
+DoUpdateStartDate := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper7"  localeId="en_US" >
+<description>EndDate := FallbackEndDate;
+DoUpdateEndDate := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper8"  localeId="en_US" >
+<description>DoUpdateEndDate := Boolean.FALSE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper9"  localeId="en_US" >
+<description>Result := FallbackResult;
+DoUpdateResult := Boolean.TRUE;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue0"  localeId="en_US" >
+<description>InvalidResults := &quot;NULL&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode0"  localeId="en_US" >
+<description>Check all ProcessStatistics entries without a valid Result
+and update Result and EndDate
+according to values of the underlying process, if any.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_InvalidResults"  localeId="en_US" >
+<description>Pipe separated list of ProcessStatistics:Result entries that need to be updated by the underlying processes results, in addition to missing or empty ProcessStatistics:Result entries.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ProcessType"  localeId="en_US" >
+<description>The type of the process.
+Used to group processes of the same type when evaluating statistics.
+Usually something like: &quot;Import&quot;, &quot;Replication&quot;.
+If ProcessType is not supplied then ProcessStatistics of all ProcessTypes are checked/updated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Update the ProcessStatisticsBO&apos;s StartDate, EndDate and Result according to values of the underlying process, if any.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_FallbackResult"  localeId="en_US" >
+<description>The fallback result code, used in case ProcessStatisticsBO:Process:State is not defined.
+Usually something like: &quot;SUCCESS&quot;, &quot;WARNING&quot;, &quot;FAILURE&quot;, &quot;ERROR&quot;, &quot;NOTFOUND&quot;, &quot;INTERRUPTED&quot;.
+See also process chain errors (&amp;lt;p:ignore&amp;gt;).</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_FallbackStartDate"  localeId="en_US" >
+<description>The fallback start date, used in case ProcessStatisticsBO:Process:StartDate is not defined.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode1_param_FallbackEndDate"  localeId="en_US" >
+<description>The fallback end date, used in case ProcessStatisticsBO:Process:EndDate is not defined.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateDictionary0"  localeId="en_US" >
+<description>ProcessStatisticsSearchParameters :=
+{
+	ProcessType = ProcessType;
+	ProcessResults = InvalidResultsIterator;
+	IsProcessAssigned = &quot;(Boolean)true&quot;;
+}</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="UpdateProcessStatisticsBO0"  localeId="en_US" >
+<description>ProcessStatisticsBO:StartDate := StartDate (if DoUpdateStartDate = true);
+ProcessStatisticsBO:EndDate := EndDate (if DoUpdateEndDate = true);
+ProcessStatisticsBO:Result := Result (if DoUpdateResult = true);</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

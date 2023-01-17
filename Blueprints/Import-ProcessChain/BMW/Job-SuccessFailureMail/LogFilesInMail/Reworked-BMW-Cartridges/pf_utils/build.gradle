@@ -1,0 +1,35 @@
+apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.cartridge-resourcelist'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop 
+{
+    displayName = 'pf_utils'
+
+    packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+dependencies 
+{
+    compile group: 'com.intershop.platform', name: 'core'
+    compile group: 'com.intershop.platform', name: 'orm'
+    compile group: 'com.intershop.business', name: 'bc_marketing'
+    compile group: 'com.intershop.business', name: 'bts'
+    compile group: 'com.intershop.platform', name: 'isml'
+    compile group: 'com.intershop.platform', name: 'cache'
+    compile group: 'com.intershop.platform', name: 'servletengine'
+    compile group: 'com.intershop.platform', name: 'bc_foundation'
+    compile group: 'com.intershop.platform', name: 'bc_spreadsheet'
+    compile group: 'com.intershop.platform', name: 'jmx'
+    compile group: 'com.intershop.platform', name: 'bc_mail'
+    compile group: 'com.intershop.platform', name: 'bc_service'
+   
+    compile 'commons-lang:commons-lang'
+    compile 'com.google.guava:guava'
+    compile 'org.apache.commons:commons-csv:1.2'
+}

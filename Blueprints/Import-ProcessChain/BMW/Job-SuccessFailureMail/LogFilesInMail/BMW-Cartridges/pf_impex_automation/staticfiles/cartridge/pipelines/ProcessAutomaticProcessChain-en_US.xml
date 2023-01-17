@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Staging</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="EndNode2"  localeId="en_US" >
+<description>@displayNearNode@In case of error: ignore it; context indexex are used for backoffice,
+staging can proceed</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<description>@displayNearNode@Some data required as form data, map these values</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper_KwlmwKVgEeiLeN1Yw6S_wA"  localeId="en_US" >
+<description>@displayNearNode@Some data required as form data, map these values</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode1"  localeId="en_US" >
+<description>Create context indexes on product and derivedproduct table.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode2"  localeId="en_US" >
+<description>Drop context indexes on product and derivedproduct table.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode3"  localeId="en_US" >
+<description>Send job notification to users.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode4"  localeId="en_US" >
+<description>Remove replication process ID from replication process job.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode5"  localeId="en_US" >
+<description>Start the replication process with the given ID.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode6"  localeId="en_US" >
+<description>Check for the status of the last replication process. If completed successfully, return in normal end mode.
+On error, return with an error node, and add the process chain information to fail.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode_Kwb1wKVgEeiLeN1Yw6S_wA"  localeId="en_US" >
+<description>Send job notification to users.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

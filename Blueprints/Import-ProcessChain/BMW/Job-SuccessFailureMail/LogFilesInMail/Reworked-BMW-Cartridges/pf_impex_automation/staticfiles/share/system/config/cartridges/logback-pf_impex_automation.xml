@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<included>
+	<logger
+		name="com.intershop.platform.impex.automation.internal.price.PriceUpdateHandlerImpl"
+		additivity="false">
+		<level value="INFO" />
+	</logger>
+</included>

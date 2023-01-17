@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+	defaultChainElementTimeout="14400"
+>
+<p:sequence name="MAIN SEQUENCE" >
+<p:sequence name="Sequence that executes a pipeline and returns a process chain result" >
+		<p:pipeline pipeline="Wait" startnode="Wait1minAndReturnADefinedProcessChainResult" timeout="5" name="Wait 1 min - and return a result, controlled by a parameter"  domain="SLDSystem">
+			<p:parameter name="ResultString">Anything</p:parameter>
+		</p:pipeline>
+	
+	<!-- Write a log message if the chain ends with an error -->
+	<p:error name="Error Report - Step 1.error">
+		<p:pipeline domain="SLDSystem" pipeline="Wait" startnode = "ErrorNotification"  name="Error notification Step1">
+			<p:description lang="en-US">Error Notification about errors in Step1</p:description>
+			<p:description lang="de-DE">Benachrichtigung über Fehler in Schritt1.</p:description>
+		</p:pipeline>
+	</p:error>
+	<p:ignore>NOTFOUND</p:ignore>	
+	</p:sequence>
+	<p:error name="Error Report - Step Main.error">
+		<p:pipeline domain="SLDSystem" pipeline="Wait" startnode = "ErrorNotification" name="Error notification main">
+			<p:description lang="en-US">Error Notification about errors in main</p:description>
+			<p:description lang="de-DE">Benachrichtigung über Fehler in Main.</p:description>
+		</p:pipeline>
+		<p:job domain="SLDSystem" job="Wait1min" name="Wait one minute">
+			<p:description lang="en-US">Job executed if another error than a NOTFOUND error occurred in previous sequence</p:description>
+		</p:job>
+	</p:error>
+</p:sequence>
+</p:chain>

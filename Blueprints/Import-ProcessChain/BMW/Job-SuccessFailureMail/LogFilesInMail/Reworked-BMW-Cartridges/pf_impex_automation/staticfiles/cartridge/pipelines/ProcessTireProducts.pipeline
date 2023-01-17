@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group Job-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessTireProducts" overrideMode="Inherit" type="job">
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_S1hQUKD2Eeu1GI18Ln2wIg" strict="true"
+      name="SetTireProductsBackOnline" callMode="Private">
+    <nodeSuccessors name="next" next="ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg"/>
+  </nodes>
+<!--SP_SetTireProductsBackOnline
+@Location 3,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteStoredProcedure_S1kToKD2Eeu1GI18Ln2wIg">
+    <configurationValues name="StoredProcedure" value="SP_SetTireProductsBackOnline"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteStoredProcedure.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_S1mv4KD2Eeu1GI18Ln2wIg"/>
+<!--@BendPoints 8,5 8,7-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_S1mv4KD2Eeu1GI18Ln2wIg"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_S1mv4KD2Eeu1GI18Ln2wIg">
+    <nodeSuccessors name="next" next="EndNode_S1eNAKD2Eeu1GI18Ln2wIg"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_S1eNAKD2Eeu1GI18Ln2wIg" strict="true"/>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_A7WRIKDzEeu1GI18Ln2wIg" strict="true"
+      name="SetTireProductsOffline" callMode="Private">
+    <nodeSuccessors name="next" next="ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg"/>
+  </nodes>
+<!--SP_SetTireProductsOffline
+@Location 1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteStoredProcedure_H4g3kKDzEeu1GI18Ln2wIg">
+    <configurationValues name="StoredProcedure" value="SP_SetTireProductsOffline"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteStoredProcedure.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_JvtCsKDzEeu1GI18Ln2wIg"/>
+<!--@BendPoints 4,5 4,7-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode_JvtCsKDzEeu1GI18Ln2wIg"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_JvtCsKDzEeu1GI18Ln2wIg">
+    <nodeSuccessors name="next" next="EndNode_I4wMkKDzEeu1GI18Ln2wIg"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_I4wMkKDzEeu1GI18Ln2wIg" strict="true"/>
+</pipeline:Pipeline>

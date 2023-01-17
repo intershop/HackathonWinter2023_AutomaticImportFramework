@@ -1,0 +1,10 @@
+It may seem to be much easier to use the standard import and export directories also for automated processes, e.g.:
+ * impex/src/catalog
+ * impex/src/customer
+But this is not a good idea as you will get in conflict with back office imports/exports and files uploaded in back office.
+You should use sub-directories, e.g.:
+ * impex/src/catalog/pim
+ * impex/src/customer/erp
+Then you have two options:
+ a) Import files directly from the sub-directories (see project Technolit)
+ b) Copy files to standard directory as first step of import process (see project BMW)

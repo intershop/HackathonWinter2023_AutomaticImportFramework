@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="Pipelet1" >
+<pipeletName>ReplaceFileContent</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.file.ReplaceFileContent</pipeletClass>
+<errorConnector>true</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_File" >
+<key>File</key>
+<input>required</input>
+<propertyClass>com.intershop.component.foundation.capi.upload.MVCFile</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_ReplaceString" >
+<key>ReplaceString</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_OriginalString" >
+<key>OriginalString</key>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

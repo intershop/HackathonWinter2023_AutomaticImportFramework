@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Maintains \- updates or rebuilds \- all search indexes of all domains.
+@DisplayName MaintainSearchIndexes
+@Group SearchIndex-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="MaintainSearchIndexes" overrideMode="Inherit" type="process">
+<!--@Location 1,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode3" strict="true" name="CheckDomainName"
+      callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode5"/>
+<!--check for a specific index domain name-->
+    <parameters name="SearchIndexDomainName" type="java.lang.String" optional="true"/>
+<!--current domain to check-->
+    <parameters name="CurrentDomainName" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode5" conditionKey="SearchIndexDomainName">
+    <nodeSuccessors name="decision_yes" next="DecisionNode6"/>
+<!--@BendPoints 4,3 4,4 4,7-->
+    <nodeSuccessors name="decision_no" next="JoinNode6"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode6" conditionKey="CurrentDomainName"
+      operator="str_eq" conditionItem="SearchIndexDomainName">
+    <nodeSuccessors name="decision_yes" next="JoinNode6"/>
+<!--@BendPoints 5,5-->
+    <nodeSuccessors name="decision_no" next="GetDomainByName0"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode6">
+    <nodeSuccessors name="next" next="JoinNode2"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+    <nodeSuccessors name="next" next="JoinNode3"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode3">
+    <nodeSuccessors name="next" next="EndNode3"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3" name="" strict="true"/>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName0">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode0"/>
+<!--@BendPoints 7,7-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode1"/>
+    <parameterBindings name="DomainName" objectPath="CurrentDomainName"/>
+    <returnValueBindings name="Domain" objectPath="ChannelDomain"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="ChannelDomain:OrganizationDomainName"
+      operator="str_eq" conditionItem="SearchIndexDomainName">
+<!--@BendPoints 5,11-->
+    <nodeSuccessors name="decision_yes" next="JoinNode2"/>
+    <nodeSuccessors name="decision_no" next="JoinNode1"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="GetOrganizationByName0"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetOrganizationByName0">
+    <pipelet href="enfinity:/bc_organization/pipelets/GetOrganizationByName.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode1"/>
+<!--@BendPoints 8,11 9,11 9,15-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode0"/>
+    <parameterBindings name="Name" objectPath="ChannelDomain:OrganizationDomainName"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="Organization:OwningDomain:OrganizationDomainName"
+      operator="str_eq" conditionItem="SearchIndexDomainName">
+    <nodeSuccessors name="decision_yes" next="JoinNode3"/>
+    <nodeSuccessors name="decision_no" next="JoinNode0"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="EndNode6"/>
+  </nodes>
+<!--@Location 3,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode6" name="NO" strict="true"/>
+</pipeline:Pipeline>

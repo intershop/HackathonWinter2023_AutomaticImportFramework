@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<displayName>ProcessAutomaticPriceListImport</displayName>
+<group>Job</group>
+<description>Pipeline is managing the import of price lists.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Call2"  localeId="en_US" >
+<description>@displayNearNode@Create and start import job</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode2"  localeId="en_US" >
+<description>@displayNearNode@delete only if at least a new file exists</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper0"  localeId="en_US" >
+<customName>GetPriceListIDFromJobConfiguration</customName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper1"  localeId="en_US" >
+<description>@displayNearNode@Some data required as form data, map these values</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode12"  localeId="en_US" >
+<description>Creates a job. 
+Wait until the job execution has finished.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode12_param_SourceDirectory"  localeId="en_US" >
+<description>should be some like &quot;marketing&quot;...</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode2"  localeId="en_US" >
+<description>Import of a specified file. 
+Two jobs are created (verify and import).</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode8"  localeId="en_US" >
+<description>Delete the channel price list before importing the new price list with the same id.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode9"  localeId="en_US" >
+<description>Start node for import process of price lists.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="TextNode3"  localeId="en_US" >
+<description>Wait until
+job finished</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

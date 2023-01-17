@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Pipeline is triggering import processes.
+@Group job-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="TriggerImportProcess" type="process">
+<!--This EP returns
+the ImportPackageID and the 
+ImportJobConfiguration
+of the brand specific 
+import job, if
+none is currently running.
+@Location 1,5-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text0"/>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="GetDomainByName1"/>
+    <parameters name="UnitName" type="java.lang.String"/>
+    <parameters name="FileNamePrefix" type="java.lang.String"/>
+    <parameters name="CleanupUploadFolder" type="java.lang.String" optional="true"/>
+    <parameters name="StartTimeFrom" type="java.lang.String" optional="true"/>
+    <parameters name="StartTimeTo" type="java.lang.String" optional="true"/>
+    <parameters name="IgnoreValidityChecks" type="java.lang.String" optional="true"/>
+    <parameters name="ImportJobName" type="java.lang.String"/>
+    <parameters name="ImportJobDomain" type="java.lang.String"/>
+    <parameters name="Process" type="com.intershop.beehive.core.capi.locking.Process"
+        optional="true"/>
+    <parameters name="ImportBrands" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetDomainByName1">
+    <pipelet href="enfinity:/core/pipelets/GetDomainByName.xml"/>
+    <nodeSuccessors name="next" next="JoinNode4"/>
+<!--@BendPoints 7,7 7,9-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode4"/>
+    <parameterBindings name="DomainName" objectPath="UnitName"/>
+    <returnValueBindings name="Domain" objectPath="UnitDomain"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode4">
+    <nodeSuccessors name="next" next="ExtensionPointNode0"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:ExtensionPointNode" nodeID="ExtensionPointNode0" name="Include"
+      strict="true">
+    <nodeSuccessors name="next" next="DecisionNode0"/>
+<!--@BendPoints 7,11-->
+    <nodeSuccessors name="pipelet_error" next="JoinNode6"/>
+    <parameters name="UnitDomain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="FileNamePrefix" type="java.lang.String"/>
+    <parameters name="CleanupUploadFolder" type="java.lang.String" optional="true"/>
+    <parameters name="IgnoreValidityChecks" type="java.lang.String" optional="true"/>
+    <parameters name="StartTimeFrom" type="java.lang.String"/>
+    <parameters name="StartTimeTo" type="java.lang.String"/>
+    <parameters name="ImportBrands" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode0" conditionKey="ImportJobConfiguration">
+    <nodeSuccessors name="decision_yes" next="DecisionNode1"/>
+    <nodeSuccessors name="decision_no" next="JoinNode6"/>
+  </nodes>
+<!--@Location 2,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="ImportPackageID">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute0"/>
+    <nodeSuccessors name="decision_no" next="JoinNode0"/>
+  </nodes>
+<!--@Location 2,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute0">
+    <configurationValues name="DefaultAttributeName" value="ImportPackageID"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttribute_9kEYUDyeEeeEb_h3lAwNkw"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode1"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="ImportPackageID"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ImportJobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute_9kEYUDyeEeeEb_h3lAwNkw">
+    <configurationValues name="DefaultAttributeName" value="StartedByProcess"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="ExecuteJob0"/>
+<!--@BendPoints 4,19 4,21-->
+    <nodeSuccessors name="pipelet_error" next="ExecuteJob0"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="Process:UUID"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ImportJobConfiguration"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteJob0">
+    <pipelet href="enfinity:/core/pipelets/ExecuteJob.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_gYfEAEE1EeewFY5V4nwziQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_iJUvgEE1EeewFY5V4nwziQ"/>
+    <parameterBindings name="JobConfiguration" objectPath="ImportJobConfiguration"/>
+  </nodes>
+<!--@Location 2,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_gYfEAEE1EeewFY5V4nwziQ">
+    <nodeSuccessors name="next" next="EndNode2"/>
+  </nodes>
+<!--@Location 2,12-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" strict="true"/>
+<!--@Location 3,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_iJUvgEE1EeewFY5V4nwziQ">
+<!--@BendPoints 7,23-->
+    <nodeSuccessors name="next" next="JoinNode_gYfEAEE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 3,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode1">
+    <nodeSuccessors name="next" next="JoinNode_iJUvgEE1EeewFY5V4nwziQ"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="JoinNode1"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode6">
+    <nodeSuccessors name="next" next="JoinNode0"/>
+  </nodes>
+</pipeline:Pipeline>

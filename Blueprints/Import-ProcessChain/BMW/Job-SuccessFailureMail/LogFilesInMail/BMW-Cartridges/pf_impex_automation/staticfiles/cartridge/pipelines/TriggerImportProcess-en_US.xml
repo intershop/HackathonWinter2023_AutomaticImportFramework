@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>job</group>
+<description>Pipeline is triggering import processes.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text0"  localeId="en_US" >
+<description>This EP returns
+the ImportPackageID and the 
+ImportJobConfiguration
+of the brand specific 
+import job, if
+none is currently running.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

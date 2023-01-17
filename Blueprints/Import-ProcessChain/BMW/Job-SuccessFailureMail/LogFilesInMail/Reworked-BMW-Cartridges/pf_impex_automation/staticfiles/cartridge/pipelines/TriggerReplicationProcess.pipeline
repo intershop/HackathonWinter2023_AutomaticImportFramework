@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Process pipeline to execute a replication process.
+The pipeline is override to catch all calls to TriggerReplicationProcess\-Trigger because all replication processes are executed via this pipeline. Unfortunately we cannot override this pipeline directly because then we miss some important information which is not transferred to this strict pipeline. Instead we override the pipelines calling TriggerReplicationProcess\-Trigger. These are only two, TriggerReplicationProcess\-Start and TriggerReplicationProcess\-CreateAndStart.
+@Group Replication-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="TriggerReplicationProcess" overrideMode="Inherit" type="process">
+<!--Do not define
+UsedChannelsTakingPartInReplication
+in this case.
+@Location 1,3-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text0"/>
+<!--Call Super and
+collect process statistics in addition.
+@Location 6,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" name="CreateAndStart" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode1"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="CallNode2"/>
+<!--@BendPoints 17,5-->
+    <nodeSuccessors name="error" next="DecisionNode9"/>
+    <startNode referencedName="Super:CreateAndStart"/>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode2">
+    <nodeSuccessors name="next" next="EndNode3"/>
+    <parameterBindings name="Domain" objectPath="ReplicationProcess:Domain"/>
+    <startNode referencedName="TriggerReplicationProcess-CreateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 6,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode3"/>
+<!--@Location 8,3-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode9" conditionKey="ReplicationProcess">
+    <nodeSuccessors name="decision_yes" next="CallNode3" action="begin"/>
+<!--@BendPoints 19,7 19,15-->
+    <nodeSuccessors name="decision_no" next="JoinNode10"/>
+  </nodes>
+<!--@Location 8,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode3">
+    <nodeSuccessors name="next" next="GetCurrentDate4"/>
+    <parameterBindings name="Domain" objectPath="ReplicationProcess:Domain"/>
+    <startNode referencedName="TriggerReplicationProcess-CreateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 8,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate4">
+    <configurationValues name="ForceApplicationServerTimeZone" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="CallNode10"/>
+  </nodes>
+<!--FallbackResult := "FAILURE"
+@Location 8,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode10">
+    <nodeSuccessors name="next" next="JoinNode10" action="commit"/>
+    <parameterBindings name="FallbackEndDate" objectPath="CurrentDate"/>
+    <parameterBindings name="FallbackResult" constant="FAILURE"/>
+    <parameterBindings name="FallbackStartDate" nullBinding="true"/>
+    <startNode referencedName="ProcessProcessStatistics-UpdateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 8,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode10">
+    <nodeSuccessors name="next" next="EndNode2"/>
+  </nodes>
+<!--@Location 8,8-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode2" name="error"/>
+<!--@Location 12,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" strict="true" name="CreateProcessStatisticsBO"
+      callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode7"/>
+<!--The domain of the process statistics object. Any domain is valid.-->
+    <parameters name="Domain" type="com.intershop.beehive.core.capi.domain.Domain"/>
+    <parameters name="ReplicationProcess" type="com.intershop.beehive.core.capi.replication.ReplicationProcess"/>
+    <parameters name="ChannelsTakingPartInReplication" type="java.util.Collection&lt;? extends Repository>"
+        optional="true"/>
+<!--"true" in case it is a "Self\-Configured Replication Process" as should be used for all replication processes.-->
+    <parameters name="IsRegularReplicationProcess" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 12,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode7" conditionKey="ReplicationProcess:StartDate">
+    <nodeSuccessors name="decision_yes" next="KeyMapper4"/>
+<!--@BendPoints 29,5-->
+    <nodeSuccessors name="decision_no" next="GetCurrentDate1"/>
+  </nodes>
+<!--StartDate :=
+ReplicationProcess:StartDate
+@Location 12,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper4">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="JoinNode8"/>
+    <parameterBindings name="InValue_1" objectPath="ReplicationProcess:StartDate"/>
+    <returnValueBindings name="OutValue_1" objectPath="StartDate"/>
+  </nodes>
+<!--@Location 12,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode8">
+    <nodeSuccessors name="next" next="GetApplicationBO0"/>
+  </nodes>
+<!--@Location 12,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO0">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper1"/>
+  </nodes>
+<!--ProcessStatisticsBORepository :=
+ApplicationBO:Repository("ProcessStatisticsBORepository")
+@Location 12,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper1">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode1"/>
+    <parameterBindings name="InValue_1" objectPath="ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessStatisticsBORepository"/>
+  </nodes>
+<!--@Location 12,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode1" conditionKey="ReplicationProcess:ReplicationProcessID">
+    <nodeSuccessors name="decision_yes" next="KeyMapper2"/>
+<!--@BendPoints 29,15-->
+    <nodeSuccessors name="decision_no" next="KeyMapper3"/>
+  </nodes>
+<!--Name :=
+ReplicationProcess:ReplicationProcessID
+@Location 12,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper2">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="JoinNode2"/>
+    <parameterBindings name="InValue_1" objectPath="ReplicationProcess:ReplicationProcessID"/>
+    <returnValueBindings name="OutValue_1" objectPath="Name"/>
+  </nodes>
+<!--@Location 12,9-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode2">
+    <nodeSuccessors name="next" next="DecisionNode2"/>
+  </nodes>
+<!--@Location 12,10-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode2" conditionKey="ChannelsTakingPartInReplication">
+    <nodeSuccessors name="decision_yes" next="DecisionNode3"/>
+<!--@BendPoints 31,21-->
+    <nodeSuccessors name="decision_no" next="JoinNode4"/>
+  </nodes>
+<!--@Location 12,11-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode3" conditionKey="ChannelsTakingPartInReplication"
+      operator="has_elements">
+    <nodeSuccessors name="decision_yes" next="LoopNode0"/>
+    <nodeSuccessors name="decision_no" next="JoinNode4"/>
+  </nodes>
+<!--@Location 12,12-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode0" loop="ChannelsTakingPartInReplication">
+    <nodeSuccessors name="next" next="JoinNode3"/>
+    <entry key="ChannelTakingPartInReplication">
+<!--@BendPoints 29,26-->
+      <nodeSuccessors name="loop_entry_next" next="AddObjectToCollection0"/>
+    </entry>
+  </nodes>
+<!--ChannelIdsTakingPartInReplicationIterator
+add(ChannelTakingPartInReplication:RepositoryDomain:DomainName)
+@Location 14,13-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddObjectToCollection0">
+    <configurationValues name="duplicatesAllowed" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/AddObjectToCollection.xml"/>
+<!--@BendPoints 29,29 26,29 26,26-->
+    <nodeSuccessors name="next" next="LoopNode0_Entry"/>
+    <parameterBindings name="InCollection" objectPath="ChannelIdsTakingPartInReplication"/>
+    <parameterBindings name="InObject" objectPath="ChannelTakingPartInReplication:RepositoryDomain:DomainName"/>
+    <returnValueBindings name="OutCollection" objectPath="ChannelIdsTakingPartInReplication"/>
+    <returnValueBindings name="OutIterator" objectPath="ChannelIdsTakingPartInReplicationIterator"/>
+  </nodes>
+<!--@Location 12,15-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode3">
+    <nodeSuccessors name="next" next="CreateProcessStatisticsBO1" action="begin"/>
+  </nodes>
+<!--@Location 12,16-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateProcessStatisticsBO1">
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/CreateProcessStatisticsBO.xml"/>
+    <nodeSuccessors name="next" next="UpdateProcessStatisticsBO0"/>
+    <parameterBindings name="Type" constant="Replication"/>
+    <returnValueBindings name="Type" constant="Replication"/>
+  </nodes>
+<!--ProcessStatisticsBO:Process :=
+ReplicationProcess
+@Location 12,17-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateProcessStatisticsBO0">
+    <pipelet href="enfinity:/bc_processstatistics/pipelets/UpdateProcessStatisticsBO.xml"/>
+    <nodeSuccessors name="next" next="KeyMapper0"/>
+    <parameterBindings name="DoUpdateEndDate" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateProcess" constant="(Boolean)true"/>
+    <parameterBindings name="DoUpdateResult" constant="(Boolean)false"/>
+    <parameterBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <parameterBindings name="EndDate" nullBinding="true"/>
+    <parameterBindings name="Name" nullBinding="true"/>
+    <parameterBindings name="Process" objectPath="ReplicationProcess"/>
+    <parameterBindings name="Result" nullBinding="true"/>
+    <parameterBindings name="StartDate" nullBinding="true"/>
+    <returnValueBindings name="DoUpdateEndDate" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateName" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateProcess" constant="(Boolean)true"/>
+    <returnValueBindings name="DoUpdateResult" constant="(Boolean)false"/>
+    <returnValueBindings name="DoUpdateStartDate" constant="(Boolean)false"/>
+    <returnValueBindings name="EndDate" nullBinding="true"/>
+    <returnValueBindings name="Name" nullBinding="true"/>
+    <returnValueBindings name="Process" objectPath="ReplicationProcess"/>
+    <returnValueBindings name="Result" nullBinding="true"/>
+    <returnValueBindings name="StartDate" nullBinding="true"/>
+  </nodes>
+<!--ProcessStatisticsPO :=
+ProcessStatisticsBO:Extension("PersistentObjectBOExtension"):PersistentObject
+@Location 12,18-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper0">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="UpdateCustomAttribute0"/>
+    <parameterBindings name="InValue_1" objectPath="ProcessStatisticsBO:Extension(&quot;PersistentObjectBOExtension&quot;):PersistentObject"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessStatisticsPO"/>
+  </nodes>
+<!--ProcessStatisticsPO:ReplicationProcessUUID :=
+ReplicationProcess:UUID
+@Location 12,19-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute0">
+    <configurationValues name="DefaultAttributeName" value="ReplicationProcessUUID"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode5"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="ReplicationProcess:UUID"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ProcessStatisticsPO"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,20-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode5" conditionKey="ReplicationProcess:Type">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute2"/>
+<!--@BendPoints 27,41 27,45-->
+    <nodeSuccessors name="decision_no" next="JoinNode6"/>
+  </nodes>
+<!--ProcessStatisticsPO:StagingProcessMode :=
+ReplicationProcess:Type
+@Location 12,21-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute2">
+    <configurationValues name="DefaultAttributeName" value="StagingProcessMode"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode6"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="ReplicationProcess:Type"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ProcessStatisticsPO"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,22-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode6">
+    <nodeSuccessors name="next" next="DecisionNode6"/>
+  </nodes>
+<!--@Location 12,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode6" conditionKey="ReplicationProcess:TargetCluster:Name">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute3"/>
+<!--@BendPoints 27,47 27,51-->
+    <nodeSuccessors name="decision_no" next="JoinNode7"/>
+  </nodes>
+<!--ProcessStatisticsPO:TargetSystemName :=
+ReplicationProcess:TargetSystem
+@Location 12,24-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute3">
+    <configurationValues name="DefaultAttributeName" value="TargetClusterName"/>
+    <configurationValues name="DefaultAttributeType" value="String"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode7"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="ReplicationProcess:TargetCluster:Name"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ProcessStatisticsPO"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,25-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode7">
+    <nodeSuccessors name="next" next="DecisionNode4"/>
+  </nodes>
+<!--@Location 12,26-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode4" conditionKey="ChannelIdsTakingPartInReplicationIterator">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute1"/>
+<!--@BendPoints 27,53 27,57-->
+    <nodeSuccessors name="decision_no" next="JoinNode5"/>
+  </nodes>
+<!--ProcessStatisticsPO:ChannelsTakingPartInReplication :=
+ChannelIdsTakingPartInReplicationIterator
+@Location 12,27-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute1">
+    <configurationValues name="DefaultAttributeName" value="ChannelsTakingPartInReplication"/>
+    <configurationValues name="DefaultAttributeType" value="MultipleString"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode5"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" objectPath="ChannelIdsTakingPartInReplicationIterator"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ProcessStatisticsPO"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,28-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode5">
+    <nodeSuccessors name="next" next="DecisionNode13"/>
+  </nodes>
+<!--@Location 12,29-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode13" conditionKey="IsRegularReplicationProcess"
+      operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="UpdateCustomAttribute4"/>
+<!--@BendPoints 27,59 27,63-->
+    <nodeSuccessors name="decision_no" next="JoinNode13"/>
+  </nodes>
+<!--ProcessStatisticsPO
+.IsSelfConfiguredReplicationProcess :=
+Boolean.TRUE;
+Set in case it is a "Self\-Configured Replication Process" as should be used for all replication processes, in contrast to replication processes manually configured/started in Operations.
+@Location 12,30-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="UpdateCustomAttribute4">
+    <configurationValues name="DefaultAttributeName" value="IsSelfConfiguredReplicationProcess"/>
+    <configurationValues name="DefaultAttributeType" value="Boolean"/>
+    <configurationValues name="DefaultAttributeValue" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/UpdateCustomAttribute.xml"/>
+    <nodeSuccessors name="next" next="JoinNode13"/>
+    <parameterBindings name="AttributeName" nullBinding="true"/>
+    <parameterBindings name="AttributeType" nullBinding="true"/>
+    <parameterBindings name="AttributeValue" nullBinding="true"/>
+    <parameterBindings name="ExtensibleObject" objectPath="ProcessStatisticsPO"/>
+    <parameterBindings name="LocaleInformation" nullBinding="true"/>
+  </nodes>
+<!--@Location 12,31-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode13">
+    <nodeSuccessors name="next" next="EndNode4" action="commit"/>
+  </nodes>
+<!--@Location 12,32-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode4" strict="true">
+    <returnValues name="ProcessStatisticsBO" type="com.intershop.component.processstatistics.capi.ProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 15,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode4">
+<!--@BendPoints 31,31-->
+    <nodeSuccessors name="next" next="JoinNode3"/>
+  </nodes>
+<!--Name :=
+ReplicationProcess:UUID
+@Location 14,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper3">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+<!--@BendPoints 29,19-->
+    <nodeSuccessors name="next" next="JoinNode2"/>
+    <parameterBindings name="InValue_1" objectPath="ReplicationProcess:UUID"/>
+    <returnValueBindings name="OutValue_1" objectPath="Name"/>
+  </nodes>
+<!--StartDate :=
+CurrentDate
+@Location 14,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate1">
+    <configurationValues name="ForceApplicationServerTimeZone" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+<!--@BendPoints 29,9-->
+    <nodeSuccessors name="next" next="JoinNode8"/>
+    <returnValueBindings name="CurrentDate" objectPath="StartDate"/>
+  </nodes>
+<!--Call Super and
+collect process statistics in addition.
+@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode12"/>
+<!--The replication process to start.-->
+    <parameters name="ReplicationProcess" type="com.intershop.beehive.core.capi.replication.ReplicationProcess"
+        optional="true"/>
+    <parameters name="Synchronously" type="java.lang.String" optional="true"/>
+    <parameters name="ChannelsTakingPartInReplication" type="java.util.Collection&lt;? extends Repository>"
+        optional="true"/>
+<!--"true" in case all channels are replicated instead of only channels willing to take part in the replication.
+ChannelsTakingPartInReplication has to be ignored in case IsAllChannels is "true".-->
+    <parameters name="IsAllChannels" type="java.lang.Boolean" optional="true"/>
+<!--"true" in case it is a "Self\-Configured Replication Process" as should be used for all replication processes.-->
+    <parameters name="IsRegularReplicationProcess" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode12" conditionKey="IsAllChannels"
+      operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="JoinNode12"/>
+<!--@BendPoints 7,5-->
+    <nodeSuccessors name="decision_no" next="KeyMapper10"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode12">
+    <nodeSuccessors name="next" next="CallNode7"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode7">
+    <nodeSuccessors name="next" next="CallNode6"/>
+    <parameterBindings name="ChannelsTakingPartInReplication" objectPath="UsedChannelsTakingPartInReplication"/>
+    <parameterBindings name="Domain" objectPath="ReplicationProcess:Domain"/>
+    <startNode referencedName="TriggerReplicationProcess-CreateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode6">
+    <nodeSuccessors name="next" next="DecisionNode10"/>
+<!--@BendPoints 7,13-->
+    <nodeSuccessors name="error" next="GetCurrentDate0"/>
+    <startNode referencedName="Super:Start"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode10" conditionKey="Synchronously"
+      operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="GetCurrentDate3"/>
+<!--@BendPoints 5,15 5,21-->
+    <nodeSuccessors name="decision_no" next="JoinNode0"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate3">
+    <configurationValues name="ForceApplicationServerTimeZone" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="CallNode9"/>
+  </nodes>
+<!--FallbackResult := "SUCCESS"
+@Location 1,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode9">
+    <nodeSuccessors name="next" next="JoinNode0"/>
+    <parameterBindings name="FallbackEndDate" objectPath="CurrentDate"/>
+    <parameterBindings name="FallbackResult" constant="SUCCESS"/>
+    <parameterBindings name="FallbackStartDate" nullBinding="true"/>
+    <startNode referencedName="ProcessProcessStatistics-UpdateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location 1,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true">
+    <returnValues name="ReplicationProcess" type="com.intershop.beehive.core.capi.replication.ReplicationProcess"/>
+  </nodes>
+<!--@Location 3,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCurrentDate0">
+    <configurationValues name="ForceApplicationServerTimeZone" value="true"/>
+    <pipelet href="enfinity:/core/pipelets/GetCurrentDate.xml"/>
+    <nodeSuccessors name="next" next="CallNode4"/>
+  </nodes>
+<!--FallbackResult := "FAILURE"
+@Location 3,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode4">
+    <nodeSuccessors name="next" next="EndNode1"/>
+    <parameterBindings name="FallbackEndDate" objectPath="CurrentDate"/>
+    <parameterBindings name="FallbackResult" constant="FAILURE"/>
+    <parameterBindings name="FallbackStartDate" nullBinding="true"/>
+    <startNode referencedName="ProcessProcessStatistics-UpdateProcessStatisticsBO"/>
+  </nodes>
+<!--@Location 3,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" name="error" strict="true">
+    <returnValues name="ReplicationProcess" type="com.intershop.beehive.core.capi.replication.ReplicationProcess"/>
+  </nodes>
+<!--UsedChannelsTakingPartInReplication :=
+ChannelsTakingPartInReplication
+@Location 3,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper10">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+<!--@BendPoints 7,9-->
+    <nodeSuccessors name="next" next="JoinNode12"/>
+    <parameterBindings name="InValue_1" objectPath="ChannelsTakingPartInReplication"/>
+    <returnValueBindings name="OutValue_1" objectPath="UsedChannelsTakingPartInReplication"/>
+  </nodes>
+</pipeline:Pipeline>

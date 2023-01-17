@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="Pipelet1" >
+<pipeletName>ClearObjectCache</pipeletName>
+<pipeletClass>com.intershop.platform.utils.pipelet.utils.ClearObjectCache</pipeletClass>
+<errorConnector>false</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_CacheId" >
+<key>CacheId</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

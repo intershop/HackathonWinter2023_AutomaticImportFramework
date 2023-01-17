@@ -1,0 +1,23 @@
+apply plugin: com.intershop.deploy.cartridge.CartridgeDeploymentPlugin
+
+deployment {
+    if (target.includeShare) {
+        filters {
+            /***************************************************************************
+             * C24 Add to staging.properties:
+             *              DeleteDomainSpecificStagingProcessor
+             *              AppendRepositoryTakesPartDomainSpecificStagingProcessor
+             *              add decorator for DeltaDomainSpecificStagingProcessor
+             ***************************************************************************/
+            overrideProperties('add DeleteDomainSpecificStagingProcessor') {
+            	dir = target.shareDirectory
+            	include 'system/config/cluster/staging.properties'
+            	properties['staging.processor.DeleteDomainSpecificStagingProcessor.className'] = 'com.intershop.platform.replication.extension.capi.staging.process.DeleteDomainSpecificStagingProcessor'
+            	properties['staging.processor.DeleteDomainSpecificStagingProcessor.decorator.0'] = 'com.intershop.beehive.core.capi.staging.process.ExecuteQueryDecorator'
+            	properties['staging.processor.AppendRepositoryTakesPartDomainSpecificStagingProcessor.className'] = 'com.intershop.platform.replication.extension.capi.staging.process.AppendRepositoryTakesPartDomainSpecificStagingProcessor'
+            	properties['staging.processor.AppendRepositoryTakesPartDomainSpecificStagingProcessor.decorator.0'] = 'com.intershop.beehive.core.capi.staging.process.ExecuteQueryDecorator'
+            	properties['staging.processor.DeltaDomainSpecificStagingProcessor.decorator.1'] = 'com.intershop.beehive.core.capi.staging.process.ExecuteQueryDecorator'
+            }
+        }
+    }
+}

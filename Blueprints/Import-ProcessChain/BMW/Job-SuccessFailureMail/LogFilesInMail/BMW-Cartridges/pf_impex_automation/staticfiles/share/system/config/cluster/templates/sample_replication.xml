@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<replication-configuration 
+    xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.5.0/core/replication replicationprocess-config.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.intershop.com/xml/ns/enfinity/6.5.0/core/replication">
+
+
+    <!--
+    In this section are all replication processes specified, that can be replicated by job 'Replication Process Scheduler' in SLDSystem.
+
+    Please use the id of replication process in job configuration (attribute 'ReplicationProcessID')
+
+    Example:
+
+        <process id="nightly">
+            <type>ReplicationPublication</type>     <- - valid types are 'Replication', 'Publication' and 'ReplicationPublication'
+            <description>This process is started every night.</description>
+            <task ref="PrimeTechProducts"/>
+            <task ref="PrimeTechSpecialsProducts"/>
+        </process>
+    -->
+    <!--
+    <processes>
+    </processes>
+  -->
+
+    <!--
+
+    In this section are all replication tasks, that can be reused by several replication processes. Each referenced
+    replication task is created at the beginning of replication process in according enterprise or channel.
+
+    Example:
+
+        <task id="PrimeTechSpecialsProducts">
+            <organization>PrimeTech</organization>
+            <channel>PrimeTechSpecials</channel>
+            <description>Replicates all products of channel PrimeTechSpecials</description>
+            <group ref="CATALOGS"/>
+            <group ref="PRODUCTS"/>
+    </task>
+    <task id="PrimeTechProducts">
+      <organization>PrimeTech</organization>
+      <description>Replicates all products of channel PrimeTechSpecials</description>
+      <group ref="PRODUCTS"/>
+    </task>
+  -->
+  <!--
+  <tasks>
+  </tasks>
+  -->
+
+    <!-- Define Project staging process -->
+    <processes>
+        <process id="Project-Replication-Process">
+            <type>ReplicationPublication</type>
+            <description>Replication and Publication Process for Project</description>
+            <task ref="ProjectMasterDomain-Replication"/>
+            <task ref="ProjectMasterDomain-ProjectChannelDomain-Replication"/>
+        </process>
+    </processes>
+
+    <tasks>
+        <task id="ProjectMasterDomain-Replication">
+            <organization>ProjectMasterDomain</organization>
+            <description>Replication and Publication of ProjectMasterDomain Data</description>
+            <group ref="CHANNELS"/>
+            <group ref="CATALOGS"/>
+            <group ref="PRODUCTS"/>
+            <group ref="PRODUCT_PRICES"/>
+            <group ref="PAGELETS"/>
+        </task>
+		<task id="ProjectMasterDomain-ProjectChannelDomain-Replication">
+            <organization>ProjectMasterDomain</organization>
+            <channel>ProjectChannelDomain</channel>
+            <description>Replication and Publication of ProjectChannelDomain Data</description>
+            <group ref="CATALOGS"/>
+            <group ref="CONTENT"/>
+            <group ref="PRODUCTS"/>
+            <group ref="PRODUCT_PRICES"/>
+			<group ref="PAGELETS"/>
+            <!-- <group ref="SHORTLINKS"/> -->
+        </task>
+    </tasks>
+
+  <groups>
+    <group id="CATALOGS">
+      <business-unit-types>20 30 32 52</business-unit-types>
+      <locale id="en_US">
+        <name>Catalogs</name>
+        <description>Catalogs, categories and product types</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Kataloge</name>
+        <description>Kataloge, Kategorien und Produkttypen</description>
+      </locale>
+    </group>
+
+    <group id="CATALOG_FILTERS">
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Catalog Views</name>
+        <description>Catalog views related user groups</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Kataloganzeigen</name>
+        <description>Filter f&#x00fc;r Kataloganzeigen und dazu geh&#x00f6;rige Benutzergruppen.</description>
+      </locale>
+    </group>
+
+    <group id="PRODUCTS" >
+      <business-unit-types>20 30 32 52</business-unit-types>
+      <locale id="en_US">
+        <name>Products</name>
+        <description>Products incl. prices and attachments</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Produkte</name>
+        <description>Produkte, einschlie&#x00df;lich Produktpreise und Anlagen</description>
+      </locale>
+    </group>
+
+    <group id="PRODUCT_ATTRIBUTE_GROUPS" >
+      <business-unit-types>20 30 32 52</business-unit-types>
+      <locale id="en_US">
+        <name>Product Attribute Groups</name>
+        <description>Product attribute groups only</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Produktattributgruppen</name>
+        <description>Nur Produktattributgruppen</description>
+      </locale>
+    </group>
+
+    <group id="PRODUCT_PRICES" >
+      <business-unit-types>20 30 32 52</business-unit-types>
+      <locale id="en_US">
+        <name>Product Prices</name>
+        <description>Product prices only</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Produktpreise</name>
+        <description>Nur Produktpreise</description>
+      </locale>
+    </group>
+
+    <group id="CONTENT" >
+      <business-unit-types>20 30 32 52 62</business-unit-types>
+      <locale id="en_US">
+        <name>Content</name>
+        <description>Published content</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Content</name>
+        <description>Publizierter Content</description>
+      </locale>
+    </group>
+
+    <group id="CONSUMERS" >
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Consumers</name>
+        <description>Consumers incl. consumer group assignments</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Endkunden</name>
+        <description>Endkunden, einschlie&#x00df;lich Zuordnungen zu Endkundengruppen</description>
+      </locale>
+    </group>
+
+    <group id="CONSUMER_GROUPS" >
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Consumer Groups</name>
+        <description>Consumer groups only</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Endkundengruppen</name>
+        <description>Nur Endkundengruppen</description>
+      </locale>
+    </group>
+
+    <group id="BRANDING" >
+      <business-unit-types>20 30 52</business-unit-types>
+      <locale id="en_US">
+        <name>Branding</name>
+        <description>Branding information (images, stylesheets, ...)</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Design</name>
+        <description>Designpakete</description>
+      </locale>
+    </group>
+
+    <group id="PROMOTIONS" >
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Promotions</name>
+        <description>Promotions, rebates, coupons</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Kampagnen</name>
+        <description>Kampagnen, Rabatte und Gutscheine</description>
+      </locale>
+    </group>
+
+    <group id="AFFILIATE_PARTNERS" >
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Affiliate Partners</name>
+        <description>Affiliate partners only</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Affiliate-Partner</name>
+        <description>Nur Affiliate-Partner</description>
+      </locale>
+    </group>
+
+    <group id="ORGANIZATION" >
+      <business-unit-types>20 30</business-unit-types>
+      <locale id="en_US">
+        <name>Organization</name>
+        <description>Organization incl. users, user groups, departments, external systems and organization preferences</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Organisation</name>
+        <description>Organisationen, einschlie&#x00df;lich Benutzer, Benutzergruppen, Abteilungen, externer Systeme und allgemeiner Einstellungen f&#x00fc;r die Organisation</description>
+      </locale>
+    </group>
+
+    <group id="CHANNELS" >
+      <business-unit-types>20 30</business-unit-types>
+      <locale id="en_US">
+        <name>Channels/MasterRepository</name>
+        <description>Channel structure and master repository incl. channel preferences</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Channels/Zentraler Produktbestand</name>
+        <description>Channels, zentraler Produktbestand und allgemeine Einstellungen f&#x00fc;r den Channel.</description>
+      </locale>
+    </group>
+
+    <group id="SHORTLINKS" >
+      <business-unit-types>52</business-unit-types>
+      <locale id="en_US">
+        <name>Short Links/Link Groups</name>
+        <description>Short link and link groups</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Short Links/Link Groups</name>
+        <description>Link Mappings und Link Gruppen</description>
+      </locale>
+    </group>
+
+    <group id="PAGELETS" >
+      <business-unit-types>20 30 52</business-unit-types>
+      <locale id="en_US">
+        <name>Pages and Components</name>
+        <description>Pages and Components incl. slots and assignments</description>
+      </locale>
+      <locale id="de_DE">
+        <name>Seiten und Komponenten</name>
+        <description>Seiten und Komponenten sowie Seitenbereiche und Zuordnungen</description>
+      </locale>
+    </group>
+
+  </groups>
+</replication-configuration>

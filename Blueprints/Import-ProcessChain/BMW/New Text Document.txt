@@ -1,0 +1,393 @@
+job="AutomaticCatalogDataImport" domain="BMW"
+	Pipeline: ProcessAutomaticCatalogImport-Start (pf_impex_automation@BMW)
+	  NumberOfDaysToArchiveImportFiles = "4"
+	  Source = "PIM"
+	  MailFrom = "..."
+	  MailTo = "..."
+
+job="AutomaticProductDataImport" domain="BMW"
+	Pipeline: ProcessAutomaticProductImport-Start (pf_impex_automation@BMW)
+	  [ChannelImport = "true"]
+	  UnitName? (required for channel import)
+	  NumberOfDaysToArchiveImportFiles = "4"
+	  Source = "PIM"
+	  IgnoreCacheRefresh = "true"
+	  MailFrom = "..."
+	  MailTo = "..."
+	  # Start node for import process of products.
+		1. Determine CurrentUnit (type Domain), Repository (type Repository)
+		  # a) Master-Import; b) Channel-Import
+		2. Pipelet VerifyInteger (bc_foundation)
+			  LocalizedString := NumberOfDaysToArchiveImportFiles
+			  <-- NumberOfDays (<-- IntegerObject)
+		2. Pipeline: ProcessAutomaticImportHelper-GetImportFiles (pf_impex_automation@BMW)
+		  RegularExpression = "product_.*\.xml"
+		  UnitDomain = CurrentUnit
+		  <-- Files
+			1. Pipelet: BrowseDirectory (bc_foundation)
+			  Unit Directory: IMPEX_SRC_DIR
+			  Default Directory Path: "catalog/upload"
+			2. Pipelet: SortIteratorByAttribute (pf_utils@BMW)
+			  Iterator: Directory:Files
+			  Attribute: Name
+			3. Pipelet: FilterIteratorByAttribute (pf_utils@BMW)
+			  Iterator: Files
+			  Attribute: FullName
+			  RegularExpression: RegularExpression
+		3. Extension Point: StartPreProcess, strict (ProductDomainID*: String, Source: String)
+			<ununsed>
+		4. Loop (File: Files)
+		4.1 Pipelet ModifyImportXMLFile (pf_utils@BMW)
+		  Mode: AddElement: add a new xml element as custom attribute (in every <custom-attributes> section)
+		  AttributeName: "LastImportDate"
+		  AttributeValue: LastImportDate
+		  File: File
+		4.2 MoveFile (Pipelet CopyFile (bc_foundation) + Pipelet DeleteFile (bc_foundation))
+		  Default Source Unit Directory: IMPEX_SRC_DIR
+		  Default Source Directory Path: catalog/upload
+		  Default Target Unit Directory: IMPEX_SRC_DIR
+		  Default Target Directory Path: catalog
+		  Source Unit Domain: CurrentUnit
+		  Target Unit Domain: CurrentUnit
+		  Source File Name: File:FullName
+		4.3 Pipeline: ProcessAutomaticProductImport-Import (pf_impex_automation@BMW)
+		  CurrentUnit*: CurrentUnit
+		  Process*: Process
+		  Repository*: Repository
+		  SelectedFile*: File:FullName
+		  SourceDirectory*: "catalog/"
+		  ChannelImport: ChannelImport (optional, "true" or missing)
+		  IgnoreCacheRefresh: IgnoreCacheRefresh (optional, "true" or missing)
+		  Source: Source (optional, e.g. "PIM")
+		  # Import of a specified file. Two jobs are created (verify and import).
+			4.3.1 Pipelet ConcatenateStrings (core): JobNameVerify := "ProcessProductImport" + " (verify " + SelectedFile + ")";
+			4.3.2 Pipelet ConcatenateStrings (core): JobNameImport := "ProcessProductImport" + " (import " + SelectedFile + ")";
+			4.3.3 Pipelet KeyMapper (core): ProcessExecutionDomain := Repository:Domain;
+			4.3.4 Pipeline: ProcessImportStatistics-BeforeFileImport (pf_impex_automation@BMW)
+			  Process: Process
+			  Repository: Repository
+			  SelectedFile: SelectedFile
+			  ImportMode: ImportMode
+			  # ProcessStatistics
+			4.3.5 Pipeline: ProcessAutomaticProductImport-CreateJob (pf_impex_automation@BMW)
+			  CurrentUnit*: CurrentUnit
+			  JobDescription*: "Validates product import file."
+			  JobName*: JobNameVerify
+			  ProcessExecutionDomain*: CurrentUnit
+			  ProcessPipelineName*: "ProcessProductImport"
+			  ProcessPipelineStartNode*: "Validate"
+			  Repository*: Repository
+			  SelectedFile*: SelectedFile
+			  SourceDirectory*: SourceDirectory
+			  ChannelImport: ChannelImport
+			  IgnoreCacheRefresh: IgnoreCacheRefresh
+			  Source: Source
+			  # Creates a job. Wait until the job execution has finished.
+				4.3.4.1 Pipelet KeyMapper (core)
+				  ProcessOwningDomain := CurrentUnit:Domain;
+				  JobName := "ProcessCatalogImpex";
+				4.3.4.2 Pipelet GetOrganizationByDomain (bc_organization)
+				  Organization := Repository:OwningDomain;
+				4.3.4.3 Pipelet KeyMapper (core)
+				  Value Type: Form Value;
+				  SelectedFile := SelectedFile;
+				  IgnoreCacheRefresh := IgnoreCacheRefresh;
+				  SourceDirectory := SourceDirectory;
+				  CurrentOrganizationUUID := Organization:UUID;
+				  ProcessOwningDomain := ;
+				  Import := "Import";
+				  ImportMode:= "UPDATE";
+				  JobName:= "ProcessCatalogImpex";
+				  ProcessPipelineName := ProcessPipelineName;
+				  ProcessPipelineStartNode := ProcessPipelineStartNode;
+				4.3.4.4a Pipelet Matches (pf_utils@BMW)
+				  Mode: Find;
+				  Default Reg Ex: product_delete_.*\.xml;
+				  Default Replacement: .;
+				  String := SelectedFile;
+				  <--:|:error
+				4.3.4.4b Pipelet KeyMapper (core)
+				  Value Type: Form Value;
+				  ImportMode := "DELETE";
+				4.3.4.5a Decision Node
+				  Operator: (String) Equals;
+				  Condition Key: ChannelImport;
+				  Condition Value: true;
+				  <--:yes|:no
+				4.3.4.5b Pipelet UpdateCustomAttribute (core)
+				  Default Attribute Name: ChannelImport;
+				  Default Attribute Type: String;
+				  ExtensibleObject := ProcessExecutionDomain;
+				  AttributeValue := ChannelImport;
+				4.3.4.6 Pipeline: ProcessImpexJob-Create (bc_foundation)
+				  # Create and start import job
+				4.3.4.7a Decision Node
+				  Operator: Greater Than >;
+				  Condition Key: JobConfiguration:LastExecutionTime:Time;
+				  Condition Value: 0;
+				  <--:yes|:no
+				4.3.4.7b Decision Node
+				  Operator: Not Equals;
+				  Condition Key: JobConfiguration:Status;
+				  Condition Value: 1;
+				  <--:yes|:no
+				4.3.4.7c Pipelet Wait (core)
+				  Milliseconds To Wait: 1000;
+				  # Wait until job finished
+				4.3.4.8a Decision Node
+				  Operator: Defined;
+				  Condition Key: JobConfiguration:LogCount_Warn;
+				  <--:yes|:no
+				4.3.4.8b Decision Node
+				  Operator: Greater Than >;
+				  Condition Key: JobConfiguration:LogCount_Warn;
+				  Condition Value: 0;
+				  <--:yes|:no
+				4.3.4.8c Decision Node
+				  Operator: Defined;
+				  Condition Key: JobConfiguration:LogCount_Error;
+				  <--:yes|:no
+				4.3.4.8d Decision Node
+				  Operator: Greater Than >;
+				  Condition Key: JobConfiguration:LogCount_Error;
+				  Condition Value: 0;
+				  <--:yes|:no
+				4.3.4.9 Pipeline: ProcessImpexJob-GetLogContent (bc_foundation)
+				  <-- LogContent (String)
+				4.3.4.9 Pipeline: ProcessAutomaticImportHelper-GetLogFileName (pf_impex_automation@BMW)
+				  <-- AbsoluteFileName (String)
+				4.3.4.10a Decision Node
+				  Operator: Defined;
+				  Condition Key: JobConfiguration:FinishedWithError;
+				  <--:yes|:no
+				4.3.4.10b Decision Node
+				  Operator: (String) Equals;
+				  Condition Key: JobConfiguration:FinishedWithError;
+				  Condition Value: true;
+				  <--:yes|:no
+			  # End: 4.3.5 Pipeline: ProcessAutomaticProductImport-CreateJob (pf_impex_automation@BMW)
+			  <-- AbsoluteFileName
+			  <-- ImportMode
+			  <-- JobConfiguration
+			  <--:|:error
+			4.3.6 Pipeline: ProcessAutomaticProductImport-CreateJob (pf_impex_automation@BMW)
+			  CurrentUnit*: CurrentUnit
+			  JobDescription*: "Imports products."
+			  JobName*: JobNameImport
+			  ProcessExecutionDomain*: ProcessExecutionDomain
+			  ProcessPipelineName*: "ProcessProductImport"
+			  ProcessPipelineStartNode*: "Import"
+			  Repository*: Repository
+			  SelectedFile*: SelectedFile
+			  SourceDirectory*: SourceDirectory
+			  ChannelImport: ChannelImport
+			  IgnoreCacheRefresh: IgnoreCacheRefresh
+			  Source: Source
+			  # End: 4.3.6 Pipeline: ProcessAutomaticProductImport-CreateJob (pf_impex_automation@BMW)
+			  <-- AbsoluteFileName
+			  <-- ImportMode
+			  <-- JobConfiguration
+			  <--:|:error
+			4.3.7 Pipeline: ProcessImportStatistics-AfterFileImport (pf_impex_automation@BMW)
+			  Process: Process
+			  Repository: Repository
+			  SelectedFile: SelectedFile
+			  ImportMode: ImportMode
+			  JobConfiguration: JobConfiguration
+			  # ProcessStatistics
+		  # End: 4.3 Pipeline: ProcessAutomaticProductImport-Import (pf_impex_automation@BMW)
+		  <--:(AbsoluteFileName)|:error(AbsoluteFileName*)
+		4.4 Pipeline: ProcessAutomaticImportHelper-CompressImportFile (pf_impex_automation@BMW)
+		  FileName: File:FullName
+		  UnitDomain: CurrentUnit
+			4.4.1 Pipelet GetStringSubstitution (core)
+			  Default Pattern: (.xml)$;
+			  Default Substitution Pattern: .zip;
+			  InputString := FileName;
+			  <-- ZipFileName (<-- OutputString);
+			4.4.2 Pipelet CreateZipFile (bc_foundation)
+			  Default Source Directory Path: catalog
+			  Default Source Unit Directory: IMPEX_SRC_DIR
+			  Default Target Directory Path: archive
+			  Default Target Unit Directory: IMPEX_DIR
+			  SourceUnitDomain := UnitDomain
+			  TargetUnitDomain := UnitDomain
+			  SourceFileName := FileName
+			  TargetFileName := ZipFileName
+			4.4.3 Pipelet DeleteFile (bc_foundation)
+			  Unit Directory: IMPEX_SRC_DIR
+			  Default Directory Path: catalog
+			  FileName := FileName
+			  UnitDomain := UnitDomain
+		4.5 <ununsed> Pipeline: ProcessReminder-Set (pf_impex_automation@BMW)
+		  ReminderName: "ProductDataImported"
+			4.3.1 ProcessReminder-Prefix: Domain := (first part of <CurrentDomain> before "-");
+			4.3.1 Pipelet UpdateCustomAttribute (core): ProductDataImported@Domain := "true";
+		4.6 Pipeline: ProcessAutomaticImportHelper-SetErrorLogFile (pf_impex_automation@BMW)
+		  Process*: Process
+		  UnitDomain*: CurrentUnit
+		  AbsoluteFileName: AbsoluteFileName
+		  # Set error log file for process chain.
+			4.6.1 Pipelet GetProcessChainProcess (core)
+			  Process* := Process
+			  <-- ProcessChainProcess
+			4.6.2 Decision Node
+			  Operator: Defined;
+			  Condition Key: AbsoluteFileName;
+			  <--:yes|:no
+			4.6.2 Decision Node
+			  Operator: Defined;
+			  Condition Key: ProcessChainProcess:Parent:Domain;
+			  <--:yes|:no
+			4.6.3yes Pipelet AddLogInformationToDomain (pf_impex_automation@BMW)
+			  FileName* := AbsoluteFileName
+			  Process* := Process
+			  TargetUnitDomain := ProcessChainProcess:Parent:Domain
+			  # Pipelet appends log information (import log file name, job domain name, job name, job description) to the given domain object
+			  # append to multiple string custom attributes:
+			  #  * TargetUnitDomain.getMultipleString("Import_LogFileName")      .append(AbsoluteFileName)
+			  #  * TargetUnitDomain.getMultipleString("Import_LogJobName")       .append(Process:Name)
+			  #  * TargetUnitDomain.getMultipleString("Import_LogJobDescription").append(Process:Description)
+			  #  * TargetUnitDomain.getMultipleString("Import_LogJobDomainName") .append(Process:Domain:DomainName)
+		4.7 Pipelet RemoveDictionaryValue (core): Remove Key "AbsoluteFileName";
+		  Key: AbsoluteFileName
+		4.4err Pipeline: ProcessAutomaticImportHelper-CleanupFinishedJobList (pf_impex_automation@BMW)
+		  JobDomain* := CurrentUnit
+		  NumberOfDays* := NumberOfDays
+		  RegularExpression* := "product_.*\.xml"
+		  # Cleanup of the job configurations and files.
+			4.4err.1 Pipelet SetDictionaryValue (core)
+			  Name: JobNamePrefix;
+			  Value: ProcessCatalogImpex;
+			  Value Type: Dictionary value;
+			4.4err.2 Pipeline: ProcessImpexJob-GetFinishedImpexJobs (bc_foundation)
+			  # First get a complete list of all product impex jobs
+			  <--:(FinishedImpexJobs*)|:Error
+			4.4err.3 Pipelet: FilterIteratorByAttribute (pf_utils@BMW)
+			  Attribute: SelectedFile
+			  Iterator := FinishedImpexJobs
+			  RegularExpression := RegularExpression
+			  <-- Jobs (<-- FilteredIterator)
+			4.4err.4 Pipelet GetCurrentDate (core)
+			  Offset Time: 00:01
+			  <-- CurrentDate
+			4.4err.5 Pipelet CalculateDate (core)
+			  Calculation Method: Subtract
+			  Date* := CurrentDate
+			  Days := NumberOfDays
+			  <-- MaxSaveDate (<-- CalculatedDate)
+			4.4err.6 Loop (Job: Jobs)
+			4.4err.6.1 Decision Node
+			  Operator: Defined;
+			  Condition Key: Job:LastExecutionTime
+			  <--:yes|:no
+			4.4err.6.2 Pipelet IsDateBefore (core)
+			  Date1* := Job:LastExecutionTime
+			  Date2* := MaxSaveDate
+			  <--:|:error
+			4.4err.6.3a Pipelet GetStringSubstitution (core)
+			  Default Pattern: (.xml)$
+			  Default Substitution Pattern: .zip
+			  InputString := Job:SelectedFile
+			  <-- FileName (<-- OutputString)
+			4.4err.6.4aa Pipelet DeleteFile (bc_foundation)
+			  Unit Directory: IMPEX_DIR
+			  FileName := FileName
+			  UnitDomain := JobDomain
+			  DirectoryPath := "archive"
+			4.4err.6.5a Pipelet RemoveJobConfiguration (core)
+			  JobConfiguration := Job
+		4.5err Pipeline: ProcessAutomaticImportHelper-SetErrorState (pf_impex_automation@BMW)
+		  # Set error state for process chain.
+			4.5err.1 Pipelet KeyMapper (core)
+			  ProcessChainResult := "(Integer)4"
+		  <--:ProcessChainResult
+		4.6err Pipeline: ProcessAutomaticImportHelper-SetErrorLogFile (pf_impex_automation@BMW)
+		  Process*: Process
+		  UnitDomain*: CurrentUnit
+		  AbsoluteFileName: AbsoluteFileName
+		  # Set error log file for process chain.
+		  #see above
+		4.8 Pipeline: ProcessAutomaticImportHelper-CleanupFinishedJobList (pf_impex_automation@BMW)
+		  JobDomain* := CurrentUnit
+		  NumberOfDays* := NumberOfDays
+		  RegularExpression* := "product_.*\.xml"
+		  # Cleanup of the job configurations and files.
+		X. Extension Point: StartPostProcess
+			<ununsed>
+	  <--:|:error(ProcessChainResult*)
+
+job="AutomaticPriceListImport" domain="BMWDE-MarketDE"
+	Pipeline: ProcessAutomaticPriceListImport-Start (pf_impex_automation@BMW)
+	NumberOfDaysToArchiveImportFiles = "4"
+	Source = "PIM"
+	MailFrom = "..."
+	MailTo = "..."
+
+job="Process Chain Import Success Notification" domain="BMW"
+  MailFrom: intershop-intedit@bmw.de
+  MailTo: lstephan@intershop.com;r.paweleck@intershop.de;ira.Lingke@bertelsmann.de;Matthias.KA.Kalbe@bmw.de;Sebastian.ML.Mueller@partner.bmw.de;C.Schmalenstroeer@intershop.de;Yagmur.Guemues@partner.bmw.de;Martin.MB.Brotschi@partner.bmw.de;aseitz@intershop.de
+  Message: BMW import process chain on system Integration Edit successfully executed.
+  Subject: BMW import process chain on system Integration Edit successfully executed
+	Pipeline: ProcessAutomaticProcessChain-Notify (pf_impex_automation@BMW)
+
+job="Process Chain Import Error Notification" domain="BMW"
+  MailFrom: intershop-intedit@bmw.de
+  MailTo: lstephan@intershop.com;r.paweleck@intershop.de;ira.Lingke@bertelsmann.de;Matthias.KA.Kalbe@bmw.de;Sebastian.ML.Mueller@partner.bmw.de;C.Schmalenstroeer@intershop.de;Yagmur.Guemues@partner.bmw.de;Martin.MB.Brotschi@partner.bmw.de;aseitz@intershop.de
+  Message: Execution of BMW import process chain on system Integration Edit failed.
+  Subject: Execution of BMW import process chain on system Integration Edit failed
+	Pipeline: ProcessAutomaticProcessChain-Notify[Import] (pf_impex_automation@BMW)
+	  # Send job notification to users.
+		1 Decision Node
+		  Operator: Undefined
+		  Condition Key: MailTemplate
+		  <--:yes|:no
+		[2yes Pipelet KeyMapper (core)]
+		  Value Type: Form Value
+		  MailTemplate := "job/Notification"
+		2yes Pipelet KeyMapper (core)
+		  Value Type: Form Value
+		  MailTemplate := "job/ImportProcessNotification"
+		3 Pipelet GetJobConfiguration (core)
+		  JobUUID := JobConfigurationUUID
+		  <-- JobConfiguration
+		4 Decision Node
+		  Operator: Defined
+		  Condition Key: Process:Domain:Import_LogJobName
+		  <--:yes|:no
+		5yes Pipelet KeyMapper (core)
+		  Value Type: Dictionary Value
+		  MailAttachments := Process:Domain:Import_LogFileName (Iterator<String>)
+		6yes Pipelet: PrepareAndRemoveLogInformationFromDomain (pf_impex_automation@BMW)
+		  TargetDomain := Process:Domain
+		  <-- LogInformation (Iterator<String>) # Iterator<#Import_LogFileName|Import_LogJobName|Import_LogJobDescription|Import_LogJobDomainName#>
+		7 Pipelet KeyMapper (core)
+		  Value Type: Dictionary Value
+		  LastImportPackageID := CurrentDomain:LastImportPackageID
+		8 Pipelet CheckForEmptyString (core)
+		  FilledString := LastImportPackageID
+		  <--:|:error
+		9yes Pipelet ConcatenateStrings (core):
+		  <-- Subject := "Package " + LastImportPackageID + ":" + Subject;
+		[10 Pipelet GetProcessChainProcess (core)]
+		  Process* := Process
+		  <-- ProcessChainProcess
+		[11 Pipelet: GetSitesDirectory (pf_impex_automation@BMW)]
+		  # SitesDirectory := FileUtils.getSiteShareDirectory()
+		  <-- SitesDirectory
+		[12 Pipelet: GetFiles (pf_impex_automation@BMW)]
+		  Directory* := SitesDirectory
+		  Regex* := "Shop-Export.*\.properties"
+		  # Files := Directory.listFiles(FileFilter(Regex))
+		  <-- Files
+		13 Pipelet ProcessMail (bc_mail)
+		  MailFrom := MailFrom
+		  MailTo := MailTo
+		  MailSubject := Subject
+		  Domain := CurrentDomain
+		  MailTemplate := MailTemplate
+		[14 Template job/Notification (pf_impex_automation@BMW)]
+		14 Template job/ImportProcessNotification (pf_impex_automation@BMW)
+		  System*
+		  RegistrationDomain*
+		  ImportPackageID

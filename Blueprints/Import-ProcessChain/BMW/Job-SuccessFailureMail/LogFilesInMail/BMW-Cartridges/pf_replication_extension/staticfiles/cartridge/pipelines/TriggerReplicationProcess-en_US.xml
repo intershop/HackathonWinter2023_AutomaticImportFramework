@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<group>Replication</group>
+<description>Process pipeline to execute a replication process.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="DecisionNode1"  localeId="en_US" >
+<description>TriggerReplicationProcess-Start
+uses the error connector only in case the replication could not be started,
+but not in case the replication process failed!</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="EndNode0"  localeId="en_US" >
+<description>Replication process
+successfully executed</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="EndNode7"  localeId="en_US" >
+<description>Replication process failed</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="EndNode8"  localeId="en_US" >
+<description>Replication process was skipped
+because no channel wants to
+take part in the replication</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper_db-4IN5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>ReplicationProcessID :=
+&quot;Motorrad-Staging-Process&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper_db2VQN5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>ReplicationProcessID :=
+&quot;MINI-Staging-Process&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper_dbwOoN5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>ReplicationProcessID :=
+&quot;BMW-Staging-Process&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="SetDictionaryValue0"  localeId="en_US" >
+<description>IsRegularReplicationProcess := &quot;true&quot;;
+Indicates it is a &quot;Self-Configured Replication Process&quot; as should be used for all replication processes.
+And this is the only place where this key-value is set.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ReplicationProcessID"  localeId="en_US" >
+<description>The id of the replication process</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode0_param_ReplicateAllChannels"  localeId="en_US" >
+<description>&quot;true&quot; in case all channels should be replicated,
+&quot;false&quot; in case only channels willing to take part in the replication should be replicated.
+If present, this parameter overrides the &quot;AllChannels&quot; setting in replication-organizations.properties, if not present, then the replication-organizations.properties setting is used.
+In case this param (or the &quot;AllChannels&quot; setting) is &quot;true&quot; then the setting &quot;Take part in nightly replication&quot; for the channels should NOT be set back to &quot;false&quot;.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode_dbRtgN5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>Replicate all data of MINI,
+but only channels that &quot;Take part in nightly replication&quot;.
+&quot;Take part in nightly replication&quot; is set back to &quot;false&quot;
+for all channels that took part in this replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode_dbRtgN5EEeai5ozHy8Y1Ng_param_ReplicationProcessID"  localeId="en_US" >
+<description>The id of the replication process</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode_dbfI4N5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>Replicate all data of Motorrad,
+but only channels that &quot;Take part in nightly replication&quot;.
+&quot;Take part in nightly replication&quot; is set back to &quot;false&quot;
+for all channels that took part in this replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode_dbfI4N5EEeai5ozHy8Y1Ng_param_ReplicationProcessID"  localeId="en_US" >
+<description>The id of the replication process</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode_dcRMAN5EEeai5ozHy8Y1Ng"  localeId="en_US" >
+<description>Replicate all data of BMW,
+but only channels that &quot;Take part in nightly replication&quot;.
+&quot;Take part in nightly replication&quot; is set back to &quot;false&quot;
+for all channels that took part in this replication.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode_dcRMAN5EEeai5ozHy8Y1Ng_param_ReplicationProcessID"  localeId="en_US" >
+<description>The id of the replication process</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Text0"  localeId="en_US" >
+<description>Replication process in
+replication-organizations.properties
+defined AllChannels = true:
+Do not reset the channel settings
+&quot;Take part in nightly replication&quot;
+at such replication processes.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

@@ -1,0 +1,2021 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipeline dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeline" id="Pipeline1" >
+<name>ProcessImportStatistics</name>
+<type>process</type>
+<parent>ProcessImportStatistics</parent>
+<nodes>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>22</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddMultipleEntriesToMap</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>OverwriteValue</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InMap</key>
+<alias>ImportStatisticsMap</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key1</key>
+<alias>&quot;CountParts&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key2</key>
+<alias>&quot;CountPartsOnline&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key3</key>
+<alias>&quot;CountProdCats&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key4</key>
+<alias>&quot;CountProdWithoutCats&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value1</key>
+<alias>CountParts</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value2</key>
+<alias>CountPartsOnline</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value3</key>
+<alias>CountProdCats</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value4</key>
+<alias>CountProdWithoutCats</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutMap</key>
+<alias>ImportStatisticsMap</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>17</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddMultipleEntriesToMap</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>OverwriteValue</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InMap</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key1</key>
+<alias>&quot;CountProducts&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key2</key>
+<alias>&quot;CountProductsOnline&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key3</key>
+<alias>&quot;CountVehicleTypes&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key4</key>
+<alias>&quot;CountVehicleTypesOnline&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value1</key>
+<alias>CountProducts</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value2</key>
+<alias>CountProductsOnline</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value3</key>
+<alias>CountVehicleTypes</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value4</key>
+<alias>CountVehicleTypesOnline</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutMap</key>
+<alias>ImportStatisticsMap</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddMultipleEntriesToMap</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>OverwriteValue</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InMap</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key1</key>
+<alias>&quot;Domain&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key2</key>
+<alias>&quot;SelectedFile&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key3</key>
+<alias>ImportMode</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key4</key>
+<alias>&quot;&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value1</key>
+<alias>Channel:RepositoryDomain:DomainName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value2</key>
+<alias>SelectedFile</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value3</key>
+<alias>ImportMode</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutMap</key>
+<alias>FileStatisticsMap</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddMultipleEntriesToMap</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>OverwriteValue</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InMap</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key1</key>
+<alias>&quot;Domain&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key2</key>
+<alias>&quot;SelectedFile&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key3</key>
+<alias>&quot;ImportMode&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Key4</key>
+<alias>&quot;&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value1</key>
+<alias>Channel:RepositoryDomain:DomainName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value2</key>
+<alias>SelectedFile</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Value3</key>
+<alias>ImportMode</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutMap</key>
+<alias>FileStatisticsMap</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_-VdKYBbWEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-CollectImportStatisticsMap</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_birr8Be7EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-GetElementCount</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_i_aSUBeyEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-CollectImportStatisticsMap</startNameRef>
+<strict>false</strict>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Channel</key>
+<alias>Repository</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_jIfeMBekEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-CollectImportStatisticsMap</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_serKcBekEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessImportStatistics-CollectImportStatisticsMap</startNameRef>
+<strict>false</strict>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Channel</key>
+<alias>Repository</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_vSgYgJD8EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>This:GetChannel</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode_WRDgcByAEeiRcvrJer7rog" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>Channel</conditionKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_2x64gJZvEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_FCVEcBe7EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>false</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode_FCVEcBe7EeinVIYUtm_rnw_ReturnValue_ElementCount" >
+<key>ElementCount</key>
+<guaranteed>false</guaranteed>
+<type>java.lang.Long</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_FZpgsBbpEei04N-JKZrMJg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode_FZpgsBbpEei04N-JKZrMJg_ReturnValue_Channel" >
+<key>Channel</key>
+<guaranteed>false</guaranteed>
+<type>com.intershop.component.mvc.capi.catalog.Repository</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_HNa3EJZvEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_Xd5T0JD8EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ERROR</name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_jfIZMJZvEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_lT74gKUyEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>23</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+<returnValues>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode_lT74gKUyEeiqqd1HrEIM_A_ReturnValue_ImportStatisticsMap" >
+<key>ImportStatisticsMap</key>
+<guaranteed>true</guaranteed>
+<type>java.util.Map</type>
+</DReturnValue>
+<DReturnValue dbo.type="com.intershop.beehive.core.rapi.pipeline.DReturnValue" id="EndNode_lT74gKUyEeiqqd1HrEIM_A_ReturnValue_Channel" >
+<key>Channel</key>
+<guaranteed>true</guaranteed>
+<type>com.intershop.component.mvc.capi.catalog.Repository</type>
+</DReturnValue>
+</returnValues>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_sej1sBekEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_xlfJsKUyEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>23</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ERROR</name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_02</key>
+<value>Online</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_02</key>
+<alias>&quot;(Boolean)TRUE&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountProductsOnline</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>15</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_03</key>
+<value>ProductTypeName</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_03</key>
+<alias>&quot;VehicleType&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountVehicleTypes</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>16</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_02</key>
+<value>Online</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_03</key>
+<value>ProductTypeName</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_02</key>
+<alias>&quot;(Boolean)TRUE&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_03</key>
+<alias>&quot;VehicleType&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountVehicleTypesOnline</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>19</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_02</key>
+<value>Online</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_03</key>
+<value>ProductTypeName</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_02</key>
+<alias>&quot;(Boolean)TRUE&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_03</key>
+<alias>&quot;Parts&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountPartsOnline</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>18</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_03</key>
+<value>ProductTypeName</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_03</key>
+<alias>&quot;Parts&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountParts</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>20</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_02</key>
+<value>AssignedToCategory</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_02</key>
+<alias>&quot;(Boolean)TRUE&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountProdCats</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>21</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_02</key>
+<value>AssignedToCategory</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_02</key>
+<alias>&quot;(Boolean)FALSE&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountProdWithoutCats</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>ExecuteCountQuery</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>ParameterName_01</key>
+<value>Channel</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>QueryName</key>
+<value>catalog/GetProductCountByChannel</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ParameterValue_01</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Count</key>
+<alias>CountProducts</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetApplicationBO</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_application</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetApplicationBO_jku_EKReEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetApplicationBO</pipeletName>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_application</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetDomainByName_xA--cBboEei04N-JKZrMJg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetDomainByName</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>DomainName</key>
+<alias>RepositoryDomainName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetRepositoryByRepositoryDomain</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Repository</key>
+<alias>Channel</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_mvc</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="GetStringSubstitution_xBOPABboEei04N-JKZrMJg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>GetStringSubstitution</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultPattern</key>
+<value>(-Site)$</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InputString</key>
+<alias>CurrentDomain:DomainName</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Pattern</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>SubstitutionPattern</key>
+<alias>&quot;-MasterRepository&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutputString</key>
+<alias>RepositoryDomainName</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_EMVG4KRgEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_ZmFvYJD8EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>13</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_hkFWIJD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>21</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_jg3y8JD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>20</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_k7OREJD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>19</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_kUERoKRbEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_m5vMMJD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>18</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_ordogJD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>16</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_qmbgYJD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>15</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_sC1M8JD7EeiK6aOQyM911g" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>14</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="KeyMapper_DvVLgBe7EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>8</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>KeyMapper</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InValue_1</key>
+<alias>JobConfiguration:SourceCount</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutValue_1</key>
+<alias>ElementCount</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="KeyMapper_zVcBYBe5EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>12</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>KeyMapper</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InValue_1</key>
+<alias>JobConfiguration:SourceCount_product-price-list-entry</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutValue_1</key>
+<alias>ElementCount</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="Matches_h37osBe5EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>Matches</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>DefaultRegEx</key>
+<value>pricelist.*xml</value>
+</DPipeletConfigProperty>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Mode</key>
+<value>Find</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>RegEx</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Replacement</key>
+<alias>&quot;&quot;</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>String</key>
+<alias>SelectedFile</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>pf_utils</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_P70dwBbPEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>BeforeChainExecution</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_P70dwBbPEeij65sIeXxwIg_param_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<required>true</required>
+<type>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_i_XPABeyEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>AfterFileImport</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_i_XPABeyEeinVIYUtm_rnw_param_Process" >
+<key>Process</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_i_XPABeyEeinVIYUtm_rnw_param_SelectedFile" >
+<key>SelectedFile</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_i_XPABeyEeinVIYUtm_rnw_param_ImportMode" >
+<key>ImportMode</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_i_XPABeyEeinVIYUtm_rnw_param_JobConfiguration" >
+<key>JobConfiguration</key>
+<required>false</required>
+<type>com.intershop.beehive.core.capi.job.JobConfiguration</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_i_XPABeyEeinVIYUtm_rnw_param_Repository" >
+<key>Repository</key>
+<required>true</required>
+<type>com.intershop.component.mvc.capi.catalog.Repository</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_jIooIBekEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>AfterChainExecution</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_jIooIBekEeinVIYUtm_rnw_param_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<required>true</required>
+<type>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_qnzNwBe3EeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>GetElementCount</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_qnzNwBe3EeinVIYUtm_rnw_param_JobConfiguration" >
+<key>JobConfiguration</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.job.JobConfiguration</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_qnzNwBe3EeinVIYUtm_rnw_param_SelectedFile" >
+<key>SelectedFile</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_rtgmkBbQEeij65sIeXxwIg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>CollectImportStatisticsMap</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_rtgmkBbQEeij65sIeXxwIg_param_Channel" >
+<key>Channel</key>
+<required>false</required>
+<type>com.intershop.component.mvc.capi.catalog.Repository</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_sedIABekEeinVIYUtm_rnw" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>BeforeFileImport</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+<startParameters>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_sedIABekEeinVIYUtm_rnw_param_Process" >
+<key>Process</key>
+<required>true</required>
+<type>com.intershop.beehive.core.capi.locking.Process</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_sedIABekEeinVIYUtm_rnw_param_SelectedFile" >
+<key>SelectedFile</key>
+<required>true</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_sedIABekEeinVIYUtm_rnw_param_ImportMode" >
+<key>ImportMode</key>
+<required>false</required>
+<type>java.lang.String</type>
+</DStartParameter>
+<DStartParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameter" id="StartNode_sedIABekEeinVIYUtm_rnw_param_Repository" >
+<key>Repository</key>
+<required>true</required>
+<type>com.intershop.component.mvc.capi.catalog.Repository</type>
+</DStartParameter>
+</startParameters>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_vkRv4BboEei04N-JKZrMJg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>10</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>GetChannel</name>
+<callMode>private</callMode>
+<strict>true</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DTextNode" id="Text_ITrhUKRhEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>11</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateImportProcessStatistics</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Phase</key>
+<value>BeforeProcess</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ElementCount</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileStatisticsMap</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Process</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBORepository</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateImportProcessStatistics</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Phase</key>
+<value>BeforeFileImport</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ElementCount</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBO</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBORepository</key>
+<alias>ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateImportProcessStatistics</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Phase</key>
+<value>BeforeProcess</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBO</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBORepository</key>
+<alias>ApplicationBO:Repository(&quot;ProcessStatisticsBORepository&quot;)</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>UpdateImportProcessStatistics</pipeletName>
+<configProperties>
+<DPipeletConfigProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletConfigProperty">
+<key>Phase</key>
+<value>AfterProcess</value>
+</DPipeletConfigProperty>
+</configProperties>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ElementCount</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>FileStatisticsMap</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Process</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>ProcessStatisticsBORepository</key>
+<alias>null</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_processstatistics</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+</nodes>
+<transitions>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg_next_EndNode_lT74gKUyEeiqqd1HrEIM_A_in" >
+<fromId>AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_lT74gKUyEeiqqd1HrEIM_A</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg_next_ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg_in" >
+<fromId>AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw_next_GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A_in" >
+<fromId>AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw_next_CallNode_birr8Be7EeinVIYUtm_rnw_in" >
+<fromId>AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_birr8Be7EeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_-VdKYBbWEeij65sIeXxwIg_next_UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A_in" >
+<fromId>CallNode_-VdKYBbWEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_birr8Be7EeinVIYUtm_rnw_next_GetApplicationBO_jku_EKReEeiqqd1HrEIM_A_in" >
+<fromId>CallNode_birr8Be7EeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetApplicationBO_jku_EKReEeiqqd1HrEIM_A</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_i_aSUBeyEeinVIYUtm_rnw_next_AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw_in" >
+<fromId>CallNode_i_aSUBeyEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddMultipleEntriesToMap_i_iOIBeyEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_jIfeMBekEeinVIYUtm_rnw_next_UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA_in" >
+<fromId>CallNode_jIfeMBekEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_serKcBekEeinVIYUtm_rnw_next_AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw_in" >
+<fromId>CallNode_serKcBekEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddMultipleEntriesToMap_d_O2oBeqEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_vSgYgJD8EeiK6aOQyM911g_next_JoinNode_kUERoKRbEeiqqd1HrEIM_A_in1" >
+<fromId>CallNode_vSgYgJD8EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_kUERoKRbEeiqqd1HrEIM_A</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>25</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_WRDgcByAEeiRcvrJer7rog_no_CallNode_vSgYgJD8EeiK6aOQyM911g_in" >
+<fromId>DecisionNode_WRDgcByAEeiRcvrJer7rog</fromId>
+<fromConnector>no</fromConnector>
+<toId>CallNode_vSgYgJD8EeiK6aOQyM911g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_WRDgcByAEeiRcvrJer7rog_yes_JoinNode_kUERoKRbEeiqqd1HrEIM_A_in1" >
+<fromId>DecisionNode_WRDgcByAEeiRcvrJer7rog</fromId>
+<fromConnector>yes</fromConnector>
+<toId>JoinNode_kUERoKRbEeiqqd1HrEIM_A</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg_error_JoinNode_sC1M8JD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_sC1M8JD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg_next_ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg_error_JoinNode_qmbgYJD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_qmbgYJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg_next_ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_24_qwBbUEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg_error_JoinNode_ordogJD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_ordogJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg_next_AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_25GYcBbUEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddMultipleEntriesToMap__AQ3YBbVEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg_error_JoinNode_k7OREJD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_k7OREJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg_next_ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg_error_JoinNode_m5vMMJD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_m5vMMJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg_next_ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_M2_zIBbVEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_M29W4BbVEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg_error_JoinNode_jg3y8JD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_jg3y8JD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg_next_ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_jBAXMBbVEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg_error_JoinNode_hkFWIJD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_hkFWIJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg_next_AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_vloVYBbVEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddMultipleEntriesToMap_ZQRAcBbWEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg_error_JoinNode_sC1M8JD7EeiK6aOQyM911g_in1" >
+<fromId>ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_sC1M8JD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>27</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg_next_ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg_in" >
+<fromId>ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_-rIm0BbTEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A_next_UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA_in" >
+<fromId>GetApplicationBO_HTmrwKReEeiqqd1HrEIM_A</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetApplicationBO_jku_EKReEeiqqd1HrEIM_A_next_UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA_in" >
+<fromId>GetApplicationBO_jku_EKReEeiqqd1HrEIM_A</fromId>
+<fromConnector>next</fromConnector>
+<toId>UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetDomainByName_xA--cBboEei04N-JKZrMJg_error_JoinNode_ZmFvYJD8EeiK6aOQyM911g_in1" >
+<fromId>GetDomainByName_xA--cBboEei04N-JKZrMJg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_ZmFvYJD8EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>11</x>
+<y>25</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetDomainByName_xA--cBboEei04N-JKZrMJg_next_GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg_in" >
+<fromId>GetDomainByName_xA--cBboEei04N-JKZrMJg</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg_error_JoinNode_ZmFvYJD8EeiK6aOQyM911g_in1" >
+<fromId>GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg</fromId>
+<fromConnector>error</fromConnector>
+<toId>JoinNode_ZmFvYJD8EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg_next_EndNode_FZpgsBbpEei04N-JKZrMJg_in" >
+<fromId>GetRepositoryByRepositoryDomain_xBJ9kBboEei04N-JKZrMJg</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_FZpgsBbpEei04N-JKZrMJg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_GetStringSubstitution_xBOPABboEei04N-JKZrMJg_next_GetDomainByName_xA--cBboEei04N-JKZrMJg_in" >
+<fromId>GetStringSubstitution_xBOPABboEei04N-JKZrMJg</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetDomainByName_xA--cBboEei04N-JKZrMJg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_EMVG4KRgEeiqqd1HrEIM_A_next_EndNode_FCVEcBe7EeinVIYUtm_rnw_in" >
+<fromId>JoinNode_EMVG4KRgEeiqqd1HrEIM_A</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_FCVEcBe7EeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_ZmFvYJD8EeiK6aOQyM911g_next_EndNode_Xd5T0JD8EeiK6aOQyM911g_in" >
+<fromId>JoinNode_ZmFvYJD8EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_Xd5T0JD8EeiK6aOQyM911g</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_hkFWIJD7EeiK6aOQyM911g_next_EndNode_xlfJsKUyEeiqqd1HrEIM_A_in" >
+<fromId>JoinNode_hkFWIJD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_xlfJsKUyEeiqqd1HrEIM_A</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_jg3y8JD7EeiK6aOQyM911g_next_JoinNode_hkFWIJD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_jg3y8JD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_hkFWIJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_k7OREJD7EeiK6aOQyM911g_next_JoinNode_jg3y8JD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_k7OREJD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_jg3y8JD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_kUERoKRbEeiqqd1HrEIM_A_next_ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg_in" >
+<fromId>JoinNode_kUERoKRbEeiqqd1HrEIM_A</fromId>
+<fromConnector>next</fromConnector>
+<toId>ExecuteCountQuery_y6Ds0BbQEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_m5vMMJD7EeiK6aOQyM911g_next_JoinNode_k7OREJD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_m5vMMJD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_k7OREJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_ordogJD7EeiK6aOQyM911g_next_JoinNode_m5vMMJD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_ordogJD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_m5vMMJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_qmbgYJD7EeiK6aOQyM911g_next_JoinNode_ordogJD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_qmbgYJD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_ordogJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_sC1M8JD7EeiK6aOQyM911g_next_JoinNode_qmbgYJD7EeiK6aOQyM911g_in1" >
+<fromId>JoinNode_sC1M8JD7EeiK6aOQyM911g</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_qmbgYJD7EeiK6aOQyM911g</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_KeyMapper_DvVLgBe7EeinVIYUtm_rnw_next_JoinNode_EMVG4KRgEeiqqd1HrEIM_A_in1" >
+<fromId>KeyMapper_DvVLgBe7EeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_EMVG4KRgEeiqqd1HrEIM_A</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>27</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_KeyMapper_zVcBYBe5EeinVIYUtm_rnw_next_JoinNode_EMVG4KRgEeiqqd1HrEIM_A_in1" >
+<fromId>KeyMapper_zVcBYBe5EeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_EMVG4KRgEeiqqd1HrEIM_A</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_Matches_h37osBe5EeinVIYUtm_rnw_error_KeyMapper_DvVLgBe7EeinVIYUtm_rnw_in" >
+<fromId>Matches_h37osBe5EeinVIYUtm_rnw</fromId>
+<fromConnector>error</fromConnector>
+<toId>KeyMapper_DvVLgBe7EeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>17</x>
+<y>23</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_Matches_h37osBe5EeinVIYUtm_rnw_next_KeyMapper_zVcBYBe5EeinVIYUtm_rnw_in" >
+<fromId>Matches_h37osBe5EeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>KeyMapper_zVcBYBe5EeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_P70dwBbPEeij65sIeXxwIg_next_CallNode_-VdKYBbWEeij65sIeXxwIg_in" >
+<fromId>StartNode_P70dwBbPEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_-VdKYBbWEeij65sIeXxwIg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_i_XPABeyEeinVIYUtm_rnw_next_CallNode_i_aSUBeyEeinVIYUtm_rnw_in" >
+<fromId>StartNode_i_XPABeyEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_i_aSUBeyEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_jIooIBekEeinVIYUtm_rnw_next_CallNode_jIfeMBekEeinVIYUtm_rnw_in" >
+<fromId>StartNode_jIooIBekEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_jIfeMBekEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_qnzNwBe3EeinVIYUtm_rnw_next_Matches_h37osBe5EeinVIYUtm_rnw_in" >
+<fromId>StartNode_qnzNwBe3EeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>Matches_h37osBe5EeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_rtgmkBbQEeij65sIeXxwIg_next_DecisionNode_WRDgcByAEeiRcvrJer7rog_in" >
+<fromId>StartNode_rtgmkBbQEeij65sIeXxwIg</fromId>
+<fromConnector>next</fromConnector>
+<toId>DecisionNode_WRDgcByAEeiRcvrJer7rog</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_sedIABekEeinVIYUtm_rnw_next_CallNode_serKcBekEeinVIYUtm_rnw_in" >
+<fromId>StartNode_sedIABekEeinVIYUtm_rnw</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_serKcBekEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_vkRv4BboEei04N-JKZrMJg_next_GetStringSubstitution_xBOPABboEei04N-JKZrMJg_in" >
+<fromId>StartNode_vkRv4BboEei04N-JKZrMJg</fromId>
+<fromConnector>next</fromConnector>
+<toId>GetStringSubstitution_xBOPABboEei04N-JKZrMJg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A_next_EndNode_2x64gJZvEeiEr9tFhw5TNA_in" >
+<fromId>UpdateImportProcessStatistics_AisgAKRbEeiqqd1HrEIM_A</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_2x64gJZvEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA_next_EndNode_sej1sBekEeinVIYUtm_rnw_in" >
+<fromId>UpdateImportProcessStatistics_EbTHAJZqEeiEr9tFhw5TNA</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_sej1sBekEeinVIYUtm_rnw</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA_next_EndNode_HNa3EJZvEeiEr9tFhw5TNA_in" >
+<fromId>UpdateImportProcessStatistics_HNbeIJZvEeiEr9tFhw5TNA</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_HNa3EJZvEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA_next_EndNode_jfIZMJZvEeiEr9tFhw5TNA_in" >
+<fromId>UpdateImportProcessStatistics_jfMDkJZvEeiEr9tFhw5TNA</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_jfIZMJZvEeiEr9tFhw5TNA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+</transitions>
+</DPipeline>

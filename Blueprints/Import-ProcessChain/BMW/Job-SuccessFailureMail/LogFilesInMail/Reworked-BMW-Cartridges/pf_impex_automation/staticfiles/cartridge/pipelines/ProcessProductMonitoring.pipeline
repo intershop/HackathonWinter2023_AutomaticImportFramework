@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessProductMonitoring" overrideMode="Inherit" type="process">
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_pGQrcCHcEei91oKOtfsrEA" strict="true"
+      name="CheckDBLink" callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode_pGNoICHcEei91oKOtfsrEA"/>
+    <parameters name="DBLink" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_pGNoICHcEei91oKOtfsrEA"
+      conditionKey="DBLink">
+    <nodeSuccessors name="decision_yes" next="ExecuteCountQuery_pGc4sCHcEei91oKOtfsrEA"/>
+<!--@BendPoints 11,5-->
+    <nodeSuccessors name="decision_no" next="JoinNode_pGbDgCHcEei91oKOtfsrEA"/>
+  </nodes>
+<!--@DisplayName Count products per channel 
+@Location 4,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_pGc4sCHcEei91oKOtfsrEA">
+    <configurationValues name="ParameterName_02" value="DBLink"/>
+    <configurationValues name="QueryName" value="catalog/CheckDBLink"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_pGjmYCHcEei91oKOtfsrEA"/>
+    <parameterBindings name="ParameterValue_02" objectPath="DBLink"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_pGjmYCHcEei91oKOtfsrEA"
+      conditionKey="Count" operator="lt" conditionValue="1">
+    <nodeSuccessors name="decision_yes" next="EndNode_pGWyECHcEei91oKOtfsrEA"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_pGbDgCHcEei91oKOtfsrEA"/>
+  </nodes>
+<!--@Location 4,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_pGWyECHcEei91oKOtfsrEA" name="error"
+      strict="true"/>
+<!--@Location 5,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_pGbDgCHcEei91oKOtfsrEA">
+    <nodeSuccessors name="next" next="EndNode_pGhxMCHcEei91oKOtfsrEA"/>
+  </nodes>
+<!--@Location 5,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_pGhxMCHcEei91oKOtfsrEA" name="next"
+      strict="true"/>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_pGUV0CHcEei91oKOtfsrEA" strict="true"
+      name="CountProducts" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_pGIvoCHcEei91oKOtfsrEA"/>
+    <parameters name="Channel" type="com.intershop.component.mvc.capi.catalog.Repository"/>
+<!--Name of database link -->
+    <parameters name="DBLink" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_pGIvoCHcEei91oKOtfsrEA">
+    <nodeSuccessors name="next" next="ExecuteCountQuery_pGZOUCHcEei91oKOtfsrEA"/>
+<!--@BendPoints 5,5-->
+    <nodeSuccessors name="error" next="VerifyInteger_EIxUcEInEeiju6AwCM64Tw"/>
+    <startNode referencedName="This:CheckDBLink"/>
+  </nodes>
+<!--@DisplayName Count products per channel 
+@Location 1,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ExecuteCountQuery_pGZOUCHcEei91oKOtfsrEA">
+    <configurationValues name="ParameterName_01" value="Channel"/>
+    <configurationValues name="ParameterName_02" value="DBLink"/>
+    <configurationValues name="QueryName" value="catalog/GetProductCountByChannel"/>
+    <pipelet href="enfinity:/core/pipelets/ExecuteCountQuery.xml"/>
+    <nodeSuccessors name="next" next="EndNode_pGYAMCHcEei91oKOtfsrEA"/>
+    <parameterBindings name="ParameterValue_01" objectPath="Channel"/>
+    <parameterBindings name="ParameterValue_02" objectPath="DBLink"/>
+    <returnValueBindings name="Count" objectPath="ProductCount"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_pGYAMCHcEei91oKOtfsrEA" strict="true">
+    <returnValues name="ProductCount" type="java.lang.Integer" optional="true"/>
+  </nodes>
+<!--@DisplayName Set TotalTargetCount=0
+@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyInteger_EIxUcEInEeiju6AwCM64Tw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyInteger.xml"/>
+    <nodeSuccessors name="next" next="EndNode_pGYAMCHcEei91oKOtfsrEA"/>
+    <parameterBindings name="LocalizedString" constant="0"/>
+    <returnValueBindings name="IntegerObject" objectPath="ProductCount"/>
+    <returnValueBindings name="IntegerValue" nullBinding="true"/>
+  </nodes>
+</pipeline:Pipeline>

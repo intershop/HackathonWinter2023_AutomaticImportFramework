@@ -1,0 +1,35 @@
+<%@ page import="java.net.InetAddress" %>
+<iscontent charset="utf-8">
+<subject>Product Threshold Failure (<%out.print(java.net.InetAddress.getLocalHost().getHostName());%>)</subject>
+
+Threre are problems with product counts for replication
+<hr/>
+
+<isif condition="#hasElements(OrganizationThresholdFailure)#">
+	<isloop iterator="OrganizationThresholdFailure" alias="tf">
+		Brand: <isprint value="#tf:Repository:RepositoryDomain:DomainName#"/><br/>
+		Threshold: <isprint value="#tf:Threshold#"/><br/>
+		Source System: <isprint value="#tf:SourceCount#"/><br/>
+		Target System: <isprint value="#tf:TargetCount#"/><br/>
+		<br/>
+		<strong>
+		Replication job is NOW DISABLED:<br/>
+		Job: <isprint value="#DisableJob#"/><br/>
+		Domain: <isprint value="#DisableJobDomain#"/>
+		</strong>
+		<hr/>
+	</isloop>
+</isif>
+
+<isif condition="#(isDefined(ThresholdFailures) AND hasElements(ThresholdFailures))#">
+	'TakesPartInReplication' was switched OFF in following cases:<br/>
+	<isloop iterator="ThresholdFailures" alias="tf">
+		Channel: <isprint value="#tf:Repository:RepositoryDomain:DomainName#"/><br/>
+		Threshold: <isprint value="#tf:Threshold#"/><br/>
+		Source System: <isprint value="#tf:SourceCount#"/><br/>
+		Target System: <isprint value="#tf:TargetCount#"/><br/>
+		<hr/>
+	</isloop>
+</isif>
+
+This e-mail was sent by scheduled job.<br/>

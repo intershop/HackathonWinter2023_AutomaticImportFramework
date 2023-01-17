@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipeline dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeline" id="Pipeline1" >
+<name>ProcessReplicationGroupAssignment_52</name>
+<type>process</type>
+<parent>ProcessReplicationGroupAssignment_52</parent>
+<nodes>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>CurrentChannel:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;PaymentConfiguration&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_0mfNAOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>CurrentChannel:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;Products&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_0mudkOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>CurrentChannel:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;ProductConfigurations&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_hUAuII1SEeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>Repository:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;Preferences&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_hUMUUI1SEeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>Repository:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;UnitStatic&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_hUP-sI1SEeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>Repository:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;MVC_Repository&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="AddStagingGroupToReplicationTask_hUTCAI1SEeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>AddStagingGroupToReplicationTask</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>Domain</key>
+<alias>Repository:RepositoryDomain</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>StagingGroupName</key>
+<alias>&quot;Domains&quot;</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>bc_foundation</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-Payment</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_0mkFgOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-ProductPrices</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_0mplEOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-ImageReferences</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_0msBUOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>8</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-ProductRecycleBin</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_95idAIy2EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-ChannelInitial</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DCallNode" id="CallNode_S_SpYOSIEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>ProcessReplicationGroupAssignment_52-ProductsWithoutStatic</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ReplicationGroup</conditionKey>
+<conditionValue>PAYMENT</conditionValue>
+<conditionOperator>str-eq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode_S_VFoOSIEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ReplicationGroup</conditionKey>
+<conditionValue>PRODUCTS_WITHOUT_STATIC</conditionValue>
+<conditionOperator>str-eq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DDecisionNode" id="DecisionNode_bRqDAIy2EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<conditionKey>ReplicationGroup</conditionKey>
+<conditionValue>CHANNEL_INITIAL</conditionValue>
+<conditionOperator>str-eq</conditionOperator>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>true</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_0mnI0OSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>9</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name></name>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DEndNode" id="EndNode_y6A0YIy2EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<orientation>horizontal</orientation>
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>7</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_S_I4YOSIEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>5</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode_S_O_AOSIEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>6</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJoinNode" id="JoinNode__4XhMIy2EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>3</x>
+<y>4</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DJumpNode" id="JumpNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<startNameRef>Super:Start</startNameRef>
+<strict>false</strict>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNode" id="KeyMapper_8Z-5UIy3EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<pipeletName>KeyMapper</pipeletName>
+<keyBindings>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>InValue_1</key>
+<alias>CurrentChannel</alias>
+</DDictionaryKeyBinding>
+<DDictionaryKeyBinding dbo.type="com.intershop.beehive.core.rapi.pipeline.DDictionaryKeyBinding">
+<key>OutValue_1</key>
+<alias>Repository</alias>
+</DDictionaryKeyBinding>
+</keyBindings>
+<pipeletSetIdentifier>
+<DPipeletSetIdentifier dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletSetIdentifier">
+<id>core</id>
+</DPipeletSetIdentifier>
+</pipeletSetIdentifier>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DLoopNode" id="LoopNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>2</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<iteratorKey>ReplicationGroups</iteratorKey>
+<elementKey>ReplicationGroup</elementKey>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode0" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>1</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>Start</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode1" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>4</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>Payment</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_0m3ngOSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ProductsWithoutStatic</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartNode" id="StartNode_zvUrwIy2EeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>6</x>
+<y>1</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+<name>ChannelInitial</name>
+<callMode>private</callMode>
+<strict>false</strict>
+<secure>false</secure>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DTextNode" id="Text_5_U58OSJEeeeL-VxH78FGA" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>9</x>
+<y>0</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+<DNode dbo.type="com.intershop.beehive.core.rapi.pipeline.DTextNode" id="Text_VRh-QI1TEeegO9kYRbbikg" >
+<display>
+<DNodeDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDisplay">
+<center>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>5</x>
+<y>3</y>
+</DPoint>
+</center>
+</DNodeDisplay>
+</display>
+</DNode>
+</nodes>
+<transitions>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask0_next_EndNode0_in" >
+<fromId>AddStagingGroupToReplicationTask0</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_0mfNAOSJEeeeL-VxH78FGA_next_AddStagingGroupToReplicationTask_0mudkOSJEeeeL-VxH78FGA_in" >
+<fromId>AddStagingGroupToReplicationTask_0mfNAOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_0mudkOSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_0mudkOSJEeeeL-VxH78FGA_next_CallNode_0mkFgOSJEeeeL-VxH78FGA_in" >
+<fromId>AddStagingGroupToReplicationTask_0mudkOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_0mkFgOSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_hUAuII1SEeegO9kYRbbikg_next_AddStagingGroupToReplicationTask_hUMUUI1SEeegO9kYRbbikg_in" >
+<fromId>AddStagingGroupToReplicationTask_hUAuII1SEeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_hUMUUI1SEeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_hUMUUI1SEeegO9kYRbbikg_next_EndNode_y6A0YIy2EeegO9kYRbbikg_in" >
+<fromId>AddStagingGroupToReplicationTask_hUMUUI1SEeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_y6A0YIy2EeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_hUP-sI1SEeegO9kYRbbikg_next_AddStagingGroupToReplicationTask_hUTCAI1SEeegO9kYRbbikg_in" >
+<fromId>AddStagingGroupToReplicationTask_hUP-sI1SEeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_hUTCAI1SEeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_AddStagingGroupToReplicationTask_hUTCAI1SEeegO9kYRbbikg_next_AddStagingGroupToReplicationTask_hUAuII1SEeegO9kYRbbikg_in" >
+<fromId>AddStagingGroupToReplicationTask_hUTCAI1SEeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_hUAuII1SEeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode0_next_JoinNode__4XhMIy2EeegO9kYRbbikg_in1" >
+<fromId>CallNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode__4XhMIy2EeegO9kYRbbikg</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>7</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_0mkFgOSJEeeeL-VxH78FGA_next_CallNode_0mplEOSJEeeeL-VxH78FGA_in" >
+<fromId>CallNode_0mkFgOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_0mplEOSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_0mplEOSJEeeeL-VxH78FGA_next_CallNode_0msBUOSJEeeeL-VxH78FGA_in" >
+<fromId>CallNode_0mplEOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>CallNode_0msBUOSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_0msBUOSJEeeeL-VxH78FGA_next_EndNode_0mnI0OSJEeeeL-VxH78FGA_in" >
+<fromId>CallNode_0msBUOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>EndNode_0mnI0OSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+<transactionControl>commit</transactionControl>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_95idAIy2EeegO9kYRbbikg_next_JoinNode__4XhMIy2EeegO9kYRbbikg_in1" >
+<fromId>CallNode_95idAIy2EeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode__4XhMIy2EeegO9kYRbbikg</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_CallNode_S_SpYOSIEeeeL-VxH78FGA_next_JoinNode_S_I4YOSIEeeeL-VxH78FGA_in1" >
+<fromId>CallNode_S_SpYOSIEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_S_I4YOSIEeeeL-VxH78FGA</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_no_DecisionNode_bRqDAIy2EeegO9kYRbbikg_in" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>no</fromConnector>
+<toId>DecisionNode_bRqDAIy2EeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode0_yes_CallNode0_in" >
+<fromId>DecisionNode0</fromId>
+<fromConnector>yes</fromConnector>
+<toId>CallNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_S_VFoOSIEeeeL-VxH78FGA_no_JoinNode_S_O_AOSIEeeeL-VxH78FGA_in1" >
+<fromId>DecisionNode_S_VFoOSIEeeeL-VxH78FGA</fromId>
+<fromConnector>no</fromConnector>
+<toId>JoinNode_S_O_AOSIEeeeL-VxH78FGA</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_S_VFoOSIEeeeL-VxH78FGA_yes_CallNode_S_SpYOSIEeeeL-VxH78FGA_in" >
+<fromId>DecisionNode_S_VFoOSIEeeeL-VxH78FGA</fromId>
+<fromConnector>yes</fromConnector>
+<toId>CallNode_S_SpYOSIEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_bRqDAIy2EeegO9kYRbbikg_no_DecisionNode_S_VFoOSIEeeeL-VxH78FGA_in" >
+<fromId>DecisionNode_bRqDAIy2EeegO9kYRbbikg</fromId>
+<fromConnector>no</fromConnector>
+<toId>DecisionNode_S_VFoOSIEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_DecisionNode_bRqDAIy2EeegO9kYRbbikg_yes_CallNode_95idAIy2EeegO9kYRbbikg_in" >
+<fromId>DecisionNode_bRqDAIy2EeegO9kYRbbikg</fromId>
+<fromConnector>yes</fromConnector>
+<toId>CallNode_95idAIy2EeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_S_I4YOSIEeeeL-VxH78FGA_next_JoinNode_S_O_AOSIEeeeL-VxH78FGA_in1" >
+<fromId>JoinNode_S_I4YOSIEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_S_O_AOSIEeeeL-VxH78FGA</toId>
+<toConnector>in1</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>7</x>
+<y>13</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode_S_O_AOSIEeeeL-VxH78FGA_next_LoopNode0_loop" >
+<fromId>JoinNode_S_O_AOSIEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>LoopNode0</toId>
+<toConnector>loop</toConnector>
+<display>
+<DTransitionDisplay dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransitionDisplay">
+<markerIndex>0</markerIndex>
+<displayPoints>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>13</y>
+</DPoint>
+<DPoint dbo.type="com.intershop.beehive.core.rapi.common.DPoint">
+<x>2</x>
+<y>5</y>
+</DPoint>
+</displayPoints>
+</DTransitionDisplay>
+</display>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_JoinNode__4XhMIy2EeegO9kYRbbikg_next_JoinNode_S_I4YOSIEeeeL-VxH78FGA_in1" >
+<fromId>JoinNode__4XhMIy2EeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>JoinNode_S_I4YOSIEeeeL-VxH78FGA</toId>
+<toConnector>in1</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_KeyMapper_8Z-5UIy3EeegO9kYRbbikg_next_AddStagingGroupToReplicationTask_hUP-sI1SEeegO9kYRbbikg_in" >
+<fromId>KeyMapper_8Z-5UIy3EeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_hUP-sI1SEeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_LoopNode0_do_DecisionNode0_in" >
+<fromId>LoopNode0</fromId>
+<fromConnector>do</fromConnector>
+<toId>DecisionNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_LoopNode0_next_JumpNode0_in" >
+<fromId>LoopNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>JumpNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode0_next_LoopNode0_in" >
+<fromId>StartNode0</fromId>
+<fromConnector>next</fromConnector>
+<toId>LoopNode0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode1_next_AddStagingGroupToReplicationTask0_in" >
+<fromId>StartNode1</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask0</toId>
+<toConnector>in</toConnector>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_0m3ngOSJEeeeL-VxH78FGA_next_AddStagingGroupToReplicationTask_0mfNAOSJEeeeL-VxH78FGA_in" >
+<fromId>StartNode_0m3ngOSJEeeeL-VxH78FGA</fromId>
+<fromConnector>next</fromConnector>
+<toId>AddStagingGroupToReplicationTask_0mfNAOSJEeeeL-VxH78FGA</toId>
+<toConnector>in</toConnector>
+<transactionControl>begin</transactionControl>
+</DTransition>
+<DTransition dbo.type="com.intershop.beehive.core.rapi.pipeline.DTransition" id="transition_StartNode_zvUrwIy2EeegO9kYRbbikg_next_KeyMapper_8Z-5UIy3EeegO9kYRbbikg_in" >
+<fromId>StartNode_zvUrwIy2EeegO9kYRbbikg</fromId>
+<fromConnector>next</fromConnector>
+<toId>KeyMapper_8Z-5UIy3EeegO9kYRbbikg</toId>
+<toConnector>in</toConnector>
+</DTransition>
+</transitions>
+</DPipeline>

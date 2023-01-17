@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Matches"  localeId="en_US" >
+<group>Common</group>
+<description>Regular Expression matching operations
+Uses error connector, if no match found</description>
+<displayName>Matches</displayName>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="config_Mode"  localeId="en_US" >
+<description>Sepcify, wther to execute a find or a match operation</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="config_DefaultRegEx"  localeId="en_US" >
+<description>Default regular expression, may be overwritten by input parameter</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_RegEx"  localeId="en_US" >
+<description>Regular expression, fallback to DefaultRegEx</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_String"  localeId="en_US" >
+<description>The string to match the regex on</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="config_DefaultReplacement"  localeId="en_US" >
+<description>Default replacement, may be overwritten by input parameter
+Use $1 for first matching group, etc.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Replacement"  localeId="en_US" >
+<description>Replcament string, fallback to DefaultReplacement.
+May contain &quot;$1&quot; etc. for content of matching groups</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match0"  localeId="en_US" >
+<description>Complate match (usable in find mode)</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match1"  localeId="en_US" >
+<description>The content of the first matching group</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match2"  localeId="en_US" >
+<description>The content of the second matching group</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match3"  localeId="en_US" >
+<description>The content of the third matching group</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match4"  localeId="en_US" >
+<description>The content of the fourth matching group</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_Match5"  localeId="en_US" >
+<description>The content of the 5th matching group</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary_ReplacedString"  localeId="en_US" >
+<description>The replaced string</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

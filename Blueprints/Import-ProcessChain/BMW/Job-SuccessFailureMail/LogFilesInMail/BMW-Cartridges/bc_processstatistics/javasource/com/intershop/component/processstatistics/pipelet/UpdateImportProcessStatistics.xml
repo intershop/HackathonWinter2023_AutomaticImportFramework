@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DPipelet dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelet" id="Pipelet1" >
+<pipeletName>UpdateImportProcessStatistics</pipeletName>
+<pipeletClass>com.intershop.component.processstatistics.pipelet.UpdateImportProcessStatistics</pipeletClass>
+<errorConnector>false</errorConnector>
+<properties>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="config_Phase" >
+<key>Phase</key>
+<input>required</input>
+<propertyClass>java.lang.String</propertyClass>
+<group>config</group>
+<propertyEditor>
+<DPropertyEditor dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditor">
+<editorClass>SelectionEditor</editorClass>
+<parameters>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Phase_editor_item_0" >
+<key>item</key>
+<value>BeforeProcess</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Phase_editor_item_1" >
+<key>item</key>
+<value>AfterProcess</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Phase_editor_item_2" >
+<key>item</key>
+<value>BeforeFileImport</value>
+</DPropertyEditorParameter>
+<DPropertyEditorParameter dbo.type="com.intershop.beehive.core.rapi.pipeline.DPropertyEditorParameter" id="config_Phase_editor_item_3" >
+<key>item</key>
+<value>AfterFileImport</value>
+</DPropertyEditorParameter>
+</parameters>
+</DPropertyEditor>
+</propertyEditor>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_ProcessStatisticsBO" >
+<key>ProcessStatisticsBO</key>
+<propertyClass>com.intershop.component.processstatistics.capi.ProcessStatisticsBO</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_ProcessStatisticsBORepository" >
+<key>ProcessStatisticsBORepository</key>
+<propertyClass>com.intershop.component.processstatistics.capi.ProcessStatisticsBORepository</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_Process" >
+<key>Process</key>
+<propertyClass>com.intershop.beehive.core.capi.locking.Process</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_ImportStatisticsMap" >
+<key>ImportStatisticsMap</key>
+<input>required</input>
+<propertyClass>java.util.Map&lt;String, Long&gt;</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_FileStatisticsMap" >
+<key>FileStatisticsMap</key>
+<propertyClass>java.util.Map&lt;String,String&gt;</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+<DPipeletProperty dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletProperty" id="dictionary-in_ElementCount" >
+<key>ElementCount</key>
+<propertyClass>java.lang.Long</propertyClass>
+<group>dictionary-in</group>
+</DPipeletProperty>
+</properties>
+</DPipelet>

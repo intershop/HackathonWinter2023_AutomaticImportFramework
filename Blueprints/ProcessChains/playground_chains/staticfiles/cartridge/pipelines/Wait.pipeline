@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group support-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="Wait" overrideMode="Inherit" type="job">
+<!--Wait 1 minute and then call a sub pipeline that 
+is strict and has a mandatory pipeline paramater.
+We "forget" the parameter and so provoke an 
+exception in the pipeline execution.
+@Location 0,5-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_O76U0Pb7EeiSDfgcPeUWVw"/>
+<!--A pipeline that can return a defined process chain result:
+Two optional input parameters: 
+	ProcessChainResult (java.lang.Integer)
+	ResultString (INTERUPTED, NOTFOUND,ERROR,FAILURE,WARNING,SUCCESS)		
+If no parameter is provided we return with STATUS_SUCESS(0)
+The parameter ProcessChainResult as integer will simply be returned by the pipeline as it is.
+ResultString is only evaluated if the integer ProcessChainResult was not provided
+According to the ResultString the fitting ProcessChainResult will be returned.
+If this string value is none of the above we return 31 (all return codes, that do not describe a success)
+@Location 1,18-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_R0rhcDtGEemtHt0zP_GXmg"/>
+<!--Several start nodes that ask the pipeline  just to wait for some time.
+Usefull to check how timeouts work and if you want to start parallel additional jobs 
+manually \- just to check, how it works then.
+@Location 1,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text__aOTIPb7EeiSDfgcPeUWVw"/>
+<!--A simple error notification pipeline.
+It just writes a message to the log.
+@Location 5,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_ap6XkPb8EeiSDfgcPeUWVw"/>
+<!--A pipeline that can end in an error exit after it 
+waitet one minute
+If the error exit is used or not is dependent on 
+an optional pipeline parameter with the name 
+GoToErrorExit.
+Provide the parameter in the URL or as job attribute,
+for example as String. The existence is checked 
+so any value will do.
+@Location 2,11-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_gLUnIPb7EeiSDfgcPeUWVw"/>
+<!--@Location 5,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_ee0Y0-wVEeiRYKyYmE4i8g" strict="true"
+      name="ErrorNotification" sessionMode="Volatile" callMode="Private">
+    <nodeSuccessors name="next" next="LogMessage_ee0_4OwVEeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 5,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="LogMessage_ee0_4OwVEeiRYKyYmE4i8g">
+    <configurationValues name="Category" value="intershop.support"/>
+    <configurationValues name="Level" value="Error"/>
+    <pipelet href="enfinity:/core/pipelets/LogMessage.xml"/>
+    <nodeSuccessors name="next" next="EndNode_eex8kOwVEeiRYKyYmE4i8g"/>
+    <parameterBindings name="MessageText" constant="Error occurred in process chain"/>
+  </nodes>
+<!--@Location 5,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_eex8kOwVEeiRYKyYmE4i8g" strict="true"/>
+<!--@Location 2,7-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_qidzMGGLEeeBvdqMdDjxIA" strict="true"
+      name="Strict" callMode="Private">
+    <nodeSuccessors name="next" next="EndNode_uj3zIGGLEeeBvdqMdDjxIA"/>
+    <parameters name="ProductName" type="java.lang.String"/>
+  </nodes>
+<!--@Location 2,9-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_uj3zIGGLEeeBvdqMdDjxIA" strict="true"/>
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_eezxwOwVEeiRYKyYmE4i8g" strict="true"
+      name="Wait10min" sessionMode="Volatile" callMode="Private">
+    <nodeSuccessors name="next" next="Wait_ee0Y0ewVEeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait_ee0Y0ewVEeiRYKyYmE4i8g">
+    <configurationValues name="MillisecondsToWait" value="600000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="EndNode_ee0Y0OwVEeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_ee0Y0OwVEeiRYKyYmE4i8g" strict="true"/>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" strict="true" name="Wait1min"
+      callMode="Private">
+    <nodeSuccessors name="next" next="Wait0"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait0">
+    <configurationValues name="MillisecondsToWait" value="60000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="EndNode0"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0" strict="true"/>
+<!--@Location 0,20-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_ABC6ADtBEemtHt0zP_GXmg" strict="true"
+      name="Wait1minAndReturnADefinedProcessChainResult" callMode="Private">
+    <nodeSuccessors name="next" next="Wait_AA-okDtBEemtHt0zP_GXmg"/>
+    <parameters name="ProcessChainResult" type="java.lang.Integer" optional="true"/>
+    <parameters name="ResultString" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 0,21-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait_AA-okDtBEemtHt0zP_GXmg">
+    <configurationValues name="MillisecondsToWait" value="60000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_ABAdwDtBEemtHt0zP_GXmg"/>
+  </nodes>
+<!--@Location 0,22-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_ABAdwDtBEemtHt0zP_GXmg"
+      conditionKey="ProcessChainResult">
+    <nodeSuccessors name="decision_yes" next="EndNode_AA5JADtBEemtHt0zP_GXmg"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_XYBJoEc4Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 2,22-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_AA5JADtBEemtHt0zP_GXmg" name="ENDNODE_ReturnProcessChainResult"
+      strict="true"/>
+<!--@Location 0,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_XYBJoEc4Eemmm4JSOBv8Mw"
+      conditionKey="ResultString">
+    <nodeSuccessors name="decision_yes" next="DecisionNode_xdHfsEc3Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_fcy4YEc4Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 1,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_xdHfsEc3Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="SUCCESS">
+    <nodeSuccessors name="decision_yes" next="JoinNode_fcy4YEc4Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_jiVxcEc4Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 0,24-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_fcy4YEc4Eemmm4JSOBv8Mw">
+    <nodeSuccessors name="next" next="KeyMapper_LQI6MEcqEemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 0,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_LQI6MEcqEemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_ABBr4DtBEemtHt0zP_GXmg"/>
+    <parameterBindings name="InValue_1" constant="(Integer)0"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 0,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_ABBr4DtBEemtHt0zP_GXmg" name="ENDNODE_SUCCESS"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 2,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_jiVxcEc4Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="INTERRUPTED">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_-g-jIEctEemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_7-zgUEc4Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 2,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_-g-jIEctEemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_Azq3gDtGEemtHt0zP_GXmg"/>
+    <parameterBindings name="InValue_1" constant="(Integer)16"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 2,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_Azq3gDtGEemtHt0zP_GXmg" name="ENDNODE_INTERRUPTED"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 4,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_7-zgUEc4Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="NOTFOUND">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_7-2joEc4Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_K22nwEc7Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 4,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_7-2joEc4Eemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_7-0ucEc4Eemmm4JSOBv8Mw"/>
+    <parameterBindings name="InValue_1" constant="(Integer)8"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 4,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_7-0ucEc4Eemmm4JSOBv8Mw" name="ENDNODE_NOTFOUND"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 6,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_K22nwEc7Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="ERROR">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_K25EAEc7Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_tY_tgEc4Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 6,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_K25EAEc7Eemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_K2314Ec7Eemmm4JSOBv8Mw"/>
+    <parameterBindings name="InValue_1" constant="(Integer)4"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 6,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_K2314Ec7Eemmm4JSOBv8Mw" name="ENDNODE_ERROR"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 8,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_tY_tgEc4Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="FAILURE">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_tZDX4Ec4Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="DecisionNode_XhwCgEc6Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 8,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_tZDX4Ec4Eemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_tZA7oEc4Eemmm4JSOBv8Mw"/>
+    <parameterBindings name="InValue_1" constant="(Integer)2"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 8,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_tZA7oEc4Eemmm4JSOBv8Mw" name="ENDNODE_FAILURE"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 10,23-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_XhwCgEc6Eemmm4JSOBv8Mw"
+      conditionKey="ResultString" operator="str_eq" conditionValue="WARNING">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_Xhx3sEc6Eemmm4JSOBv8Mw"/>
+    <nodeSuccessors name="decision_no" next="KeyMapper_d6iJgEc6Eemmm4JSOBv8Mw"/>
+  </nodes>
+<!--@Location 10,25-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_Xhx3sEc6Eemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_XhwpkEc6Eemmm4JSOBv8Mw"/>
+    <parameterBindings name="InValue_1" constant="(Integer)1"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 10,26-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_XhwpkEc6Eemmm4JSOBv8Mw" name="ENDNODE_WARNING"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 11,23-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_d6iJgEc6Eemmm4JSOBv8Mw">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="EndNode_d6jXoEc6Eemmm4JSOBv8Mw"/>
+    <parameterBindings name="InValue_1" constant="(Integer)31"/>
+    <parameterBindings name="InValue_10" nullBinding="true"/>
+    <parameterBindings name="InValue_2" nullBinding="true"/>
+    <parameterBindings name="InValue_3" nullBinding="true"/>
+    <parameterBindings name="InValue_4" nullBinding="true"/>
+    <parameterBindings name="InValue_7" nullBinding="true"/>
+    <parameterBindings name="InValue_8" nullBinding="true"/>
+    <parameterBindings name="InValue_9" nullBinding="true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ProcessChainResult"/>
+    <returnValueBindings name="OutValue_10" nullBinding="true"/>
+    <returnValueBindings name="OutValue_2" nullBinding="true"/>
+    <returnValueBindings name="OutValue_3" nullBinding="true"/>
+    <returnValueBindings name="OutValue_4" nullBinding="true"/>
+    <returnValueBindings name="OutValue_5" nullBinding="true"/>
+    <returnValueBindings name="OutValue_6" nullBinding="true"/>
+    <returnValueBindings name="OutValue_7" nullBinding="true"/>
+    <returnValueBindings name="OutValue_8" nullBinding="true"/>
+    <returnValueBindings name="OutValue_9" nullBinding="true"/>
+  </nodes>
+<!--@Location 11,24-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_d6jXoEc6Eemmm4JSOBv8Mw" name="ENDNODE_ALL"
+      strict="true">
+    <returnValues name="ProcessChainResult" type="java.lang.Integer"/>
+  </nodes>
+<!--@Location 0,7-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_jLSKQGGLEeeBvdqMdDjxIA" strict="true"
+      name="Wait1minAndThrowException" callMode="Private">
+    <nodeSuccessors name="next" next="Wait_jLTYYGGLEeeBvdqMdDjxIA"/>
+  </nodes>
+<!--@Location 0,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait_jLTYYGGLEeeBvdqMdDjxIA">
+    <configurationValues name="MillisecondsToWait" value="60000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="CallNode_75SVEGGLEeeBvdqMdDjxIA"/>
+  </nodes>
+<!--@Location 0,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_75SVEGGLEeeBvdqMdDjxIA">
+    <nodeSuccessors name="next" next="EndNode_jLSxUGGLEeeBvdqMdDjxIA"/>
+    <startNode referencedName="Wait-Strict"/>
+  </nodes>
+<!--@Location 0,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_jLSxUGGLEeeBvdqMdDjxIA" strict="true"/>
+<!--@Location 2,13-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_qMXvYOy1EeiRYKyYmE4i8g" strict="true"
+      name="Wait1minWithErrorExit" callMode="Private">
+    <nodeSuccessors name="next" next="Wait_1lzs0Oy1EeiRYKyYmE4i8g"/>
+<!--If present end in error exit-->
+    <parameters name="GoToErrorExit" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 2,14-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait_1lzs0Oy1EeiRYKyYmE4i8g">
+    <configurationValues name="MillisecondsToWait" value="60000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_CXsD4Oy2EeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 2,15-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_CXsD4Oy2EeiRYKyYmE4i8g"
+      conditionKey="GoToErrorExit">
+    <nodeSuccessors name="decision_yes" next="EndNode_H3eGUOy2EeiRYKyYmE4i8g"/>
+    <nodeSuccessors name="decision_no" next="EndNode_Gd1Z4Oy2EeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 3,15-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_H3eGUOy2EeiRYKyYmE4i8g" name="Error"
+      strict="true"/>
+<!--@Location 2,16-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_Gd1Z4Oy2EeiRYKyYmE4i8g" strict="true"/>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode1" strict="true" name="Wait24h"
+      callMode="Private">
+    <nodeSuccessors name="next" next="Wait1"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait1">
+    <configurationValues name="MillisecondsToWait" value="86400000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="EndNode1"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode1" strict="true"/>
+<!--@Location 2,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_eewucOwVEeiRYKyYmE4i8g" strict="true"
+      name="Wait5min" sessionMode="Volatile" callMode="Private">
+    <nodeSuccessors name="next" next="Wait_eezxwewVEeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 2,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="Wait_eezxwewVEeiRYKyYmE4i8g">
+    <configurationValues name="MillisecondsToWait" value="300000"/>
+    <pipelet href="enfinity:/core/pipelets/Wait.xml"/>
+    <nodeSuccessors name="next" next="EndNode_ee0Y0uwVEeiRYKyYmE4i8g"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_ee0Y0uwVEeiRYKyYmE4i8g" strict="true"/>
+</pipeline:Pipeline>

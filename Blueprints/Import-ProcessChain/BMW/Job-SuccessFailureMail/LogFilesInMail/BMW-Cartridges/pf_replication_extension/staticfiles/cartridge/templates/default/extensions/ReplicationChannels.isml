@@ -1,0 +1,38 @@
+﻿	<td width="50%">
+		<table border="0" cellspacing="0" cellpadding="0" width="100%">
+			<tr>
+				<td class="overview_arrow">
+					<img src="#WebRoot()#/images/arrow_right_down.gif" width="9" height="9" alt="" border="0"/>
+				</td>
+				<td class="overview_subtitle" nowrap="nowrap" width="100%">
+					<a href="#URL(Action('ViewReplicationChannels-ReplicationChannelsList'))#" class="overview_subtitle"><istext key="replicationchannels.smc.extension.overview.title.replicationchannels"/></a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="overview_title_description" valign="top">
+					<istext key="replicationchannels.smc.extension.overview.description.replicationchannels"/>
+					<br />&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="overview_line">
+					<img src="#WebRoot()#/images/space.gif" width="2" height="1" alt="" border="0"/>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<isseq-next name="count">
+	<isif condition="#count==0#">
+		</tr>
+		<tr>
+	<iselse>
+		<td>
+			<img src="#WebRoot()#/images/space.gif" width="12" height="1" alt="" border="0"/>
+		</td>
+		<td class="overview_vertical_line">
+			<img src="#WebRoot()#/images/space.gif" width="1" height="2" alt="" border="0"/>
+		</td>
+		<td>
+			<img src="#WebRoot()#/images/space.gif" width="12" height="1" alt="" border="0"/>
+		</td>
+	</isif>

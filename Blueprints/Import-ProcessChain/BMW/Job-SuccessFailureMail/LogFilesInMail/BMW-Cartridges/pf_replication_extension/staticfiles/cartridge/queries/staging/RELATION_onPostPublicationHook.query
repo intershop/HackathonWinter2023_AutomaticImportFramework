@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used after replication of table RELATION to remove all entries with non-existing domains.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="true" description="The involved DomainIDs. Not used by this statement. We just remove ALL bad entries."/>
+</parameters>
+<processor name="OracleSQL">
+</processor>
+<template>
+	DELETE FROM RELATION r
+	WHERE NOT EXISTS (SELECT 1 FROM DOMAIN d WHERE d.UUID = r.DOMAIN1_ID)
+	   OR NOT EXISTS (SELECT 1 FROM DOMAIN d WHERE d.UUID = r.DOMAIN2_ID)
+</template>
+</query>

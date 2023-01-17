@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used after replication of table USERGROUP to remove all entries with non-existing references.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="true" description="The involved DomainIDs. Not used by this statement. We just remove ALL bad entries."/>
+</parameters>
+<processor name="OracleSQL">
+</processor>
+<template>
+	DELETE FROM USERGROUP ug
+	WHERE (ug.TYPENAME = 'PROMOTION' AND NOT EXISTS (SELECT 1 FROM PROMOTION p where p.TARGETGROUPID = ug.ID))
+	   OR (ug.TYPENAME = 'CAMPAIGN'  AND NOT EXISTS (SELECT 1 FROM CAMPAIGN  c where c.TARGETGROUPID = ug.ID))
+</template>
+</query>

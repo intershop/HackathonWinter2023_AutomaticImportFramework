@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+	defaultChainElementTimeout="14400"
+>
+<p:sequence name="Main" >
+	<p:sequence name="Step1" >
+	<p:concurrent name="MAIN CONCURRENT" >
+			<p:pipeline pipeline="Wait" startnode="Wait1minWithErrorExit" timeout="1" name="Wait 1 min - can go to an error exit, controlled by a parameter - Step1.a"  domain="SLDSystem">
+						<p:parameter name="GoToErrorExit">Go</p:parameter>
+						<p:ignore>ERROR</p:ignore>
+						<p:ignore>FAILURE</p:ignore>
+			</p:pipeline>
+			<p:pipeline pipeline="Wait" startnode = "Wait1min" timeout="5" name="Wait 1 min - has 5 minutes timeout and should execute in less than 5 minutes - Step1.b"  domain="SLDSystem"/>
+			<p:pipeline pipeline="Wait" startnode="Wait1minAndThrowException" name="Wait 1 min then throw exception- Step1.c"  domain="SLDSystem">
+						<p:ignore>ERROR</p:ignore>
+						<p:ignore>FAILURE</p:ignore>
+			</p:pipeline>
+	</p:concurrent>
+	</p:sequence>
+	<p:sequence name="Step2" >	
+			<p:pipeline pipeline="Wait" startnode = "Wait1min" timeout="5" name="Wait 1 min - has 5 minutes timeout and should execute in less than 5 minutes - Step2.1"  domain="SLDSystem"/>
+	</p:sequence>
+</p:sequence>
+</p:chain>

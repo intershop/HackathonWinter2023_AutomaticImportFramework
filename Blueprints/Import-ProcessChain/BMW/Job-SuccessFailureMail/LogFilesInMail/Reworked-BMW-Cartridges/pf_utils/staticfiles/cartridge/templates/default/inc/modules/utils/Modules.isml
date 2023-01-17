@@ -1,0 +1,9 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<!--- 
+	Module TemplateTools stores a template helper in the dictionary. The class TemplateTools provides different methods 
+	which useful helpers for the template handling.	If no key is set the Tools will stored in the dictionary as "TemplateTools".  
+	Usage: <istemplatetools name="BasicTemplateTools" key="BasicTemplateTools"> 
+--->
+<ismodule template="inc/modules/TemplateTools.isml" name="TemplateTools"
+	attribute="name" 
+	attribute="key">

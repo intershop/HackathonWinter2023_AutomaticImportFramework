@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+	defaultChainElementTimeout="14400"
+>
+
+<p:sequence name="MAIN SEQUENCE" >
+	<p:sequence name="Sequence that executes a job that may return with different results - Step1" >
+		<p:job job="Wait1minAndReturnADefinedProcessChainResult" timeout="5" name="Wait 1 min - and return with configured result- Step1.1"  domain="SLDSystem"/>
+
+		<!-- Write a log message if the chain ends with an error -->
+		<p:error name="Process Chain - Step 1.error: Error Report">
+			<p:job domain="SLDSystem" job="JobOnError" name="Error Notification Step1">
+				<p:description lang="en-US">Error notification about errors in Step1</p:description>
+			</p:job>
+		</p:error>
+		<p:ignore>NOTFOUND</p:ignore>		
+	</p:sequence>
+		<p:error name="Process Chain - Step Main.error: Error Report">
+			<p:job domain="SLDSystem" job="JobOnError" name="Error Notification Main">
+				<p:description lang="en-US">Error notification about errors in Step1</p:description>
+			</p:job>
+			<p:job domain="SLDSystem" job="Wait1min" name="Wait one minute - Step Main.error">
+				<p:description lang="en-US">Job executed if another error than a NOTFOUND error occurred in previous sequence</p:description>
+			</p:job>
+		</p:error>
+	</p:sequence>
+</p:chain>

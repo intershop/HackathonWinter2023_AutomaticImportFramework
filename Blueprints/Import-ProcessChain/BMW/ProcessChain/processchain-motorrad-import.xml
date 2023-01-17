@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:chain
+	xmlns:p="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xsi:schemaLocation="http://www.intershop.com/xml/ns/enfinity/6.4/core/processchain processchain.xsd"
+	keepAliveTime="10"
+	name="Chain 1"
+>
+	<p:sequence name="Motorrad Import Process Chain" timeout="2100">
+		<p:description lang="en-US">Import Process Chain of Motorrad</p:description>
+		<p:description lang="de-DE">Importprozesskette von Motorrad</p:description>
+		<p:ignore>ERROR</p:ignore>
+
+		<p:pipeline pipeline="ProcessReminder" startnode="Clear" domain="Motorrad" name="Task 1: Cleanup Reminder Flag" timeout="10">
+			<p:description lang="en-US">Cleanup Reminder Flag</p:description>
+			<p:description lang="de-DE">Reminderflag löschen</p:description>
+			<p:parameter name="ReminderName">ProductDataImported</p:parameter>
+		</p:pipeline>
+		
+		<!-- Pre-process on organization level -->
+		<p:job job="ProcessImportPreProcess" domain="Motorrad" name="Task 2: Import Pre Process" timeout="1440">
+			<p:description lang="en-US">Automatic Pre Import Process</p:description>
+			<p:description lang="de-DE">Automatisierter PreImport Prozess</p:description>
+		</p:job>
+
+		<p:job job="AutomaticCatalogDataImport" domain="Motorrad" name="Task 3: Catalog Data Import" timeout="400">
+			<p:description lang="en-US">Automatic Catalog Data Import</p:description>
+			<p:description lang="de-DE">Automatisierter Katalogdatenimport</p:description>
+		</p:job>
+
+		<p:job job="AutomaticProductImportValidation" domain="Motorrad" name="Task 4.1: Product Data Validation" timeout="200">
+			<p:description lang="en-US">Automatic Product Data Validation</p:description>
+			<p:description lang="de-DE">Automatisierter Produktdatenpruefung</p:description>
+		</p:job>
+
+		<p:concurrent name ="Concurrent Import Product Data/ Product Part Assignments Motorrad">
+			<p:job allsites="false" concurrent="true" job="AutomaticProductDataImport" domain="Motorrad" name="Task 4.2: Product Data Import (Motorrad)" timeout="1800">
+				<p:description lang="en-US">Automatic Product Data Import</p:description>
+				<p:description lang="de-DE">Automatisierter Produktdatenimport</p:description>
+			</p:job>
+			<p:job allsites="false" concurrent="true" job="Import Product Part Assignments" domain="Motorrad" name="Task 4.3: Product Part Assignment Import (Motorrad)" timeout="600">
+				<p:description lang="en-US">Automatic Product Part Assignment Import</p:description>
+				<p:description lang="de-DE">Automatisierter Teilezuordungsimport</p:description>
+			</p:job>
+		</p:concurrent>
+
+		<p:job job="AutomaticVehicleTypesImport" domain="Motorrad" name="Task 4.4: Vehicle Types Import" timeout="300">
+			<p:description lang="en-US">Automatic Vehicle Types Import</p:description>
+			<p:description lang="de-DE">Automatisierter Fahrzeugtypenimport</p:description>
+		</p:job>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- ASECTEAM-1302 Adapt Import Process Chain for Markt-DE / MotorradDE only
+		<p:concurrent name ="Concurrent: Automatic Pricelist Import (Motorrad-Classic, MotorradDE-MarketDE)">
+			<p:job job="AutomaticPriceListImport" domain="Motorrad-Classic" name="Task 6.A: Price List Import (Motorrad-Classic)" timeout="1000">
+				<p:description lang="en-US">Automatic Pricelist Import</p:description>
+				<p:description lang="de-DE">Automatisierter Preislistenimport</p:description>
+			</p:job>
+		-->
+			<p:job job="AutomaticPriceListImport" domain="MotorradDE-MarketDE" name="Task 6.B: Price List Import (MotorradDE-Market)" timeout="1000">
+				<p:description lang="en-US">Automatic Pricelist Import</p:description>
+				<p:description lang="de-DE">Automatisierter Preislistenimport</p:description>
+			</p:job>
+		<!-- ASECTEAM-1302 Adapt Import Process Chain for Markt-DE / MotorradDE only
+		</p:concurrent>
+		-->
+
+		<p:concurrent name="Concurrent: Update URL Short Paths (Motorrad-Classic, MotorradDE-MarketDE)">
+			<p:job allsites="false" concurrent="true" job="UpdateURLShortPath" domain="Motorrad-Classic" name="Task 7.A: Update URL Short Paths (Motorrad-Classic)" timeout="1000">
+				<p:description lang="en-US">Update URL Short Paths</p:description>
+				<p:description lang="de-DE">Update URL Short Paths</p:description>
+			</p:job>
+			<p:job allsites="false" concurrent="true" job="UpdateURLShortPath" domain="MotorradDE-MarketDE" name="Task 7.B: Update URL Short Paths" timeout="1000">
+				<p:description lang="en-US">Update URL Short Paths</p:description>
+				<p:description lang="de-DE">Update URL Short Paths</p:description>
+			</p:job>
+		</p:concurrent>
+
+
+
+
+
+
+		<!-- Post-process on Master Organization Level --> 
+		<p:job job="ProcessImportPostProcess" domain="Motorrad" name="Task 13.1: Post Import Process (Motorrad)" timeout="600">
+			<p:description lang="en-US">Automatic Post Import Process</p:description>
+			<p:description lang="de-DE">Automatisierter PostImport Prozess</p:description>
+		</p:job>
+
+
+
+
+		<!-- Post-process on Partner Channel DE Level --> 
+		<p:job job="ProcessImportPostProcess" domain="MotorradDE" name="Task 13.3: Post Import Process (MotorradDE)" timeout="600">
+			<p:description lang="en-US">Automatic Post Import Process</p:description>
+			<p:description lang="de-DE">Automatisierter PostImport Prozess</p:description>
+		</p:job>
+
+
+
+
+		<!-- Set Tire Products Offline -->
+		<!--
+		<p:job job="Set Tire Products Offline" domain="SLDSystem" name="Task 13.8: Set Tire Products Offline" timeout="600">
+			<p:description lang="en-US">Deactivate all Products requiring EU ECO Label (EcoServiceLabelRelevant="true")</p:description>
+			<p:description lang="de-DE">Offline setzen aller Produkte, die ein Reifenlabel / EU ECO Label anzeigen (EcoServiceLabelRelevant="true")</p:description>
+		</p:job>
+		-->
+
+		<!-- Clean up dealer product settings -->
+		<p:job job="DealerProductSettingCleanUp" domain="Motorrad" name="Task 14: Clean Up Dealer Product Settings" timeout="100">
+			<p:description lang="en-US">Clean up dealer product settings</p:description>
+			<p:description lang="de-DE">Bereinigung der händlerspezifischen Produktattribute</p:description>
+		</p:job>
+		
+		<!-- We may have deleted some data in the database; to invalidate the ORM cache -->
+		<p:job job="Run Cache Refresh" domain="SMC" name="Task 15: Flush ORM Cache" timeout="10">
+			<p:description lang="en-US">Flush ORM cache</p:description>
+			<p:description lang="de-DE">Lösche ORM Cache</p:description>
+		</p:job>
+
+		<!-- We may have marked some domains for deletion; just delete them -->
+		<p:job job="DeleteDomainReferences" domain="root" name="Task 16: Delete Domain References" timeout="100">
+			<p:description lang="en-US">Delete Domain References</p:description>
+			<p:description lang="de-DE">Domänenreferenzen bereinigen</p:description>
+		</p:job>
+
+		<!-- We may have deleted some data in the database; to invalidate the ORM cache -->
+		<p:job job="Run Cache Refresh" domain="SMC" name="Task 17: Flush ORM Cache" timeout="10">
+			<p:description lang="en-US">Flush ORM cache</p:description>
+			<p:description lang="de-DE">Lösche ORM Cache</p:description>
+		</p:job>
+
+		<!-- Update Vehicle Information (Paint Codes) -->
+		<p:job job="Update Vehicle Information" domain="SLDSystem" name="Task 18: Update Vehicle Information (Paint Codes)" timeout="180">
+			<p:description lang="en-US">Update Vehicle Information (Paint Codes)</p:description>
+			<p:description lang="de-DE">Update Vehicle Information (Paint Codes)</p:description>
+		</p:job>
+
+		<!-- We may have deleted some data in the database; to invalidate the ORM cache -->
+		<p:job job="Run Cache Refresh" domain="SMC" name="Task 19: Flush ORM Cache" timeout="10">
+			<p:description lang="en-US">Flush ORM cache</p:description>
+			<p:description lang="de-DE">Lösche ORM Cache</p:description>
+		</p:job>
+
+		<!-- Update product assignment for explicit & implicit bindings also when this feature is currently unused -->
+		<p:job job="Update Product Assignments" domain="SLDSystem" name="Task 20: Update Product Assignments" timeout="100">
+			<p:description lang="en-US">Updates product assignments (explicit and implicit product binding) for all catalogs.</p:description>
+			<p:description lang="de-DE">Aktualisiert die Produktzuordnungen (explizit und implizite Bindungen fuer alle Katalog)</p:description>
+		</p:job>
+		
+		
+		<p:job job="AnalyzeDatabaseSchema" domain="root" name="Task 20: Analyze Database Schema" timeout="60">
+			<p:description lang="en-US">Analyze Database Schema</p:description>
+			<p:description lang="de-DE">Datenbankoptimierungsmaßnahmen</p:description>
+			<p:ignore>ERROR</p:ignore>
+			<p:ignore>FAILURE</p:ignore>
+			<p:ignore>NOTFOUND</p:ignore>
+		</p:job>
+
+		<!-- Rebuild the SOLR-Indexes -->
+		<p:job job="Rebuild Search Indexes" domain="Motorrad" name="Task 21: Rebuild Search Indexes" timeout="600">
+			<p:description lang="en-US">Rebuild Search Indexes</p:description>
+			<p:description lang="de-DE">Aufbau aller Suchindexe</p:description>
+		</p:job>
+
+		<p:job job="InvalidatePageCache" domain="SLDSystem" name="Task 22: Invalidate Page Cache" timeout="10">
+			<p:description lang="en-US">Invalidate Page Cache</p:description>
+			<p:description lang="de-DE">Invalidiere den Page Caches</p:description>
+		</p:job>
+
+
+		<!-- Sends an email if the process chain was successfully executed -->
+		<p:sequence name="Task 24: Import Success Notification Process Chain Sequence">
+			<p:job job="Process Chain Import Success Notification" domain="Motorrad" name="Task 24: Import Success Notification" timeout="1">
+				<p:description lang="en-US">Success Import Notification</p:description>
+				<p:description lang="de-DE">Benachrichtigung über erfolgreiche Import-Prozesskette.</p:description>
+
+				<p:ignore>ERROR</p:ignore>
+				<p:ignore>FAILURE</p:ignore>
+				<p:ignore>NOTFOUND</p:ignore>
+				<p:ignore>INTERRUPTED</p:ignore>
+			</p:job>
+
+			<p:ignore>ERROR</p:ignore>
+			<p:ignore>FAILURE</p:ignore>
+		</p:sequence>
+
+		<!-- Brand specific Cleanup job, also sets the LastExportID --> 
+		<p:job job="CleanupImportProcess" domain="Motorrad" name="Task 25: Clean Up Import Process" timeout="10">
+			<p:description lang="en-US">Automatic Post Import Process</p:description>
+			<p:description lang="de-DE">Automatisierter PostImport Prozess</p:description>
+		</p:job>
+		
+		
+
+		<!-- Sends an email if the chain ends with an error -->
+		<p:error name="Process Chain - Error Report">
+
+			<p:pipeline pipeline="ProcessAutomaticImportHelper" startnode="SetBrandFailed" domain="root" name="Task e.1: Set Chain Status FAILED" timeout="100">
+				<p:description lang="en-US">Set Status for whole Import Process Chain to FAILED</p:description>
+				<p:description lang="de-DE">Status für gesamte Import-Prozesskette auf FAILED setzen</p:description>
+				<p:parameter name="UnitName">root</p:parameter>
+			</p:pipeline>
+
+			<p:job job="Process Chain Import Error Notification" domain="Motorrad" name="Task e.2: Import Error Notification" timeout="1">
+				<p:description lang="en-US">Import Error Notification</p:description>
+				<p:description lang="de-DE">Benachrichtigung über fehlgeschlagene Import-Prozesskette.</p:description>
+			</p:job>
+
+		</p:error>
+
+	</p:sequence>
+
+</p:chain>

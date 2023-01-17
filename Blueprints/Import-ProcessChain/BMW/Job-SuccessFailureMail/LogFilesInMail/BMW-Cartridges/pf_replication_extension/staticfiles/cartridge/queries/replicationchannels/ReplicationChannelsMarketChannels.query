@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<query>
+    <parameters>
+        <parameter name="OrganizationID"  type="java.lang.String" optional="true" />
+        <parameter name="MarketChannelID" type="java.lang.String" optional="true" />
+        <parameter name="TakesPart"       type="java.lang.String" optional="true" /> <!-- one of: <empty>, YES, NO -->
+    </parameters>
+    <return-mappings>
+        <return-mapping name="MarketChannelID" type="rename">
+            <return-attribute name="DomainName" />
+        </return-mapping>
+    </return-mappings>
+    <processor name="OracleSQL">
+    </processor>
+    <template type="objects">
+        SELECT DISTINCT di.domainname AS DomainName
+          FROM DomainInformation di, Repository rep
+         WHERE di.DomainID = rep.RepositoryDomainID
+           AND EXISTS (SELECT 1 FROM Domain_AV site_av WHERE site_av.ownerid = (select rep_d.siteid from Domain rep_d where rep_d.uuid = rep.repositorydomainid) AND site_av.name = 'IsMarketDomain' AND site_av.stringvalue = 'true')
+              <!-- expressions -->
+              <template-call name="replicationchannels/ReplicationChannelsSearchExpressions">
+                  <call-parameter name="OrganizationID"  value="OrganizationID"/>
+                  <call-parameter name="MarketChannelID" value="MarketChannelID"/>
+                  <call-parameter name="TakesPart"       value="TakesPart"/>
+              </template-call>
+         <!-- sorting by sort attribute -->       
+         ORDER BY DomainName
+    </template>
+</query>

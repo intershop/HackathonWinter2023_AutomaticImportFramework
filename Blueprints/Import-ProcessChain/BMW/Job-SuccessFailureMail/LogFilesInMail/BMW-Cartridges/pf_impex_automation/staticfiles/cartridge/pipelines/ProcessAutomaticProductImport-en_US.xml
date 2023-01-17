@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipelineDesc" id="Pipeline1"  localeId="en_US" >
+<displayName>ProcessAutomaticProductImport</displayName>
+<group>Job</group>
+<description>Pipeline is managing the import of products.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="Call5"  localeId="en_US" >
+<description>Create and start import job</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="GetFirstElementOfIterator0"  localeId="en_US" >
+<description>@displayNearNode@Left: Master-Import
+Right: Channel-Import</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper1"  localeId="en_US" >
+<description>@displayNearNode@ImportMode = &quot;REPLACE&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper2"  localeId="en_US" >
+<description>@displayNearNode@Some data required as form data, map these values</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletNodeDesc" id="KeyMapper5"  localeId="en_US" >
+<description>@displayNearNode@ImportMode = &quot;DELETE&quot;</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode2"  localeId="en_US" >
+<description>Import of a specified file. 
+Two jobs are created (verify and import).</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode4"  localeId="en_US" >
+<description>Start node for import process of products.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="StartNode7"  localeId="en_US" >
+<description>Creates a job. 
+Wait until the job execution has finished.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DStartParameterDesc" id="StartNode7_param_SourceDirectory"  localeId="en_US" >
+<description>should be some like &quot;marketing&quot;...</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DNodeDesc" id="TextNode2"  localeId="en_US" >
+<description>Wait until
+job finished</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

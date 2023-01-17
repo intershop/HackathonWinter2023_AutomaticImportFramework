@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="CopyFile"  localeId="en_US" >
+<group>File</group>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_SourceFile"  localeId="en_US" >
+<description>Can be used as an alternative to SourceFileName. Only one of SourceFile and SourceFileName is used. SourceFile takes precedence.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_SourceFileName"  localeId="en_US" >
+<description>Can be used as an alternative to SourceFile. Only one of SourceFile and SourceFileName is used. SourceFile takes precedence.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_TargetFile"  localeId="en_US" >
+<description>Can be used as an alternative to TargetFileName. Only one of TargetFile and TargetFileName is used. TargetFile takes precedence.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_TargetFileName"  localeId="en_US" >
+<description>Can be used as an alternative to TargetFile. Only one of TargetFile and TargetFileName is used. TargetFile takes precedence.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_TargetDirectory"  localeId="en_US" >
+<description>Can be used as an alternative to TargetDirectoryName. Only one of TargetDirectory and TargetDirectoryName is used. TargetDirectory takes precedence.
+Used in conjunction with TargetFile or TargetFileName.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_TargetDirectoryName"  localeId="en_US" >
+<description>Full path of directory.
+Can be used as an alternative to TargetDirectory. Only one of TargetDirectory and TargetDirectoryName is used. TargetDirectory takes precedence.
+Used in conjunction with TargetFile or TargetFileName.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_SourceDirectory"  localeId="en_US" >
+<description>Can be used as an alternative to SourceDirectoryName. Only one of SourceDirectory and SourceDirectoryName is used. SourceDirectory takes precedence.
+Used in conjunction with SourceFile or SourceFileName.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_SourceDirectoryName"  localeId="en_US" >
+<description>Can be used as an alternative to SourceDirectory. Only one of SourceDirectory and SourceDirectoryName is used. SourceDirectory takes precedence.
+Used in conjunction with SourceFile or SourceFileName.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

@@ -1,0 +1,27 @@
+apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+
+intershop {
+    displayName = 'Component - Process Statistics'
+    description = 'Component for collecting and presenting statisctics information about selected processes'
+    staticLibs = fileTree(dir: staticCartridgeLibFolder, include: '*.jar')
+}
+
+dependencies {
+    compile project(':pf_replication_extension')
+
+    compile group: 'com.intershop', name: 'bc_repository'
+    compile group: 'com.intershop', name: 'businessobject'
+    compile group: 'com.intershop', name: 'cache'
+    compile group: 'com.intershop', name: 'core'
+    compile group: 'com.intershop', name: 'orm'
+    compile group: 'com.intershop', name: 'tools'
+    compile group: 'com.intershop', name: 'isml'
+    compile group: 'com.intershop', name: 'jmx'
+    compile group: 'com.intershop', name: 'orm'
+    compile group: 'com.intershop', name: 'pf_property'
+    compile group: 'com.intershop', name: 'servletengine'
+    // compile group: 'com.intershop', name: 'sld_system_app'
+    compile group: 'com.intershop', name: 'tools'
+    compile group: 'com.intershop', name: 'ui_web_library'
+}

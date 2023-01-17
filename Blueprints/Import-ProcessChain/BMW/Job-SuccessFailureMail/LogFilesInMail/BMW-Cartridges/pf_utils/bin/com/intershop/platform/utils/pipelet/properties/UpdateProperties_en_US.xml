@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
+<localeId>en_US</localeId>
+<descriptions>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
+<group>Common</group>
+<description>This pipelet is used to update the provided properties according to the given pair of key and value. When no value is provided the pair will be removed. Optionally the pipelet supports wildcards. The first star contained in a given key will be replaced by a number and the given value will be assigned to the resulting key. The number will start at one and will be incremented as long as the resulting key can be found within the provided properties.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Properties"  localeId="en_US" >
+<description>The properties to be updated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Key"  localeId="en_US" >
+<description>The key defining the property to be updated.</description>
+</DDescription>
+<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletPropertyDesc" id="dictionary-in_Value"  localeId="en_US" >
+<description>The new value to be set.</description>
+</DDescription>
+</descriptions>
+</DDescriptionContainer>

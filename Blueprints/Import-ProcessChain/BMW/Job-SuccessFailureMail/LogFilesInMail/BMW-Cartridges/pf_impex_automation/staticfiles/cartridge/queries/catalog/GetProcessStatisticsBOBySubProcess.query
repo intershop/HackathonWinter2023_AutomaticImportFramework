@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Gets process statistics BO by given (sub) process">
+	<parameters>
+		<parameter name="Process" type="com.intershop.beehive.core.capi.locking.Process" optional="true" />
+	</parameters>
+	<return-mappings>
+		<return-mapping name="ProcessStatisticsBO" type="bo-orm" class="com.intershop.component.processstatistics.internal.ProcessStatisticsPO" mapperclass="ProcessStatisticsBOToProcessStatisticsBOMapper">
+			<return-attribute name="UUID" />
+		</return-mapping>
+	</return-mappings>
+	<processor name="OracleSQL" />
+	<template type="objects">
+		SELECT UUID 
+		FROM PROCESSSTATISTICS 
+		WHERE PROCESSUUID = (
+			SELECT uuid 
+			FROM process
+			WHERE 
+				parentuuid IS NULL
+				AND rownum = 1
+			START WITH  uuid=<template-variable value="Process:UUID"/> 
+			CONNECT BY PRIOR PARENTUUID=uuid
+		)
+	</template>
+</query>

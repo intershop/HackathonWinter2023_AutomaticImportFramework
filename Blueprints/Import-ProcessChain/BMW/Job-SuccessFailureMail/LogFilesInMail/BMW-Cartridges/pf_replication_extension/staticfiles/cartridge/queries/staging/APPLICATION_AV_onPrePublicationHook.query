@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query description="Query used during replication of APPLICATION_AV entries. It uses AppendDomainSpecificStagingProcessor (= INSERT only). Here we UPDATE storefront applications of Market and Dealer channels.">
+<parameters>
+	<parameter name="DomainIDs" type="java.util.Collection" optional="false" description="The involved DomainIDs."/>
+</parameters>
+<processor name="OracleSQL">
+	<processor-preprocessing output="REPOSITORY_EditingName"     input="&apos;REPOSITORY&apos;"     processing="StagingNamingHelper"/>
+	<processor-preprocessing output="ORGANIZATION_EditingName"   input="&apos;ORGANIZATION&apos;"   processing="StagingNamingHelper"/>
+	<processor-preprocessing output="APPLICATION_EditingName"    input="&apos;APPLICATION&apos;"    processing="StagingNamingHelper"/>
+	<processor-preprocessing output="APPLICATION_AV_EditingName" input="&apos;APPLICATION_AV&apos;" processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_EditingName"         input="&apos;DOMAIN&apos;"         processing="StagingNamingHelper"/>
+	<processor-preprocessing output="DOMAIN_AV_EditingName"      input="&apos;DOMAIN_AV&apos;"      processing="StagingNamingHelper"/>
+</processor>
+<template>
+	MERGE INTO APPLICATION_AV dst
+	USING (
+	  select distinct app_av.OWNERID, app_av.NAME, app_av.LOCALEID,
+	                               app_av.TYPE, app_av.LOCALIZEDFLAG, app_av.INTVALUE,
+	                               app_av.DOUBLEVALUE, app_av.STRINGVALUE,
+	                               app_av.OBJECTVALUE, app_av.OBJECTTYPE,
+	                               app_av.DECIMALVALUE, app_av.DATEVALUE,
+--	                               app_av.TEXTVALUE,
+	                               app_av.oca, app_av.lastmodified
+	    from <template-variable value="REPOSITORY_EditingName:EditTableName"     processing="text"/> rep
+	    join <template-variable value="ORGANIZATION_EditingName:EditTableName"   processing="text"/> org      on (org.ORGANIZATIONDOMAINID = rep.DOMAINID)
+	    join <template-variable value="DOMAIN_EditingName:EditTableName"         processing="text"/> d        on (d.DOMAINID = rep.REPOSITORYDOMAINID) 
+	    join <template-variable value="APPLICATION_EditingName:EditTableName"    processing="text"/> app      on (app.SITEID = d.SITEID) 
+	    join <template-variable value="APPLICATION_AV_EditingName:EditTableName" processing="text"/> app_av   on (app_av.ownerid = app.UUID) 
+	    join <template-variable value="DOMAIN_AV_EditingName:EditTableName"      processing="text"/> d_avRepl on (d_avRepl.ownerid = d.SITEID) 
+	   where org.TYPECODE = 30 AND d_avRepl.name = 'TakesPartInReplication' AND d_avRepl.stringvalue = 'true'
+	     AND d.SITEID IN
+	     (
+	          <template-loop iterator="DomainIDs" alias="DomainID"><loop-statement>
+			          <template-variable value="DomainID"/>
+			          </loop-statement>
+			          <loop-separator>,</loop-separator>
+	          </template-loop>
+	     )
+	) src
+	   ON (dst.OWNERID = src.OWNERID AND dst.NAME = src.NAME AND dst.LOCALEID = src.LOCALEID)
+	 WHEN MATCHED     THEN UPDATE SET dst.TYPE = src.TYPE, 
+	                                  dst.LOCALIZEDFLAG = src.LOCALIZEDFLAG,
+	                                  dst.INTVALUE = src.INTVALUE,
+	                                  dst.DOUBLEVALUE = src.DOUBLEVALUE,
+	                                  dst.STRINGVALUE = src.STRINGVALUE,
+	                                  dst.OBJECTVALUE = src.OBJECTVALUE,
+	                                  dst.OBJECTTYPE = src.OBJECTTYPE,
+	                                  dst.DECIMALVALUE = src.DECIMALVALUE,
+	                                  dst.DATEVALUE = src.DATEVALUE,
+--	                                  dst.TEXTVALUE = src.TEXTVALUE,
+	                                  dst.oca = src.oca+1,
+	                                  dst.lastmodified = src.lastmodified
+	 WHEN NOT MATCHED THEN INSERT (dst.OWNERID, dst.NAME, dst.LOCALEID,
+	                               dst.TYPE, dst.LOCALIZEDFLAG, dst.INTVALUE,
+	                               dst.DOUBLEVALUE, dst.STRINGVALUE,
+	                               dst.OBJECTVALUE, dst.OBJECTTYPE,
+	                               dst.DECIMALVALUE, dst.DATEVALUE,
+--	                               dst.TEXTVALUE,
+	                               dst.oca, dst.lastmodified)
+	                       VALUES (src.OWNERID, src.NAME, src.LOCALEID,
+	                               src.TYPE, src.LOCALIZEDFLAG, src.INTVALUE,
+	                               src.DOUBLEVALUE, src.STRINGVALUE,
+	                               src.OBJECTVALUE, src.OBJECTTYPE,
+	                               src.DECIMALVALUE, src.DATEVALUE,
+--	                               src.TEXTVALUE,
+	                               src.oca+1, src.lastmodified)
+</template>
+</query>
