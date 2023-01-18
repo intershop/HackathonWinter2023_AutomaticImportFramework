@@ -1,0 +1,15 @@
+//apply plugin: 'java-cartridge'
+apply plugin: 'static-cartridge'
+
+intershop 
+{
+    displayName = 'Logging Configuration'
+}
+
+
+dependencies 
+{
+
+   compile group: 'com.intershop.platform', name: 'core'
+
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<included>
+    <appender name="JobPerExecution" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>job.uuid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="JobPerExecution-${job.uuid}" class="ch.qos.logback.core.FileAppender">
+                <file>${intershop.logfile.Directory}/job-per-execution/job-${job.uuid}-${intershop.logfile.NamePostfix}.log</file>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>INFO</level>
+                </filter>
+                <filter name="JobContextFilter" class="ch.qos.logback.core.filter.EvaluatorFilter">
+                    <evaluator name="JobContextEvaluator">
+                        <expression>(mdc!=null)&amp;&amp;(mdc.containsKey("job"))</expression>
+                    </evaluator>
+                    <OnMatch>NEUTRAL</OnMatch>
+                    <OnMismatch>DENY</OnMismatch>
+                </filter>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout">
+                        <Pattern>
+                            [%date{yyyy-MM-dd HH:mm:ss.SSS Z}] [%thread] [Job:%mdc{job.name}] [Req:%mdc{request.uuid}] %-5level %logger %marker - %msg %ex%n
+                        </Pattern>
+                    </layout>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <root>
+        <appender-ref ref="JobPerExecution" />
+    </root>
+</included>
