@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Created-By: INTERSHOP Communications AG
-Implementation-Title: bc_processstatistics
-Implementation-Version: 3.7.1
-

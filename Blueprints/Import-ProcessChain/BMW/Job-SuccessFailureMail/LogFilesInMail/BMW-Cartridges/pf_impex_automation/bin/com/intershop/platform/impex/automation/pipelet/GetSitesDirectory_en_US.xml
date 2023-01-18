@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<DDescriptionContainer dbo.type="com.intershop.beehive.core.rapi.common.DDescriptionContainer">
-<localeId>en_US</localeId>
-<descriptions>
-<DDescription dbo.type="com.intershop.beehive.core.rapi.pipeline.DPipeletDesc" id="Pipelet1"  localeId="en_US" >
-<description>Returns the share/sites directory.</description>
-</DDescription>
-</descriptions>
-</DDescriptionContainer>

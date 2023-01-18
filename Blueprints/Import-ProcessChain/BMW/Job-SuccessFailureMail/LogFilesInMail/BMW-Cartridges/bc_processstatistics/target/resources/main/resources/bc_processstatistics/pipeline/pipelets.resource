@@ -1,4 +1,0 @@
-com.intershop.component.processstatistics.pipelet.CreateProcessStatisticsBO
-com.intershop.component.processstatistics.pipelet.GetProcessStatisticsBOs
-com.intershop.component.processstatistics.pipelet.UpdateImportProcessStatistics
-com.intershop.component.processstatistics.pipelet.UpdateProcessStatisticsBO

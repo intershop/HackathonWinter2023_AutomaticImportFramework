@@ -1,1 +1,0 @@
-com.intershop.component.processstatistics.internal.ProcessStatisticsPO

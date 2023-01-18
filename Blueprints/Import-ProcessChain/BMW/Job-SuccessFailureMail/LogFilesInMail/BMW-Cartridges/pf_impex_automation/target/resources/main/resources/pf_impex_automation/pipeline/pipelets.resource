@@ -1,6 +1,0 @@
-com.intershop.platform.impex.automation.pipelet.GetFiles
-com.intershop.platform.impex.automation.pipelet.GetSitesDirectory
-com.intershop.platform.impex.automation.pipelet.domain.AddLogInformationToDomain
-com.intershop.platform.impex.automation.pipelet.domain.CheckReplicationProductThreshold
-com.intershop.platform.impex.automation.pipelet.domain.PrepareAndRemoveLogInformationFromDomain
-com.intershop.platform.impex.automation.pipelet.process.HandleProcessChainRestart
