@@ -11,5 +11,6 @@ dependencies
 {
 
    compile group: 'com.intershop.platform', name: 'core'
+   compile group: 'com.intershop.platform', name: 'bc_foundation'
 
 }

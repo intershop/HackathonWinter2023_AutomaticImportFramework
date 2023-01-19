@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group ImportExport-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessLoggedImpexJob">
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_9rlJwJdBEe2BYfKPgDDIxQ" name="Start"
+      callMode="Private">
+    <nodeSuccessors name="next" next="CreateUUID_6ACaMJdDEe2BYfKPgDDIxQ"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateUUID_6ACaMJdDEe2BYfKPgDDIxQ">
+    <pipelet href="enfinity:/core/pipelets/CreateUUID.xml"/>
+    <nodeSuccessors name="next" next="PutObjectIntoMDC_DbJpwJdEEe2BYfKPgDDIxQ"/>
+    <returnValueBindings name="UUID" objectPath="ExecutionUUID"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="PutObjectIntoMDC_DbJpwJdEEe2BYfKPgDDIxQ">
+    <pipelet href="enfinity:/core/pipelets/PutObjectIntoMDC.xml"/>
+    <nodeSuccessors name="next" next="CallNode_PMdmkJdCEe2BYfKPgDDIxQ"/>
+    <parameterBindings name="Key" constant="executionUUID"/>
+    <parameterBindings name="Object" objectPath="ExecutionUUID"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_PMdmkJdCEe2BYfKPgDDIxQ">
+    <nodeSuccessors name="next" next="RemoveObjectFromMDC_NbQcwJdEEe2BYfKPgDDIxQ"/>
+<!--@BendPoints 3,8-->
+    <nodeSuccessors name="Error" next="RemoveObjectFromMDC_gKp7IJdEEe2BYfKPgDDIxQ"/>
+    <startNode referencedName="ProcessImpexJob-Start"/>
+  </nodes>
+<!--@Location 0,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveObjectFromMDC_NbQcwJdEEe2BYfKPgDDIxQ">
+    <pipelet href="enfinity:/core/pipelets/RemoveObjectFromMDC.xml"/>
+    <nodeSuccessors name="next" next="EndNode_GodlMJdCEe2BYfKPgDDIxQ"/>
+    <parameterBindings name="Key" constant="executionUUID"/>
+  </nodes>
+<!--@Location 0,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_GodlMJdCEe2BYfKPgDDIxQ"/>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="RemoveObjectFromMDC_gKp7IJdEEe2BYfKPgDDIxQ">
+    <pipelet href="enfinity:/core/pipelets/RemoveObjectFromMDC.xml"/>
+    <nodeSuccessors name="next" next="EndNode_dCq2gJdEEe2BYfKPgDDIxQ"/>
+    <parameterBindings name="Key" constant="executionUUID"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_dCq2gJdEEe2BYfKPgDDIxQ" name="Error"/>
+</pipeline:Pipeline>

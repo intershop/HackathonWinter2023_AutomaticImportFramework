@@ -3,18 +3,18 @@
 <included>
     <appender name="JobPerExecution" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
-            <key>job.uuid</key>
+            <key>executionUUID</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
         <sift>
-            <appender name="JobPerExecution-${job.uuid}" class="ch.qos.logback.core.FileAppender">
-                <file>${intershop.logfile.Directory}/job-per-execution/job-${job.uuid}-${intershop.logfile.NamePostfix}.log</file>
+            <appender name="JobPerExecution-${executionUUID}" class="ch.qos.logback.core.FileAppender">
+                <file>${intershop.logfile.Directory}/job-per-execution/job-${executionUUID}-${intershop.logfile.NamePostfix}.log</file>
                 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
                     <level>INFO</level>
                 </filter>
                 <filter name="JobContextFilter" class="ch.qos.logback.core.filter.EvaluatorFilter">
                     <evaluator name="JobContextEvaluator">
-                        <expression>(mdc!=null)&amp;&amp;(mdc.containsKey("job"))</expression>
+                        <expression>(mdc!=null)&amp;&amp;(mdc.containsKey("executionUUID"))</expression>
                     </evaluator>
                     <OnMatch>NEUTRAL</OnMatch>
                     <OnMismatch>DENY</OnMismatch>
